@@ -3,14 +3,47 @@
 const db = require('../server/db')
 const {User} = require('../server/db/models')
 
+const users = [
+  {
+    firstName: 'Deloba',
+    lastName: 'Shapland',
+    email: 'dobie@aol.com',
+    password: 'woofw00f47',
+    isAdmin: true
+  },
+  {
+    firstName: 'Percy',
+    lastName: 'Rivera',
+    email: 'kittybaby@hotmail.com',
+    password: 'meow'
+  },
+  {
+    firstName: 'Lizzie',
+    lastName: 'Stover',
+    email: 'babyheadlizzie@yahoo.com',
+    password: 'mealworm',
+    isAdmin: true
+  },
+  {
+    firstName: 'Andy',
+    lastName: 'Manalo',
+    email: 'andy@puppies.com',
+    password: 'iLuvtr3ats',
+    isAdmin: true
+  },
+  {
+    firstName: 'Panda',
+    lastName: 'Shadow',
+    email: 'lilpandie@aol.com',
+    password: 'whaDDup'
+  }
+]
+
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  await Promise.all(users.map(user => User.create(user)))
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)

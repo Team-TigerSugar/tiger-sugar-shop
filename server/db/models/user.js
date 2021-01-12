@@ -1,8 +1,15 @@
 const crypto = require('crypto')
+const sequelize = require('sequelize')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -22,6 +29,32 @@ const User = db.define('user', {
     // This is a hack to get around Sequelize's lack of a "private" option.
     get() {
       return () => this.getDataValue('salt')
+    }
+  },
+  billingInfo: {
+    type: Sequelize.STRING
+  },
+  shippingInfo: {
+    type: Sequelize.STRING
+  },
+  // userType: {
+  //   type: Sequelize.ENUM,
+  //   values: ['guest', 'member', 'admin'],
+  //   defaultValue: 'guest',
+  //   allowNull: false,
+  // },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    get() {
+      if (this.userType === 'admin') {
+        return true
+      }
+      return false
+    },
+    isGuest: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
     }
   },
   googleId: {

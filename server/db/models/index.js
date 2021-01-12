@@ -1,8 +1,8 @@
 const User = require('./user')
 const Cart = require('./cart')
 
-User.belongsTo(Cart)
-Cart.hasOne(User)
+// User.belongsTo(Cart)
+// Cart.hasOne(User)
 
 /**
  * If we had any associations to make, this would be a great place to put them!

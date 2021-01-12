@@ -12,8 +12,8 @@ Git pull/ merge request workflow
 * click the buttons for merge
 
 * to pull down :
-* git checkout master
-* git pull
+* git checkout branchName
+* git pull origin branchName
 
 _Good things come in pairs_
 

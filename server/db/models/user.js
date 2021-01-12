@@ -37,12 +37,6 @@ const User = db.define('user', {
   shippingInfo: {
     type: Sequelize.STRING
   },
-  // userType: {
-  //   type: Sequelize.ENUM,
-  //   values: ['guest', 'member', 'admin'],
-  //   defaultValue: 'guest',
-  //   allowNull: false,
-  // },
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
@@ -51,10 +45,6 @@ const User = db.define('user', {
         return true
       }
       return false
-    },
-    isGuest: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: true
     }
   },
   googleId: {

@@ -2,6 +2,8 @@
 
 Git pull/ merge request workflow
 
+<<<<<<< HEAD
+
 * git checkout -b branch-name -> create new branch
 * git add file-name
 * git commit -m ''
@@ -14,6 +16,7 @@ Git pull/ merge request workflow
 * to pull down :
 * git checkout branchName
 * git pull origin branchName
+
   > > > > > > > integration
 
 _Good things come in pairs_

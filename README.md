@@ -1,13 +1,19 @@
-<<<<<<< HEAD
-
 # BoilerTaker
 
-=======
-HIIIII!
+Git pull/ merge request workflow
 
-# Boilermaker
+* git checkout -b branch-name -> create new branch
+* git add file-name
+* git commit -m ''
+* git push -u origin YOUR-NEW-BRANCH-NAME
 
-> > > > > > > 86b67a2225a38069bb3d3161418aeead5b3f9c4a
+* go onto github, create pull request
+* have someone accept
+* click the buttons for merge
+
+* to pull down :
+* git checkout master
+* git pull
 
 _Good things come in pairs_
 

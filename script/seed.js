@@ -39,6 +39,27 @@ const users = [
   }
 ]
 
+const products = [
+  {
+    img:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR7pFy3DaXkAo_1nq2NhQcSiisDZpHN9YjcQ&usqp=CAU',
+    name: `Justin Bieber's Sweat`,
+    price: 20
+  },
+  {
+    img:
+      'https://i.pinimg.com/236x/a9/e8/1e/a9e81e5feed2cc716f777d3380badc92--essential-oils-homemade-hair.jpg',
+    name: `Kim Kardashian's Tears`,
+    price: 30
+  },
+  {
+    img:
+      'https://www.gannett-cdn.com/-mm-/606a139d72980f1cad6e124238ba8a6f01e32f2a/c=17-0-692-900/local/-/media/2015/02/10/12thandbroad/12thandbroad/635591575784138321-original-etched-apothecary-bottle-love-potion-no9.jpg?quality=50&width=640',
+    name: 'Love Potion ',
+    price: 50
+  }
+]
+
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -67,6 +88,10 @@ async function seed() {
   await pandaCart.setUser(panda)
 
   console.log(`seeded ${users.length} users`)
+
+  await Promise.all(products.map(product => Product.create(product)))
+  console.log(`seeded ${products.length} products`)
+
   console.log(`seeded successfully`)
 }
 

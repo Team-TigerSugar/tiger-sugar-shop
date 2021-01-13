@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User, Cart} = require('../server/db/models')
 
 const users = [
   {
@@ -32,10 +32,10 @@ const users = [
     isAdmin: true
   },
   {
-    firstName: 'Panda',
-    lastName: 'Shadow',
-    email: 'lilpandie@aol.com',
-    password: 'whaDDup'
+    firstName: 'Lola',
+    lastName: 'Nefores',
+    email: 'lola@yahoo.com',
+    password: 'hiLola97'
   }
 ]
 
@@ -65,6 +65,27 @@ async function seed() {
   console.log('db synced!')
 
   await Promise.all(users.map(user => User.create(user)))
+
+  const panda = await User.create({
+    firstName: 'Panda',
+    lastName: 'Shadow',
+    email: 'lilpandie@aol.com',
+    password: 'whaDDup',
+    shippingInfo: '312 Gingerbread Lane',
+    billingInfo: '312 Gingerbread Lane'
+  })
+
+  const pandaCart = await Cart.create({
+    sessionId: 1,
+    firstName: 'Panda',
+    lastName: 'Shadow',
+    email: 'lilpandie@aol.com',
+    addressLine1: '312 Gingerbread Lane',
+    addressLine2: 'apartment 1',
+    city: 'Boston',
+    state: 'MA'
+  })
+  await pandaCart.setUser(panda)
 
   console.log(`seeded ${users.length} users`)
 

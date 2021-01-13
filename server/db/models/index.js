@@ -2,8 +2,8 @@ const User = require('./user')
 const Cart = require('./cart')
 const Product = require('./products')
 
-User.belongsTo(Cart)
-Cart.hasOne(User)
+// User.belongsTo(Cart)
+// Cart.hasOne(User)
 
 Product.belongsToMany(Cart, {
   through: 'ProductsInCart',

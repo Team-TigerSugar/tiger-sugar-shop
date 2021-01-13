@@ -6,6 +6,9 @@ const CartItem = require('./cartItem')
 User.belongsTo(Cart)
 Cart.hasOne(User)
 
+User.belongsToMany(Product, {through: 'UserProducts'})
+Product.belongsToMany(User, {through: 'UserProducts'})
+
 Product.belongsTo(CartItem)
 CartItem.hasOne(Product)
 

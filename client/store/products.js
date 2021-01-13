@@ -18,15 +18,17 @@ export const fetchProducts = () => async dispatch => {
   }
 }
 
-const intialState = {
-  loadedProducts: []
-}
+// const intialState = {
+//   loadedProducts: []
+// }
+const intialState = []
 
 //Sub-reducer
 const productsReducer = (state = intialState, action) => {
   switch (action.type) {
     case GET_PRODUCTS:
-      return {...state, loadedProducts: action.products}
+      // return {...state, loadedProducts: action.products}
+      return action.products
     default:
       return state
   }

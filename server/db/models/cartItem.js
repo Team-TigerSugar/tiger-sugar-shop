@@ -1,7 +1,8 @@
+const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Product = db.define('product', {
+const CartItem = db.define('cartItem', {
   img: {
     type: Sequelize.STRING,
     defaultValue: null
@@ -19,7 +20,13 @@ const Product = db.define('product', {
     validate: {
       notEmpty: true
     }
+  },
+  quantity: {
+    type: Sequelize.INTEGER
+  },
+  discount: {
+    type: Sequelize.FLOAT
   }
 })
 
-module.exports = Product
+module.exports = CartItem

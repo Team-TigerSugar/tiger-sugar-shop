@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
-const db = require('./database')
+const db = require('../db')
 
-const Products = db.define('product', {
+const Product = db.define('product', {
   img: {
     type: Sequelize.STRING,
     defaultValue: null
@@ -22,4 +22,4 @@ const Products = db.define('product', {
   }
 })
 
-module.exports = Products
+module.exports = Product

@@ -6,11 +6,19 @@ import {connect} from 'react-redux'
  * COMPONENT
  */
 export const UserHome = props => {
-  const {email} = props
+  const {firstName, lastName, email, shippingInfo, billingInfo} = props
 
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <h2>Welcome, {firstName}</h2>
+      <h3>Account Information:</h3>
+      <h4>
+        name: {firstName} {lastName}
+      </h4>
+      <h4>email: {email}</h4>
+      <h3>Address Book</h3>
+      <h4>shipping address: {shippingInfo}</h4>
+      <h4>billing address: {billingInfo}</h4>
     </div>
   )
 }
@@ -20,7 +28,11 @@ export const UserHome = props => {
  */
 const mapState = state => {
   return {
-    email: state.user.email
+    firstName: state.user.firstName,
+    lastName: state.user.lastName,
+    email: state.user.email,
+    shippingInfo: state.user.shippingInfo,
+    billingInfo: state.user.billingInfo
   }
 }
 
@@ -30,5 +42,9 @@ export default connect(mapState)(UserHome)
  * PROP TYPES
  */
 UserHome.propTypes = {
-  email: PropTypes.string
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  shippingInfo: PropTypes.string,
+  billingInfo: PropTypes.string
 }

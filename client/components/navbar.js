@@ -96,7 +96,7 @@ class Navbar extends React.Component {
               <Tab
                 className={classes.tab}
                 component={Link}
-                to="/shop"
+                to="/products"
                 label="SHOP"
               />
               <Tab

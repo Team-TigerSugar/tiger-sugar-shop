@@ -43,7 +43,7 @@ export default function Navbar() {
       setValue(0)
     } else if (window.location.pathname === '/about' && value !== 1) {
       setValue(1)
-    } else if (window.location.pathname === '/shop' && value !== 2) {
+    } else if (window.location.pathname === '/products' && value !== 2) {
       setValue(2)
     }
   })
@@ -77,7 +77,7 @@ export default function Navbar() {
               <Tab
                 className={classes.tab}
                 component={Link}
-                to="/shop"
+                to="/products"
                 label="SHOP"
               />
               {/* </div>

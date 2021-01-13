@@ -80,8 +80,8 @@ export default function Navbar() {
                 to="/shop"
                 label="SHOP"
               />
-            </div>
-            <div className={classes.tabs2}>
+              {/* </div>
+            <div className={classes.tabs2}> */}
               <Tab
                 className={classes.tab}
                 component={Link}

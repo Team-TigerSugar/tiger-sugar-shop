@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Cart, Product} = require('../server/db/models')
+const {User, Cart, Product, CartItem} = require('../server/db/models')
 
 const users = [
   {
@@ -85,7 +85,11 @@ async function seed() {
     city: 'Boston',
     state: 'MA'
   })
+
+  const potion = await CartItem.create(products[0])
+
   await pandaCart.setUser(panda)
+  await pandaCart.addCartItem(potion)
 
   console.log(`seeded ${users.length} users`)
 

@@ -10,7 +10,6 @@ Product.belongsTo(CartItem)
 CartItem.hasOne(Product)
 
 Cart.hasMany(CartItem)
-CartItem.belongsTo(Cart)
 
 /**
  * If we had any associations to make, this would be a great place to put them!

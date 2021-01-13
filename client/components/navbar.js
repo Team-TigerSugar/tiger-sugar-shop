@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
 // import PropTypes from 'prop-types'
 // import {connect} from 'react-redux'
@@ -9,11 +9,12 @@ import Toolbar from '@material-ui/core/Toolbar'
 import {useTheme, makeStyles} from '@material-ui/core/styles'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 
-// import cartButton from '../../public/icons/cart.svg'
+import cartButton from '../../public/icons/cartButton.png'
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   toolbarMargin: {
     ...theme.mixins.toolbar
   },
@@ -28,40 +29,58 @@ const useStyles = makeStyles(theme => ({
   },
   tabs2: {
     marginLeft: '66em'
+  },
+  cartButtonImg: {
+    width: '4em'
   }
-}))
+})
 
-export default function Navbar() {
-  const classes = useStyles()
-  const theme = useTheme()
-  const [value, setValue] = useState(0)
-  const handleChange = (event, value) => {
-    setValue(value)
-  }
-  useEffect(() => {
-    if (window.location.pathname === '/' && value !== 0) {
-      setValue(0)
-    } else if (window.location.pathname === '/about' && value !== 1) {
-      setValue(1)
-    } else if (window.location.pathname === '/shop' && value !== 2) {
-      setValue(2)
+class Navbar extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      value: 0
     }
-  })
-  return (
-    <React.Fragment>
-      <AppBar
-        position="fixed"
-        style={{boxShadow: 'none'}}
-        className={classes.navbar}
-      >
-        <Toolbar>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            className={classes.tabsCont}
-            indicatorColor={theme.palette.common.colorWhite}
-          >
-            <div>
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange = (event, value) => {
+    this.setState({
+      value: value
+    })
+  }
+
+  componentDidMount() {
+    if (window.location.pathname === '/' && this.state.value !== 0) {
+      this.setState({value: 0})
+    } else if (
+      window.location.pathname === '/about' &&
+      this.state.value !== 1
+    ) {
+      this.setState({value: 1})
+    } else if (window.location.pathname === '/shop' && this.state.value !== 2) {
+      this.setState({value: 2})
+    }
+  }
+
+  render() {
+    const {classes} = this.props
+
+    const value = this.state.value
+    return (
+      <React.Fragment>
+        <AppBar
+          position="fixed"
+          style={{boxShadow: 'none'}}
+          className={classes.navbar}
+        >
+          <Toolbar>
+            <Tabs
+              value={value}
+              onChange={this.handleChange}
+              className={classes.tabsCont}
+              indicatorColor={this.props.theme.palette.common.colorWhite}
+            >
               <Tab
                 className={classes.tab}
                 component={Link}
@@ -80,28 +99,30 @@ export default function Navbar() {
                 to="/shop"
                 label="SHOP"
               />
-              {/* </div>
-            <div className={classes.tabs2}> */}
               <Tab
                 className={classes.tab}
                 component={Link}
                 to="/login"
                 label="SIGN IN"
+                style={{marginLeft: '66em'}}
               />
-              <Tab
-                className={classes.tab}
-                component={Link}
-                to="/cart"
-                label="CART"
+            </Tabs>
+            <Button component={Link} to="/cart">
+              <img
+                src={cartButton}
+                alt="circle with cart"
+                className={classes.cartButtonImg}
               />
-            </div>
-          </Tabs>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.toolbarMargin} />
-    </React.Fragment>
-  )
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.toolbarMargin} />
+      </React.Fragment>
+    )
+  }
 }
+
+export default withStyles(styles, {withTheme: true})(Navbar)
 
 // const Navbar = ({handleClick, isLoggedIn}) => (
 //   <div>

@@ -35,6 +35,12 @@ export default createMuiTheme({
       fontFamily: 'Lato',
       letterSpacing: 2
     },
+    bodyAcent: {
+      fontSize: '1.25em',
+      fontWeight: 500,
+      fontFamily: 'Lato',
+      letterSpacing: 2
+    },
     body1: {
       fontSize: '1.25em',
       fontWeight: 400,

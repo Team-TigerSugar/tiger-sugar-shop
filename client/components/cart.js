@@ -1,6 +1,14 @@
 import React, {Component} from 'react'
 
-export default class cart extends Component {
+export default class Cart extends Component {
+  constructor() {
+    super()
+    this.state = {
+      // eslint-disable-next-line react/no-unused-state
+      userType: 'Guest'
+    }
+  }
+
   render() {
     return (
       <div>

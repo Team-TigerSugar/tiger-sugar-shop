@@ -1,19 +1,16 @@
 const User = require('./user')
 const Cart = require('./cart')
-const Product = require('./products')
+const Product = require('./product')
+const CartItem = require('./cartItem')
 
-// User.belongsTo(Cart)
-// Cart.hasOne(User)
+User.belongsTo(Cart)
+Cart.hasOne(User)
 
-Product.belongsToMany(Cart, {
-  through: 'ProductsInCart',
-  foreignKey: 'productId'
-})
+Product.belongsTo(CartItem)
+CartItem.hasOne(Product)
 
-Cart.belongsToMany(Product, {
-  through: 'ProductsInCart',
-  foreignKey: 'cartId'
-})
+Cart.hasMany(CartItem)
+CartItem.belongsTo(Cart)
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -31,5 +28,6 @@ Cart.belongsToMany(Product, {
 module.exports = {
   User,
   Cart,
-  Product
+  Product,
+  CartItem
 }

@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Cart, Product, CartItem} = require('../server/db/models')
+const {User, Cart, Product} = require('../server/db/models')
 
 const users = [
   {
@@ -82,20 +82,26 @@ async function seed() {
   })
 
   const pandaCart = await Cart.create({
-    sessionId: 'h31e6FhjQG9En-ctAeYlAxAtzU7Mi3Rl',
-    firstName: 'Panda',
-    lastName: 'Shadow',
-    email: 'lilpandie@aol.com',
-    addressLine1: '312 Gingerbread Lane',
-    addressLine2: 'apartment 1',
-    city: 'Boston',
-    state: 'MA'
+    sessionId: 'h31e6FhjQG9En-ctAeYlAxAtzU7Mi3Rl'
+    //  firstName: 'Panda',
+    //  lastName: 'Shadow',
+    //  email: 'lilpandie@aol.com',
+    //  addressLine1: '312 Gingerbread Lane',
+    //  addressLine2: 'apartment 1',
+    //  city: 'Boston',
+    //  state: 'MA'
   })
 
-  const potion = await CartItem.create(products[0])
+  const potion = await Product.create({
+    img:
+      'https://i.pinimg.com/236x/a9/e8/1e/a9e81e5feed2cc716f777d3380badc92--essential-oils-homemade-hair.jpg',
+    name: `Kanye West's Tears`,
+    price: 300,
+    description: "He's v sad."
+  })
 
   await pandaCart.setUser(panda)
-  await pandaCart.addCartItem(potion)
+  await pandaCart.addProduct(potion)
 
   console.log(`seeded ${users.length} users`)
 

@@ -4,7 +4,7 @@ const db = require('../db')
 
 const Cart = db.define('cart', {
   sessionId: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     unique: true,
     allowNull: false
   },

@@ -20,28 +20,49 @@ const addToCart = item => ({
   item
 })
 
-const deleteFromCart = () => ({
-  type: DELETE_FROM_CART
+const deleteFromCart = itemId => ({
+  type: DELETE_FROM_CART,
+  itemId
 })
 
 //THUNK CREATORS
 export const getCartThunk = userId => async dispatch => {
   try {
-    const cart = await axios.get(`/api/catr/${userId}`)
+    const cart = await axios.get(`/api/cart/${userId}`)
     dispatch(getCart(cart.data))
   } catch (error) {
     console.log(error)
   }
 }
+
+export const addToCartThunk = (userId, itemId) => async dispatch => {
+  try {
+    const cartItem = await axios.post(`/api/cart/${userId}/${itemId}`)
+    dispatch(addToCart(cartItem))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const deleteFromCartThunk = itemId => async dispatch => {
+  try {
+    await axios.delete(`/api/cart/${itemId}`)
+    dispatch(deleteFromCart(itemId))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 //REDUCER
 
 export default function(state = defaultState, action) {
   switch (action.type) {
+    case GET_CART:
+      return action.cart
     case ADD_TO_CART:
-      return {...state, items: action.item}
-    //fix this!
+      return {...state, items: [...state.items, action.item]}
     case DELETE_FROM_CART:
-      return
+      return state.items.filter(item => item.id !== action.itemId)
     default:
       return state
   }

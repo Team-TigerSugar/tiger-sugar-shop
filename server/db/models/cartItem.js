@@ -4,22 +4,16 @@ const db = require('../db')
 
 const CartItem = db.define('cartItem', {
   img: {
-    type: Sequelize.STRING,
-    defaultValue: null
+    type: Sequelize.STRING
+    //  defaultValue: null
   },
   name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: Sequelize.STRING
+    //  allowNull: false,
   },
   price: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: Sequelize.INTEGER
+    //  allowNull: false,
   },
   quantity: {
     type: Sequelize.INTEGER

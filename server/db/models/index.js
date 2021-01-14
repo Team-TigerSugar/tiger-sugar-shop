@@ -9,8 +9,10 @@ Cart.belongsTo(User)
 User.belongsToMany(Product, {through: 'UserProducts'})
 Product.belongsToMany(User, {through: 'UserProducts'})
 
-Product.belongsToMany(CartItem, {through: 'ProductsInCart'})
-CartItem.hasOne(Product)
+//this Product->CartItem association causes problems with
+//rendering the AllProducts and SingleProduct view
+// Product.belongsToMany(CartItem, {through: 'ProductsInCart'})
+// CartItem.hasOne(Product)
 
 Cart.hasMany(CartItem)
 CartItem.belongsTo(Cart)

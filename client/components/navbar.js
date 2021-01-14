@@ -15,8 +15,13 @@ import Button from '@material-ui/core/Button'
 import cartButton from '../../public/icons/cartButton.png'
 
 const styles = theme => ({
+  toolbar: {
+    paddingTop: '1em',
+    paddingBottom: '1em'
+  },
   toolbarMargin: {
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
+    marginBottom: '2em'
   },
   navbar: {
     backgroundColor: theme.palette.common.colorWhite
@@ -74,12 +79,12 @@ class Navbar extends React.Component {
           style={{boxShadow: 'none'}}
           className={classes.navbar}
         >
-          <Toolbar>
+          <Toolbar className={classes.toolbar}>
             <Tabs
               value={value}
               onChange={this.handleChange}
               className={classes.tabsCont}
-              indicatorColor={this.props.theme.palette.common.colorWhite}
+              indicatorColor="primary"
             >
               <Tab
                 className={classes.tab}

@@ -28,7 +28,13 @@ router.post('/:userId/:itemId', async (req, res, next) => {
         sessionId: req.sessionID
       }
     })
-    //console.log('*******', cart)
+    /* const cart = await Cart.create({
+      where: {
+        userId: req.params.userId,
+        sessionId: req.sessionID,
+      },
+    }) */
+    console.log('*******', cart)
     //console.log('**8*****product: ', product)
     //await cart[0].setUser(user)
     await cart.addProduct(product)

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Cart, CartItem, Product} = require('../db/models')
+const {Cart, CartItem, Product, User} = require('../db/models')
 module.exports = router
 
 //get a user's cart and items in it
@@ -19,24 +19,28 @@ router.get('/:userId', async (req, res, next) => {
 
 router.post('/:userId/:itemId', async (req, res, next) => {
   try {
-    //   const product = await Product.findO({where: {id: req.params.itemId}})
-    const product = await Product.findByPk(req.params.itemId)
+    const product = await Product.findOne({where: {id: req.params.itemId}})
+
+    //  const product = await Product.findByPk(req.params.itemId)
+    console.log('***********', product)
+    //  const user = await User.findByPk(req.params.userId)
     const cart = await Cart.findOrCreate({
-      //add session id? Figure it out
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        sessionId: req.sessionID
       }
     })
-    //  let prdct = JSON.stringify(product)
+
     const cartItem = await CartItem.create({
       img: product.img,
       name: product.name,
       price: product.price,
       quantity: product.quantity
     })
-    console.log('IM A PRODUUUUUCCCTTTT', cartItem)
+
+    //  await cart.setUser(user)
     await cart.addCartItem(cartItem)
-    res.status(204).send(cart)
+    res.sendStatus(204).send(cartItem)
   } catch (error) {
     console.log(error)
   }

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {logout, me} from '../store'
-import {bindActionCreators, compose} from 'redux'
+import {compose} from 'redux'
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -34,7 +34,12 @@ const styles = theme => ({
     ...theme.typography.tab
   },
   tabs2: {
-    marginLeft: '66em'
+    ...theme.typography.tab,
+    marginLeft: '66em',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '20em',
+      color: 'fff'
+    }
   },
   cartButtonImg: {
     width: '4em'
@@ -162,22 +167,22 @@ class Navbar extends React.Component {
                   to="/products"
                   label="SHOP"
                 />
-
                 <Tab
-                  className={classes.tab}
                   component={Link}
                   to="/login"
                   label="SIGN IN"
-                  style={{marginLeft: '66em'}}
+                  className={classes.tabs2}
                 />
+
+                <Button component={Link} to="/cart">
+                  <img
+                    src={cartButton}
+                    alt="circle with cart"
+                    className={classes.cartButtonImg}
+                    style={{marginRight: '2em'}}
+                  />
+                </Button>
               </Tabs>
-              <Button component={Link} to="/cart">
-                <img
-                  src={cartButton}
-                  alt="circle with cart"
-                  className={classes.cartButtonImg}
-                />
-              </Button>
             </Toolbar>
           )}
         </AppBar>

@@ -11,29 +11,36 @@ class Cart extends Component {
     }
   }
   async componentDidMount() {
-    //this.props.getCart()
-    // this.props.getMe()
     try {
-      const user = await this.props.getMe()
-      await console.log('**********', this.props.user)
+      await this.props.getMe()
     } catch (err) {
       console.log(err)
     }
 
     /*   await this.setState({
-      userId: user.id,
-    })
-    console.log(this.state.userId) */
+      userId: this.props.user.id,
+    }) */
+    const userId = this.props.user.id
+    await this.props.getCart(userId)
+    console.log(this.props.cartItems)
   }
   render() {
     return (
       <div>
         <h1>CART</h1>
-        {/* <div>
-          {this.props.cartItems.map((item) => (
-            <div key={item.id}>{item.name}</div>
-          ))}
-        </div> */}
+        <div>
+          {this.props.cartItems &&
+            this.props.cartItems.map(item => (
+              <div key={item.id}>
+                <ul>
+                  <img src={item.img} />
+                  <li>{item.name}</li>
+                  <li>{item.price}</li>
+                </ul>
+                <button type="submit">Remove</button>
+              </div>
+            ))}
+        </div>
       </div>
     )
   }
@@ -41,7 +48,7 @@ class Cart extends Component {
 
 const mapState = state => {
   return {
-    cartItems: state.cart.items,
+    cartItems: state.cart.products,
     user: state.user
   }
 }

@@ -15,20 +15,21 @@ const getCart = cart => ({
   cart
 })
 
-const addToCart = item => ({
+const addToCart = product => ({
   type: ADD_TO_CART,
-  item
+  product
 })
 
-const deleteFromCart = itemId => ({
+const deleteFromCart = productId => ({
   type: DELETE_FROM_CART,
-  itemId
+  productId
 })
 
 //THUNK CREATORS
 export const getCartThunk = userId => async dispatch => {
   try {
     const cart = await axios.get(`/api/cart/${userId}`)
+    console.log('%%%%%%%$$$', cart.data)
     dispatch(getCart(cart.data))
   } catch (error) {
     console.log(error)
@@ -60,9 +61,9 @@ export default function(state = defaultState, action) {
     case GET_CART:
       return action.cart
     case ADD_TO_CART:
-      return {...state, items: [...state.items, action.item]}
+      return {...state, products: [...state.products, action.product]}
     case DELETE_FROM_CART:
-      return state.items.filter(item => item.id !== action.itemId)
+      return state.products.filter(product => product.id !== action.productId)
     default:
       return state
   }

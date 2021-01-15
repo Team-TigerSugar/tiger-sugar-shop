@@ -7,6 +7,8 @@ import {me} from './store'
 import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
 
+import Landing from './components/Landing'
+
 /**
  * COMPONENT
  */
@@ -24,7 +26,7 @@ class Routes extends Component {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route exact path="/" component={() => <div>Landing</div>} />
+          <Route exact path="/" component={Landing} />
           <Route exact path="/about" component={() => <div>About Us</div>} />
           <Route exact path="/products" component={AllProducts} />
           <Route exact path="/products/:productId" component={SingleProduct} />

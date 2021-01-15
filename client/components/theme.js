@@ -27,7 +27,7 @@ export default createMuiTheme({
       fontSize: '2.8rem',
       fontWeight: 400,
       fontFamily: 'Playfair Display',
-      letterSpacing: '16.5%'
+      letterSpacing: 5
     },
     tab: {
       fontSize: '1em',
@@ -37,7 +37,13 @@ export default createMuiTheme({
     },
     body1: {
       fontSize: '1.25em',
-      fontWeight: 400,
+      fontWeight: 500,
+      fontFamily: 'Lato',
+      letterSpacing: 2
+    },
+    body2: {
+      fontSize: '1.25em',
+      fontWeight: 300,
       fontFamily: 'Lato',
       letterSpacing: 2
     }

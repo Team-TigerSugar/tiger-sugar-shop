@@ -11,7 +11,16 @@ module.exports = {
     filename: './public/bundle.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: [
+      '.js',
+      '.jsx',
+      '.scss',
+      '.gif',
+      '.png',
+      '.jpg',
+      '.jpeg',
+      '.svg'
+    ]
   },
   devtool: 'source-map',
   watchOptions: {
@@ -23,7 +32,42 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: 'url-loader'
+        }
       }
+      //Here
+      //  {
+      //    test: /\.(gif|png|jpe?g|svg)$/i,
+      //    use: [
+      //      'file-loader',
+      //      {
+      //        loader: 'image-webpack-loader',
+      //        options: {
+      //          mozjpeg: {
+      //            progressive: true,
+      //            quality: 65,
+      //          },
+      //          optipng: {
+      //            enabled: !isDevelopment,
+      //          },
+      //          pngquant: {
+      //            quality: '65-90',
+      //            speed: 4,
+      //          },
+      //          gifsicle: {
+      //            interlaced: false,
+      //          },
+      //          webp: {
+      //            quality: 75,
+      //          },
+      //        },
+      //      },
+      //    ],
+      //  },
     ]
   }
 }

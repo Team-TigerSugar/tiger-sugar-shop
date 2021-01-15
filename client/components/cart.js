@@ -7,8 +7,9 @@ class Cart extends Component {
   constructor() {
     super()
     this.state = {
-      userId: 0
+      cartItems: []
     }
+    this.handleDelete = this.handleDelete.bind(this)
   }
   async componentDidMount() {
     try {
@@ -17,14 +18,30 @@ class Cart extends Component {
       console.log(err)
     }
 
-    /*   await this.setState({
-      userId: this.props.user.id,
-    }) */
+    await this.setState({
+      cartItems: this.props.cartItems
+    })
     const userId = this.props.user.id
     await this.props.getCart(userId)
-    console.log(this.props.cartItems)
+    console.log('cart; ', this.props.cart)
+  }
+  async handleDelete(e) {
+    e.preventDefault()
+    const cartId = this.props.cart.id
+    const itemId = e.target.value
+    console.log('itemId: ', itemId)
+    try {
+      await this.props.deleteFromCart(cartId, itemId)
+    } catch (err) {
+      console.log(err)
+    }
   }
   render() {
+    const cartItems = this.state.cartItems
+    console.log('cartItems: ', cartItems)
+    const prices = cartItems.filter(item => item.price)
+    console.log('prices: ', prices)
+    let total = prices.reduce((a, b) => a + b)
     return (
       <div>
         <h1>CART</h1>
@@ -37,10 +54,18 @@ class Cart extends Component {
                   <li>{item.name}</li>
                   <li>{item.price}</li>
                 </ul>
-                <button type="submit">Remove</button>
+                <button
+                  type="submit"
+                  onClick={this.handleDelete}
+                  value={item.id}
+                >
+                  Remove
+                </button>
               </div>
             ))}
         </div>
+        <h3>Total</h3>
+        <div>{total}</div>
       </div>
     )
   }
@@ -49,6 +74,7 @@ class Cart extends Component {
 const mapState = state => {
   return {
     cartItems: state.cart.products,
+    cart: state.cart,
     user: state.user
   }
 }

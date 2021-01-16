@@ -16,6 +16,9 @@ import tornPaperVert from '../../public/images/tornPaperVert.png'
 const styles = theme => ({
   removeButt: {
     backgroundColor: theme.palette.common.colorTwo
+  },
+  otherButts: {
+    backgroundColor: theme.palette.common.colorThree
   }
 })
 
@@ -97,6 +100,9 @@ class Cart extends Component {
           </Grid>
           <Grid item container direction="column">
             <Typography variant="body1">order summary</Typography>
+            <Link to="/products">
+              <Button className={classes.otherButts}>continue shopping</Button>
+            </Link>
           </Grid>
         </Grid>
       </React.Fragment>

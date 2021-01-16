@@ -44,7 +44,7 @@ router.post('/:userId/:itemId', async (req, res, next) => {
   }
 })
 
-router.delete('/:cartId/:itemId', async (req, res, next) => {
+router.put('/:cartId/:itemId', async (req, res, next) => {
   try {
     const cart = await Cart.findByPk(req.params.cartId)
     const product = await Product.findByPk(req.params.itemId)

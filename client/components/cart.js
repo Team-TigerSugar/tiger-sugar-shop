@@ -49,7 +49,7 @@ class Cart extends Component {
   async handleDelete(e) {
     e.preventDefault()
     const cartId = this.props.cart.id
-    const itemId = e.target.value
+    const itemId = e.currentTarget.value
     console.log('itemId: ', itemId)
     try {
       await this.props.deleteFromCart(cartId, itemId)
@@ -100,8 +100,13 @@ class Cart extends Component {
           </Grid>
           <Grid item container direction="column">
             <Typography variant="body1">order summary</Typography>
+
             <Link to="/products">
               <Button className={classes.otherButts}>continue shopping</Button>
+            </Link>
+
+            <Link to="/checkoutmethods">
+              <Button className={classes.otherButts}>checkout</Button>
             </Link>
           </Grid>
         </Grid>

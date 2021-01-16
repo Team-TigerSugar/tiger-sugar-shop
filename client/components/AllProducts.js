@@ -2,6 +2,18 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProducts} from '../store/products'
 import {Link} from 'react-router-dom'
+import {compose} from 'redux'
+import {withStyles} from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import {addToCartThunk, deleteFromCartThunk} from '../store/cart'
+
+const styles = theme => ({
+  addButt: {
+    backgroundColor: theme.palette.common.colorTwo
+  }
+})
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -12,39 +24,58 @@ class AllProducts extends React.Component {
     this.props.getProducts()
   }
 
+  async handleClick(e) {
+    e.preventDefault()
+    const userId = this.props.user.id
+    const itemId = e.target.value
+    await this.props.addToCart(userId, itemId)
+  }
+
   render() {
     const products = this.props.products
 
     if (products) {
       return (
-        <div>
-          <div>
+        <Grid container justify="center">
+          <Grid container>
             {products.map(product => (
-              <div key="product.id">
+              <Grid item container key={product.id}>
                 <Link to={`/products/${product.id}`} key={product.id}>
                   <img src={product.img} />
-                  <h2>{product.name}</h2>
-                  <h3>{product.price}</h3>
+                  <Typography variant="body1">{product.name}</Typography>
+                  <Typography variant="body2">{product.price}</Typography>
                 </Link>
-              </div>
+                <Button
+                  type="submit"
+                  onClick={this.handleClick}
+                  value={product.id}
+                >
+                  Add To Cart
+                </Button>
+              </Grid>
             ))}
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       )
     } else {
-      return <div>HI</div>
+      return <div>WE'RE ALL OUT OF PRODUCS!! AAH!</div>
     }
   }
 }
 
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  getProducts: () => dispatch(fetchProducts())
+  getProducts: () => dispatch(fetchProducts()),
+  addToCart: (userId, itemId) => dispatch(addToCartThunk(userId, itemId))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(styles, {withTheme: true})
+)(AllProducts)

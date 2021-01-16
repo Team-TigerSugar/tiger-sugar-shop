@@ -1,145 +1,170 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-// import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {logout, me} from '../store'
-import {compose} from 'redux'
+// import React from 'react'
+// import {Link} from 'react-router-dom'
+// import {connect} from 'react-redux'
+// import {logout, me} from '../store'
+// import {compose} from 'redux'
 
-import {withStyles} from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+// const styles = (theme) => ({
+//   toolbar: {
+//     paddingTop: '1em',
+//     paddingBottom: '1em',
+//   },
+//   toolbarMargin: {
+//     ...theme.mixins.toolbar,
+//     marginBottom: '2em',
+//   },
+//   navbar: {
+//     backgroundColor: theme.palette.common.colorWhite,
+//   },
+//   tabsCont: {
+//     marginLeft: '9em',
+//   },
+//   tab: {
+//     ...theme.typography.tab,
+//   },
+//   tabs2: {
+//     ...theme.typography.tab,
+//     marginLeft: '66em',
+//     [theme.breakpoints.down('md')]: {
+//       marginLeft: '20em',
+//       color: 'fff',
+//     },
+//   },
+//   cartButtonImg: {
+//     width: '4em',
+//   },
+// })
 
-// import tornPaperVert from '../../public/images/tornPaperVert.png'
+// class Navbar extends React.Component {
+//  const {name, displayName, handleSubmit, error} = props
 
-const styles = theme => ({
-  toolbar: {
-    paddingTop: '1em',
-    paddingBottom: '1em'
-  },
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: '2em'
-  },
-  navbar: {
-    backgroundColor: theme.palette.common.colorWhite
-  },
-  tabsCont: {
-    marginLeft: '9em'
-  },
-  tab: {
-    ...theme.typography.tab
-  },
-  tabs2: {
-    ...theme.typography.tab,
-    marginLeft: '66em',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '20em',
-      color: 'fff'
-    }
-  },
-  cartButtonImg: {
-    width: '4em'
-  }
-})
+//   render() {
+//     const isLoggedIn = this.props.user
+//     console.log('isLoggedIn', isLoggedIn)
+//     const {classes} = this.props
 
-class Cart extends Component {
-  constructor() {
-    super()
-    this.state = {
-      cartItems: []
-    }
-    this.handleDelete = this.handleDelete.bind(this)
-  }
+//     const value = this.state.value
+//     return (
+//       <React.Fragment>
+//         <AppBar
+//           position="fixed"
+//           style={{boxShadow: 'none'}}
+//           className={classes.navbar}
+//         >
+//           {isLoggedIn && Object.keys(isLoggedIn).length ? (
+//             <Toolbar className={classes.toolbar}>
+//               <Tabs
+//                 value={value}
+//                 onChange={this.handleChange}
+//                 className={classes.tabsCont}
+//                 indicatorColor="primary"
+//               >
+//                 <Tab
+//                   className={classes.tab}
+//                   component={Link}
+//                   to="/"
+//                   label="HOME"
+//                 />
+//                 <Tab
+//                   className={classes.tab}
+//                   component={Link}
+//                   to="/about"
+//                   label="ABOUT US"
+//                 />
+//                 <Tab
+//                   className={classes.tab}
+//                   component={Link}
+//                   to="/products"
+//                   label="SHOP"
+//                 />
 
-  async componentDidMount() {
-    try {
-      await this.props.getMe()
-    } catch (err) {
-      console.log(err)
-    }
+//                 <Button component="a" to="/" onClick={this.props.logout}>
+//                   SIGN OUT
+//                 </Button>
+//                 <Tab
+//                   className={classes.tab}
+//                   component={Link}
+//                   to="/home"
+//                   label="ACCOUNT"
+//                   style={{marginLeft: '66em'}}
+//                 />
+//               </Tabs>
+//               <Button component={Link} to="/cart">
+//                 <img
+//                   src={cartButton}
+//                   alt="circle with cart"
+//                   className={classes.cartButtonImg}
+//                 />
+//               </Button>
+//             </Toolbar>
+//           ) : (
+//             <Toolbar className={classes.toolbar}>
+//               <Tabs
+//                 value={value}
+//                 onChange={this.handleChange}
+//                 className={classes.tabsCont}
+//                 indicatorColor="primary"
+//               >
+//                 <Tab
+//                   className={classes.tab}
+//                   component={Link}
+//                   to="/"
+//                   label="HOME"
+//                 />
+//                 <Tab
+//                   className={classes.tab}
+//                   component={Link}
+//                   to="/about"
+//                   label="ABOUT US"
+//                 />
+//                 <Tab
+//                   className={classes.tab}
+//                   component={Link}
+//                   to="/products"
+//                   label="SHOP"
+//                 />
+//                 <Tab
+//                   component={Link}
+//                   to="/login"
+//                   label="SIGN IN"
+//                   className={classes.tabs2}
+//                 />
 
-    await this.setState({
-      cartItems: this.props.cartItems
-    })
-    const userId = this.props.user.id
-    await this.props.getCart(userId)
-    console.log('cart; ', this.props.cart)
-  }
+//                 <Button component={Link} to="/cart">
+//                   <img
+//                     src={cartButton}
+//                     alt="circle with cart"
+//                     className={classes.cartButtonImg}
+//                     style={{marginRight: '2em'}}
+//                   />
+//                 </Button>
+//               </Tabs>
+//             </Toolbar>
+//           )}
+//         </AppBar>
+//         <div className={classes.toolbarMargin} />
+//       </React.Fragment>
+//     )
+//   }
+// }
 
-  async handleDelete(e) {
-    e.preventDefault()
-    const cartId = this.props.cart.id
-    const itemId = e.target.value
-    console.log('itemId: ', itemId)
-    try {
-      await this.props.deleteFromCart(cartId, itemId)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+// const mapState = (state) => {
+//   return {
+//     user: state.user,
+//   }
+// }
 
-  render() {
-    //   const cartItems = this.state.cartItems
+// const mapDispatch = (dispatch) => {
+//   return {
+//     handleClick() {
+//       dispatch(logout())
+//     },
+//     me: () => dispatch(me()),
+//     logout: () => dispatch(logout()),
+//   }
+// }
 
-    return (
-      <React.Fragment>
-        <Grid container>
-          {this.props.cartItems.length ? (
-            <Typography variant="h1">Here are your Cart Items</Typography>
-          ) : (
-            <Typography variant="h1">No cart items! Get shoppin!</Typography>
-          )}
-        </Grid>
-        <Grid container>
-          <Grid item container>
-            <Grid item container>
-              {this.props.cartItems &&
-                this.props.cartItems.map(item => (
-                  <div key={item.id}>
-                    <ul>
-                      <img src={item.img} />
-                      <li>{item.name}</li>
-                      <li>{item.price}</li>
-                    </ul>
-                    <button
-                      type="submit"
-                      onClick={this.handleDelete}
-                      value={item.id}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-            </Grid>
-          </Grid>
-          <Grid item container direction="column">
-            <Typography variant="body1">order summary</Typography>
-          </Grid>
-        </Grid>
-      </React.Fragment>
-    )
-  }
-}
-
-const mapState = state => {
-  return {
-    cartItems: state.cart.products,
-    cart: state.cart,
-    user: state.user
-  }
-}
-
-const mapDispatch = dispatch => {
-  return {
-    getCart: userId => dispatch(getCartThunk(userId)),
-    addToCart: (userId, itemId) => dispatch(addToCartThunk(userId, itemId)),
-    deleteFromCart: (cartId, itemId) =>
-      dispatch(deleteFromCartThunk(cartId, itemId)),
-    getMe: () => dispatch(me())
-  }
-}
-
-export default compose(
-  connect(mapState, mapDispatch),
-  withStyles(styles, {withTheme: true})
-)(Cart)
+// export default compose(
+//   connect(mapState, mapDispatch),
+//   withStyles(styles, {withTheme: true})
+// )(Navbar)

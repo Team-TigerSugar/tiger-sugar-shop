@@ -22,9 +22,9 @@ const styles = theme => ({
 class Cart extends Component {
   constructor() {
     super()
-    this.state = {
-      cartItems: []
-    }
+    //  this.state = {
+    //    cartItems: []
+    //  }
     this.handleDelete = this.handleDelete.bind(this)
   }
 
@@ -35,9 +35,9 @@ class Cart extends Component {
       console.log(err)
     }
 
-    await this.setState({
-      cartItems: this.props.cartItems
-    })
+    //  await this.setState({
+    //    cartItems: this.props.cartItems
+    //  })
     const userId = this.props.user.id
     await this.props.getCart(userId)
     console.log('cart; ', this.props.cartItems)

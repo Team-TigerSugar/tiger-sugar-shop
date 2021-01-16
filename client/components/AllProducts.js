@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchProducts} from '../store/products'
 import {Link} from 'react-router-dom'
@@ -15,9 +15,10 @@ const styles = theme => ({
   }
 })
 
-class AllProducts extends React.Component {
+class AllProducts extends Component {
   constructor(props) {
     super(props)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {

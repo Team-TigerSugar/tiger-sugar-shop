@@ -28,7 +28,7 @@ class AllProducts extends Component {
   async handleClick(e) {
     e.preventDefault()
     const userId = this.props.user.id
-    const itemId = e.target.value
+    const itemId = e.currentTarget.value
     await this.props.addToCart(userId, itemId)
   }
 

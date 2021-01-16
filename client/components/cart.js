@@ -46,7 +46,7 @@ class Cart extends Component {
   async handleDelete(e) {
     e.preventDefault()
     const cartId = this.props.cart.id
-    const itemId = e.target.value
+    const itemId = e.currentTarget.value
     console.log('itemId: ', itemId)
     try {
       await this.props.deleteFromCart(cartId, itemId)

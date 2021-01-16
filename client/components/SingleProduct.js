@@ -26,16 +26,16 @@ class SingleProduct extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const productId = this.props.match.params.productId
-    this.props.setSingleProduct(productId)
+    await this.props.setSingleProduct(productId)
     //  console.log('hi from componentDidMount')
   }
 
   async handleClick(e) {
     e.preventDefault()
     const userId = this.props.user.id
-    const itemId = e.target.value
+    const itemId = e.currentTarget.value
     await this.props.addToCart(userId, itemId)
   }
 

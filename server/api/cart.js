@@ -20,12 +20,17 @@ router.get('/:userId', async (req, res, next) => {
 router.post('/:userId/:itemId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.itemId)
+    console.log('***********', product)
+
     const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId,
         sessionId: req.sessionID
       }
     })
+
+    console.log('*******', cart)
+
     await cart.addProduct(product)
     res.send(product)
   } catch (error) {

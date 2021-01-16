@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Cart, CartItem, Product, User} = require('../db/models')
+const {Cart, Product, User} = require('../db/models')
 module.exports = router
 
 //get a user's cart and items in it
@@ -9,7 +9,7 @@ router.get('/:userId', async (req, res, next) => {
       where: {
         userId: req.params.userId
       },
-      include: CartItem
+      include: Product
     })
     res.json(cart)
   } catch (err) {
@@ -19,38 +19,38 @@ router.get('/:userId', async (req, res, next) => {
 
 router.post('/:userId/:itemId', async (req, res, next) => {
   try {
-    const product = await Product.findOne({where: {id: req.params.itemId}})
-
-    //  const product = await Product.findByPk(req.params.itemId)
+    const product = await Product.findByPk(req.params.itemId)
     console.log('***********', product)
-    //  const user = await User.findByPk(req.params.userId)
-    const cart = await Cart.findOrCreate({
+    //const user = await User.findByPk(req.params.userId)
+    const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId,
         sessionId: req.sessionID
       }
     })
-
-    const cartItem = await CartItem.create({
-      img: product.img,
-      name: product.name,
-      price: product.price,
-      quantity: product.quantity
-    })
-
-    //  await cart.setUser(user)
-    await cart.addCartItem(cartItem)
-    res.sendStatus(204).send(cartItem)
+    /* const cart = await Cart.create({
+      where: {
+        userId: req.params.userId,
+        sessionId: req.sessionID,
+      },
+    }) */
+    console.log('*******', cart)
+    //console.log('**8*****product: ', product)
+    //await cart[0].setUser(user)
+    await cart.addProduct(product)
+    res.send(product)
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 })
 
-router.delete('/:itemId', async (req, res, next) => {
+router.delete('/:cartId/:itemId', async (req, res, next) => {
   try {
-    await CartItem.destroy({where: {id: req.params.itemId}})
+    const cart = await Cart.findByPk(req.params.cartId)
+    const product = await Product.findByPk(req.params.itemId)
+    await cart.removeProduct(product)
     res.sendStatus(204)
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 })

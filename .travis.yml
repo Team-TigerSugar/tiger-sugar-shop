@@ -4,7 +4,7 @@ node_js:
 services:
   - postgresql # starts up postgres
 addons:
-  postgresql: '10' # recent postgres version on Travis
+  postgresql: '13' # recent postgres version on Travis
 dist: xenial # uses xenial environment
 notifications:
   email:
@@ -13,15 +13,18 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "tiger-sugar-balm";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 script:
   - npm test # test the code
   - npm run build-client # make the bundle
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: tiger-sugar-balm
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: JukKaYNQjDm5Nhw1uuApry1uugO9XbHovF4OW/7G64vhIrJC385HFkfxowEO6xfGgZxXbmN4MDzYxjlkhF3w59g1v8pc6TbXb59dTkAdtlqv7BOFzEU9Hlai9l3OAla/W76HycdxZvWFEZ3+OG/Mfk36u1kokPy2FF5Z422Awks+OIy08ly7aKWpxOhS19QvDjm2hGP0lzTbDhEscT1cZ99MDy5aBj9aEpHwaea2UALUwqumIBgzTW6PAcbMeEO98fYXpc6nMK5c/cuR2zP6YdF/+4VcOVEQrSJyY5e1X5FfyZQ/d01qLcXHQvmnZrVgCPUctn/n/PqKYOOlfoKZXO7qnxFpLeYh9yjc4BD9WOAm17d1F464p39NvMsZ0xDhMxZ6wo6uklBxkT9ycUDJXWYjeJfjHA9WZGk2c0or762wy9Byn+Enh2bCbUdUFyXjP2UhJbhzLiZmGzS8R9E7TMQZVbLZHi8UotO++BrOnKeLJJKpHcYOPeNX1/KOvl/Q4XGWJrF/9H3fe4QdtWG81xYjGKq0hTCStZLZr5mveJNUb+GHJb7PPBDNqVLGrLB+anCuDMCgeqKOX0dgVK+vHJ84dOQTrrK/lNsyOKHrMtLSghY3SKlOGwdRX+NfS0S84etW+GjEph4f5OUqgODR9PzyJTRy8zGlDYNdjKwVii0=

@@ -1,8 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 // import PropTypes from 'prop-types'
-// import {connect} from 'react-redux'
-// import {logout} from '../store'
+import {connect} from 'react-redux'
+import {logout, me} from '../store'
+import {compose} from 'redux'
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -33,7 +34,12 @@ const styles = theme => ({
     ...theme.typography.tab
   },
   tabs2: {
-    marginLeft: '66em'
+    ...theme.typography.tab,
+    marginLeft: '66em',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '20em',
+      color: 'fff'
+    }
   },
   cartButtonImg: {
     width: '4em'
@@ -68,7 +74,17 @@ class Navbar extends React.Component {
     }
   }
 
+  async componentDidMount() {
+    try {
+      await this.props.me()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   render() {
+    const isLoggedIn = this.props.user
+    console.log('isLoggedIn', isLoggedIn)
     const {classes} = this.props
 
     const value = this.state.value
@@ -79,47 +95,96 @@ class Navbar extends React.Component {
           style={{boxShadow: 'none'}}
           className={classes.navbar}
         >
-          <Toolbar className={classes.toolbar}>
-            <Tabs
-              value={value}
-              onChange={this.handleChange}
-              className={classes.tabsCont}
-              indicatorColor="primary"
-            >
-              <Tab
-                className={classes.tab}
-                component={Link}
-                to="/"
-                label="HOME"
-              />
-              <Tab
-                className={classes.tab}
-                component={Link}
-                to="/about"
-                label="ABOUT US"
-              />
-              <Tab
-                className={classes.tab}
-                component={Link}
-                to="/products"
-                label="SHOP"
-              />
-              <Tab
-                className={classes.tab}
-                component={Link}
-                to="/login"
-                label="SIGN IN"
-                style={{marginLeft: '66em'}}
-              />
-            </Tabs>
-            <Button component={Link} to="/cart">
-              <img
-                src={cartButton}
-                alt="circle with cart"
-                className={classes.cartButtonImg}
-              />
-            </Button>
-          </Toolbar>
+          {isLoggedIn && Object.keys(isLoggedIn).length ? (
+            <Toolbar className={classes.toolbar}>
+              <Tabs
+                value={value}
+                onChange={this.handleChange}
+                className={classes.tabsCont}
+                indicatorColor="primary"
+              >
+                <Tab
+                  className={classes.tab}
+                  component={Link}
+                  to="/"
+                  label="HOME"
+                />
+                <Tab
+                  className={classes.tab}
+                  component={Link}
+                  to="/about"
+                  label="ABOUT US"
+                />
+                <Tab
+                  className={classes.tab}
+                  component={Link}
+                  to="/products"
+                  label="SHOP"
+                />
+
+                <Button component="a" to="/" onClick={this.props.logout}>
+                  SIGN OUT
+                </Button>
+                <Tab
+                  className={classes.tab}
+                  component={Link}
+                  to="/home"
+                  label="ACCOUNT"
+                  style={{marginLeft: '66em'}}
+                />
+              </Tabs>
+              <Button component={Link} to="/cart">
+                <img
+                  src={cartButton}
+                  alt="circle with cart"
+                  className={classes.cartButtonImg}
+                />
+              </Button>
+            </Toolbar>
+          ) : (
+            <Toolbar className={classes.toolbar}>
+              <Tabs
+                value={value}
+                onChange={this.handleChange}
+                className={classes.tabsCont}
+                indicatorColor="primary"
+              >
+                <Tab
+                  className={classes.tab}
+                  component={Link}
+                  to="/"
+                  label="HOME"
+                />
+                <Tab
+                  className={classes.tab}
+                  component={Link}
+                  to="/about"
+                  label="ABOUT US"
+                />
+                <Tab
+                  className={classes.tab}
+                  component={Link}
+                  to="/products"
+                  label="SHOP"
+                />
+                <Tab
+                  component={Link}
+                  to="/login"
+                  label="SIGN IN"
+                  className={classes.tabs2}
+                />
+
+                <Button component={Link} to="/cart">
+                  <img
+                    src={cartButton}
+                    alt="circle with cart"
+                    className={classes.cartButtonImg}
+                    style={{marginRight: '2em'}}
+                  />
+                </Button>
+              </Tabs>
+            </Toolbar>
+          )}
         </AppBar>
         <div className={classes.toolbarMargin} />
       </React.Fragment>
@@ -127,7 +192,29 @@ class Navbar extends React.Component {
   }
 }
 
-export default withStyles(styles, {withTheme: true})(Navbar)
+const mapState = state => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    handleClick() {
+      dispatch(logout())
+    },
+    me: () => dispatch(me()),
+    logout: () => dispatch(logout())
+  }
+}
+
+export default compose(
+  connect(mapState, mapDispatch),
+  withStyles(styles, {withTheme: true})
+)(Navbar)
+
+// export default withStyles(styles, {withTheme: true})(Navbar)
+// export default connect(mapState, mapDispatch)(Navbar)
 
 // const Navbar = ({handleClick, isLoggedIn}) => (
 //   <div>

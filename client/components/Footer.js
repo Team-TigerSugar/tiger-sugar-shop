@@ -49,9 +49,9 @@ class Footer extends React.Component {
     const {classes} = this.props
 
     return (
-      <Grid container className={classes.footerCont}>
-        <Grid item container alignItems="center">
-          <Grid item container className={classes.footerImgCont} lg>
+      <Grid container className={classes.footerCont} direction="row">
+        <Grid item container alignItems="center" direction="row">
+          <Grid item container className={classes.footerImgCont} lg={4}>
             <img src={logo} alt="company logo" className={classes.footerLogo} />
           </Grid>
           <Grid
@@ -59,7 +59,7 @@ class Footer extends React.Component {
             container
             className={classes.footerNavCont}
             justify="center"
-            lg
+            lg={4}
           >
             <Grid item component={Link} to="/" className={classes.link}>
               HOME
@@ -81,8 +81,8 @@ class Footer extends React.Component {
             item
             container
             className={classes.footerLinktCont}
-            justify="center"
-            lg
+            justify="flex-end"
+            lg={4}
           >
             <Grid
               item

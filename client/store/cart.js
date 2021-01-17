@@ -4,6 +4,7 @@ import axios from 'axios'
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
+const PLACE_ORDER = 'PLACE_ORDER'
 
 //INITAIL STATE
 const defaultState = {products: []}
@@ -23,6 +24,12 @@ const addToCart = product => ({
 const deleteFromCart = productId => ({
   type: DELETE_FROM_CART,
   productId
+})
+
+const placeOrder = (cart, newCart) => ({
+  type: PLACE_ORDER,
+  cart,
+  newCart
 })
 
 //THUNK CREATORS
@@ -47,8 +54,18 @@ export const addToCartThunk = (userId, itemId) => async dispatch => {
 
 export const deleteFromCartThunk = (cartId, itemId) => async dispatch => {
   try {
-    await axios.delete(`/api/cart/${cartId}/${itemId}`)
+    await axios.put(`/api/cart/${cartId}/${itemId}`)
     dispatch(deleteFromCart(itemId))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const placeOrderThunk = (cartId, userId) => async dispatch => {
+  try {
+    const cart = await axios.put(`/api/cart/${cartId}`)
+    const newCart = await axios.post(`/api/cart/${userId}`)
+    dispatch(placeOrder(cart, newCart))
   } catch (error) {
     console.log(error)
   }
@@ -65,6 +82,8 @@ export default function(state = defaultState, action) {
       return {...state, products: newArr}
     case DELETE_FROM_CART:
       return state.products.filter(product => product.id !== action.productId)
+    case PLACE_ORDER:
+      return action.newCart
     default:
       return state
   }

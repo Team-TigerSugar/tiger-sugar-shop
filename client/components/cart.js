@@ -5,26 +5,29 @@ import {connect} from 'react-redux'
 import {me} from '../store'
 import {compose} from 'redux'
 import {getCartThunk, addToCartThunk, deleteFromCartThunk} from '../store/cart'
+import {cartItemThunk} from '../store/cartItem'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import UpdateCart from './updateCart'
 
 import tornPaperVert from '../../public/images/tornPaperVert.png'
 
 const styles = theme => ({
   removeButt: {
     backgroundColor: theme.palette.common.colorTwo
+  },
+  otherButts: {
+    backgroundColor: theme.palette.common.colorOne
   }
 })
 
 class Cart extends Component {
   constructor() {
     super()
-    //  this.state = {
-    //    cartItems: []
-    //  }
+
     this.handleDelete = this.handleDelete.bind(this)
   }
 
@@ -34,10 +37,6 @@ class Cart extends Component {
     } catch (err) {
       console.log(err)
     }
-    //  await this.setState({
-    //    cartItems: this.props.cartItems
-    //  })
-    console.log('PROOOOOOPS', this.props)
     const userId = this.props.user.id
     await this.props.getCart(userId)
     console.log('cart; ', this.props.cartItems)
@@ -57,11 +56,15 @@ class Cart extends Component {
 
   render() {
     //   const cartItems = this.state.cartItems
+    const isLoggedIn = this.props.user && Object.keys(this.props.user).length
+    const cartHasItems = this.props.cartItems && this.props.cartItems.length
+    console.log('cartHasItems', cartHasItems)
+    console.log('cart items', this.state.cartItems)
     const {classes} = this.props
     return (
       <React.Fragment>
         <Grid container justify="center">
-          {this.props.cartItems && this.props.cartItems.length ? (
+          {cartHasItems ? (
             <Typography variant="h1">Here are your Cart Items</Typography>
           ) : (
             <Typography variant="h1">No cart items! Get shoppin!</Typography>
@@ -83,6 +86,7 @@ class Cart extends Component {
                       </Grid>
                     </Grid>
 
+                    <UpdateCart item={item} userId={this.props.user.id} />
                     <Button
                       type="submit"
                       onClick={this.handleDelete}
@@ -97,6 +101,28 @@ class Cart extends Component {
           </Grid>
           <Grid item container direction="column">
             <Typography variant="body1">order summary</Typography>
+
+            <Link to="/products">
+              <Button className={classes.otherButts}>continue shopping</Button>
+            </Link>
+
+            <div>
+              {(() => {
+                if (!cartHasItems) return null
+                if (isLoggedIn)
+                  return (
+                    <Link to="/checkout">
+                      <Button className={classes.otherButts}>checkout</Button>
+                    </Link>
+                  )
+                else
+                  return (
+                    <Link to="/checkoutmethods">
+                      <Button className={classes.otherButts}>checkout</Button>
+                    </Link>
+                  )
+              })()}
+            </div>
           </Grid>
         </Grid>
       </React.Fragment>
@@ -108,17 +134,20 @@ const mapState = state => {
   return {
     cartItems: state.cart.products,
     cart: state.cart,
-    user: state.user
+    user: state.user,
+    qty: state.cartItem.qty
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     getCart: userId => dispatch(getCartThunk(userId)),
-    addToCart: (userId, itemId) => dispatch(addToCartThunk(userId, itemId)),
+    addToCart: (userId, itemId, qty) =>
+      dispatch(addToCartThunk(userId, itemId, qty)),
     deleteFromCart: (cartId, itemId) =>
       dispatch(deleteFromCartThunk(cartId, itemId)),
-    getMe: () => dispatch(me())
+    getMe: () => dispatch(me()),
+    getCartItem: (userId, itemId) => dispatch(cartItemThunk(userId, itemId))
   }
 }
 

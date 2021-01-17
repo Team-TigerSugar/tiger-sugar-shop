@@ -15,49 +15,49 @@ import Button from '@material-ui/core/Button'
 
 import cartButton from '../../public/icons/cartButton.png'
 
-const styles = (theme) => ({
+const styles = theme => ({
   toolbar: {
     paddingTop: '1em',
-    paddingBottom: '1em',
+    paddingBottom: '1em'
   },
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    marginBottom: '2em',
+    marginBottom: '2em'
   },
   navbar: {
-    backgroundColor: theme.palette.common.colorWhite,
+    backgroundColor: theme.palette.common.colorWhite
   },
   tabsCont: {
-    marginLeft: '9em',
+    marginLeft: '9em'
   },
   tab: {
-    ...theme.typography.tab,
+    ...theme.typography.tab
   },
   tabs2: {
     ...theme.typography.tab,
     marginLeft: '66em',
     [theme.breakpoints.down('md')]: {
       marginLeft: '20em',
-      color: 'fff',
-    },
+      color: 'fff'
+    }
   },
   cartButtonImg: {
-    width: '4em',
-  },
+    width: '4em'
+  }
 })
 
 class Navbar extends React.Component {
   constructor() {
     super()
     this.state = {
-      value: 0,
+      value: 0
     }
     this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange = (event, value) => {
     this.setState({
-      value: value,
+      value: value
     })
   }
 
@@ -196,19 +196,19 @@ class Navbar extends React.Component {
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
-    user: state.user,
+    user: state.user
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
     },
     me: () => dispatch(me()),
-    logout: () => dispatch(logout()),
+    logout: () => dispatch(logout())
   }
 }
 

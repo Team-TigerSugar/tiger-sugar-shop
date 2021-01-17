@@ -83,13 +83,6 @@ async function seed() {
 
   const pandaCart = await Cart.create({
     sessionId: 'h31e6FhjQG9En-ctAeYlAxAtzU7Mi3Rl'
-    //  firstName: 'Panda',
-    //  lastName: 'Shadow',
-    //  email: 'lilpandie@aol.com',
-    //  addressLine1: '312 Gingerbread Lane',
-    //  addressLine2: 'apartment 1',
-    //  city: 'Boston',
-    //  state: 'MA'
   })
 
   const potion = await Product.create({
@@ -97,12 +90,27 @@ async function seed() {
       'https://i.pinimg.com/236x/a9/e8/1e/a9e81e5feed2cc716f777d3380badc92--essential-oils-homemade-hair.jpg',
     name: `Kanye West's Tears`,
     price: 300,
-    description: "He's v sad."
+    description:
+      "He's very sad that he is going to lose a lot of money after Kim divorces him."
   })
 
   await pandaCart.setUser(panda)
-  await pandaCart.addProduct(potion)
-
+  await pandaCart.addProduct(potion, {through: {qty: 12}})
+  const kris = await User.create({
+    firstName: 'Kris',
+    lastName: 'Jenner',
+    email: 'kris@aol.com',
+    password: 'money',
+    shippingInfo: '123  Hidden Hills',
+    billingInfo: '123  Hidden Hills',
+    isAdmin: true
+  })
+  //const kris = await users[4]
+  const krisCart = await Cart.create({
+    sessionId: 'p24e6FhjQG9En-ctAeYlAxAtzU7Mi3Rl'
+  })
+  await krisCart.setUser(kris)
+  await krisCart.addProduct(potion, {through: {qty: 19}})
   console.log(`seeded ${users.length} users`)
 
   await Promise.all(products.map(product => Product.create(product)))

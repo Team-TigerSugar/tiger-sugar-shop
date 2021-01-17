@@ -5,11 +5,13 @@ import {connect} from 'react-redux'
 import {me} from '../store'
 import {compose} from 'redux'
 import {getCartThunk, addToCartThunk, deleteFromCartThunk} from '../store/cart'
+import {cartItemThunk} from '../store/cartItem'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import UpdateCart from './updateCart'
 
 import tornPaperVert from '../../public/images/tornPaperVert.png'
 
@@ -22,10 +24,11 @@ const styles = theme => ({
 class Cart extends Component {
   constructor() {
     super()
-    //  this.state = {
-    //    cartItems: []
-    //  }
+    /* this.state = {
+      qty: 0,
+    } */
     this.handleDelete = this.handleDelete.bind(this)
+    /* this.handleChange = this.handleChange.bind(this) */
   }
 
   async componentDidMount() {
@@ -34,10 +37,6 @@ class Cart extends Component {
     } catch (err) {
       console.log(err)
     }
-
-    //  await this.setState({
-    //    cartItems: this.props.cartItems
-    //  })
     const userId = this.props.user.id
     await this.props.getCart(userId)
     console.log('cart; ', this.props.cartItems)
@@ -83,6 +82,11 @@ class Cart extends Component {
                       </Grid>
                     </Grid>
 
+                    <UpdateCart
+                      item={item}
+                      userId={this.props.user.id}
+                      //itemtId={item.id}
+                    />
                     <Button
                       type="submit"
                       onClick={this.handleDelete}
@@ -108,17 +112,20 @@ const mapState = state => {
   return {
     cartItems: state.cart.products,
     cart: state.cart,
-    user: state.user
+    user: state.user,
+    qty: state.cartItem.qty
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     getCart: userId => dispatch(getCartThunk(userId)),
-    addToCart: (userId, itemId) => dispatch(addToCartThunk(userId, itemId)),
+    addToCart: (userId, itemId, qty) =>
+      dispatch(addToCartThunk(userId, itemId, qty)),
     deleteFromCart: (cartId, itemId) =>
       dispatch(deleteFromCartThunk(cartId, itemId)),
-    getMe: () => dispatch(me())
+    getMe: () => dispatch(me()),
+    getCartItem: (userId, itemId) => dispatch(cartItemThunk(userId, itemId))
   }
 }
 

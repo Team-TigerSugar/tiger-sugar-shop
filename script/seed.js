@@ -83,6 +83,13 @@ async function seed() {
 
   const pandaCart = await Cart.create({
     sessionId: 'h31e6FhjQG9En-ctAeYlAxAtzU7Mi3Rl'
+    //  firstName: 'Panda',
+    //  lastName: 'Shadow',
+    //  email: 'lilpandie@aol.com',
+    //  addressLine1: '312 Gingerbread Lane',
+    //  addressLine2: 'apartment 1',
+    //  city: 'Boston',
+    //  state: 'MA'
   })
 
   const potion = await Product.create({

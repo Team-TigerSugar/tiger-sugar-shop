@@ -74,7 +74,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   setSingleProduct: id => dispatch(fetchSingleProduct(id)),
-  addToCart: (userId, itemId) => dispatch(addToCartThunk(userId, itemId))
+  addToCart: (userId, itemId, qty) =>
+    dispatch(addToCartThunk(userId, itemId, qty))
 })
 
 export default compose(

@@ -24,11 +24,8 @@ const styles = theme => ({
 class Cart extends Component {
   constructor() {
     super()
-    /* this.state = {
-      qty: 0,
-    } */
+
     this.handleDelete = this.handleDelete.bind(this)
-    /* this.handleChange = this.handleChange.bind(this) */
   }
 
   async componentDidMount() {
@@ -82,11 +79,7 @@ class Cart extends Component {
                       </Grid>
                     </Grid>
 
-                    <UpdateCart
-                      item={item}
-                      userId={this.props.user.id}
-                      //itemtId={item.id}
-                    />
+                    <UpdateCart item={item} userId={this.props.user.id} />
                     <Button
                       type="submit"
                       onClick={this.handleDelete}

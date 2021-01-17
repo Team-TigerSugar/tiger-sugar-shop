@@ -12,7 +12,10 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import {fetchSingleProduct} from '../store/singleProduct'
-import {addToCartThunk, deleteFromCartThunk} from '../store/cart'
+import {me} from '../store'
+import {getCartThunk, addToCartThunk} from '../store/cart'
+import {cartItemThunk, updateCartItemThunk} from '../store/cartItem'
+//import UpdateCart from './updateCart'
 
 const styles = theme => ({
   addButt: {
@@ -23,13 +26,30 @@ const styles = theme => ({
 class SingleProduct extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      qty: 0
+    }
+    this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
   async componentDidMount() {
-    const productId = this.props.match.params.productId
-    await this.props.setSingleProduct(productId)
-    //  console.log('hi from componentDidMount')
+    try {
+      const productId = this.props.match.params.productId
+      await this.props.setSingleProduct(productId)
+      await this.props.getMe()
+    } catch (err) {
+      console.log(err)
+    }
+    const userId = this.props.user.id
+    await this.props.getCart(userId)
+    console.log('cart; ', this.props.cartItems)
+  }
+
+  handleChange(event) {
+    this.setState({
+      qty: event.currentTarget.value
+    })
   }
 
   async handleClick(e) {
@@ -37,6 +57,9 @@ class SingleProduct extends Component {
     const userId = this.props.user.id
     const itemId = e.currentTarget.value
     await this.props.addToCart(userId, itemId)
+    const qty = this.state.qty
+    console.log('this.state.qty: ', this.state, qty)
+    await this.props.updateCartItem(userId, itemId, qty)
   }
 
   render() {
@@ -50,13 +73,20 @@ class SingleProduct extends Component {
             <img src={product.img} />
             <CardContent>
               <Typography variant="h1">{product.name}</Typography>
-              <Typography variant="body1">{product.price}</Typography>
+              <Typography variant="body1">${product.price}</Typography>
               <Typography variant="body2">{product.description}</Typography>
             </CardContent>
           </CardActionArea>
-          <Button type="submit" onClick={this.handleClick} value={product.id}>
-            Add To Cart
-          </Button>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              value={this.state.qty}
+              onChange={this.handleChange}
+            />
+            <Button type="submit" onClick={this.handleClick} value={product.id}>
+              Add To Cart
+            </Button>
+          </form>
         </Card>
       )
     } else {
@@ -68,14 +98,21 @@ class SingleProduct extends Component {
 const mapStateToProps = state => {
   return {
     product: state.singleProduct,
-    user: state.user
+    user: state.user,
+    cartItems: state.cart.products,
+    qty: state.cartItem.qty
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   setSingleProduct: id => dispatch(fetchSingleProduct(id)),
   addToCart: (userId, itemId, qty) =>
-    dispatch(addToCartThunk(userId, itemId, qty))
+    dispatch(addToCartThunk(userId, itemId, qty)),
+  getMe: () => dispatch(me()),
+  getCart: userId => dispatch(getCartThunk(userId)),
+  getCartItem: (userId, itemId) => dispatch(cartItemThunk(userId, itemId)),
+  updateCartItem: (userId, itemId, qty) =>
+    dispatch(updateCartItemThunk(userId, itemId, qty))
 })
 
 export default compose(

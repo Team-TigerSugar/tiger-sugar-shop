@@ -76,9 +76,15 @@ router.put('/:userId/:itemId/:qty', async (req, res, next) => {
         userId: req.params.userId
       }
     })
-
     console.log('*******', cart)
-
+    const cartItem = await CartItem.findOne({
+      where: {cartId: cart.id, productId: product.id}
+    })
+    console.log('^^^^CARTITEM: ', cartItem)
+    console.log('%%%%CARTITEM.QTY : ', cartItem.qty)
+    console.log('&&&&&REQ.PARAMS.QTY : ', req.params.qty)
+    const updatedTotalQty = cartItem.qty + Number(req.params.qty)
+    console.log('$$$$$$CARTITEM: ', updatedTotalQty)
     await cart.addProduct(product, {through: {qty: req.params.qty}})
     res.send(product)
   } catch (error) {

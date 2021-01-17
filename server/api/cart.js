@@ -61,7 +61,7 @@ router.post('/:userId', async (req, res, next) => {
 router.post('/:userId/:itemId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.itemId)
-    //  console.log('***********', product)
+
 
     const [cart] = await Cart.findOrCreate({
       where: {

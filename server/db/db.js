@@ -10,7 +10,7 @@ const db = new Sequelize(
     logging: false,
     operatorAliases: false,
     dialect: 'postgres',
-    protocol: 'postgres',
+    //  protocol: 'postgres',
     ssl: true,
     rejectUnauthorized: false,
     dialectOptions: {

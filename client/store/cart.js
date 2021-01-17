@@ -7,7 +7,7 @@ const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const PLACE_ORDER = 'PLACE_ORDER'
 
 //INITAIL STATE
-const defaultState = {}
+const defaultState = {products: []}
 //maybe items should be an array?
 
 //ACTION CREATORS
@@ -36,7 +36,7 @@ const placeOrder = (cart, newCart) => ({
 export const getCartThunk = userId => async dispatch => {
   try {
     const cart = await axios.get(`/api/cart/${userId}`)
-    console.log('%%%%%%%$$$', cart.data)
+    //  console.log('%%%%%%%$$$', cart.data)
     dispatch(getCart(cart.data))
   } catch (error) {
     console.log(error)
@@ -46,7 +46,7 @@ export const getCartThunk = userId => async dispatch => {
 export const addToCartThunk = (userId, itemId) => async dispatch => {
   try {
     const cartItem = await axios.post(`/api/cart/${userId}/${itemId}`)
-    dispatch(addToCart(cartItem))
+    dispatch(addToCart(cartItem.data))
   } catch (error) {
     console.log(error)
   }
@@ -78,7 +78,8 @@ export default function(state = defaultState, action) {
     case GET_CART:
       return action.cart
     case ADD_TO_CART:
-      return {...state, products: [...state.products, action.product]}
+      let newArr = state.products.push(action.product)
+      return {...state, products: newArr}
     case DELETE_FROM_CART:
       return state.products.filter(product => product.id !== action.productId)
     case PLACE_ORDER:

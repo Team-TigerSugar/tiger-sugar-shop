@@ -58,75 +58,82 @@ class Cart extends Component {
     //   const cartItems = this.state.cartItems
     const isLoggedIn = this.props.user && Object.keys(this.props.user).length
     const cartHasItems = this.props.cartItems && this.props.cartItems.length
-    console.log('cartHasItems', cartHasItems)
-    console.log('cart items', this.state.cartItems)
-    const {classes} = this.props
-    return (
-      <React.Fragment>
-        <Grid container justify="center">
-          {cartHasItems ? (
-            <Typography variant="h1">Here are your Cart Items</Typography>
-          ) : (
-            <Typography variant="h1">No cart items! Get shoppin!</Typography>
-          )}
-        </Grid>
-        <Grid container>
-          <Grid item container>
-            <Grid item container>
-              {this.props.cartItems &&
-                this.props.cartItems.map(item => (
-                  <Grid key={item.id}>
-                    <Grid item container>
-                      <Grid item>
-                        <img src={item.img} />
-                      </Grid>
-                      <Grid item container>
-                        <Typography variant="body1">{item.name}</Typography>
-                        <Typography variant="body2">${item.price}</Typography>
-                      </Grid>
-                    </Grid>
+    // console.log('cartHasItems', cartHasItems)
+    // console.log('cart items', this.state.cartItems)
 
-                    <UpdateCart item={item} userId={this.props.user.id} />
-                    <Button
-                      type="submit"
-                      onClick={this.handleDelete}
-                      value={item.id}
-                      className={classes.removeButt}
-                    >
-                      Remove
-                    </Button>
-                  </Grid>
-                ))}
+    const {classes} = this.props
+    if (isLoggedIn && cartHasItems) {
+      return (
+        <React.Fragment>
+          <Grid container justify="center">
+            {cartHasItems ? (
+              <Typography variant="h1">Here are your Cart Items</Typography>
+            ) : (
+              <Typography variant="h1">No cart items! Get shoppin!</Typography>
+            )}
+          </Grid>
+          <Grid container>
+            <Grid item container>
+              <Grid item container>
+                {this.props.cartItems &&
+                  this.props.cartItems.map(item => (
+                    <Grid key={item.id}>
+                      <Grid item container>
+                        <Grid item>
+                          <img src={item.img} />
+                        </Grid>
+                        <Grid item container>
+                          <Typography variant="body1">{item.name}</Typography>
+                          <Typography variant="body2">${item.price}</Typography>
+                        </Grid>
+                      </Grid>
+
+                      <UpdateCart item={item} userId={this.props.user.id} />
+                      <Button
+                        type="submit"
+                        onClick={this.handleDelete}
+                        value={item.id}
+                        className={classes.removeButt}
+                      >
+                        Remove
+                      </Button>
+                    </Grid>
+                  ))}
+              </Grid>
+            </Grid>
+            <Grid item container direction="column">
+              <Typography variant="body1">order summary</Typography>
+
+              <Link to="/products">
+                <Button className={classes.otherButts}>
+                  continue shopping
+                </Button>
+              </Link>
+
+              <div>
+                {(() => {
+                  if (!cartHasItems) return null
+                  if (isLoggedIn)
+                    return (
+                      <Link to="/checkout">
+                        <Button className={classes.otherButts}>checkout</Button>
+                      </Link>
+                    )
+                  else
+                    return (
+                      <Link to="/checkoutmethods">
+                        <Button className={classes.otherButts}>checkout</Button>
+                      </Link>
+                    )
+                })()}
+              </div>
             </Grid>
           </Grid>
-          <Grid item container direction="column">
-            <Typography variant="body1">order summary</Typography>
-
-            <Link to="/products">
-              <Button className={classes.otherButts}>continue shopping</Button>
-            </Link>
-
-            <div>
-              {(() => {
-                if (!cartHasItems) return null
-                if (isLoggedIn)
-                  return (
-                    <Link to="/checkout">
-                      <Button className={classes.otherButts}>checkout</Button>
-                    </Link>
-                  )
-                else
-                  return (
-                    <Link to="/checkoutmethods">
-                      <Button className={classes.otherButts}>checkout</Button>
-                    </Link>
-                  )
-              })()}
-            </div>
-          </Grid>
-        </Grid>
-      </React.Fragment>
-    )
+        </React.Fragment>
+      )
+    } else {
+      return 'oops'
+    }
   }
 }
 

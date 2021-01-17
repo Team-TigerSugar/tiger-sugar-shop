@@ -34,10 +34,10 @@ class Cart extends Component {
     } catch (err) {
       console.log(err)
     }
-
     //  await this.setState({
     //    cartItems: this.props.cartItems
     //  })
+    console.log('PROOOOOOPS', this.props)
     const userId = this.props.user.id
     await this.props.getCart(userId)
     console.log('cart; ', this.props.cartItems)

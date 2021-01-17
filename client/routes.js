@@ -8,7 +8,9 @@ import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
 
 import Landing from './components/Landing'
-import LoginSignup from './components/LoginSignup'
+import CheckoutMethods from './components/CheckoutMethods'
+import Checkout from './components/Checkout'
+import ConfirmOrder from './components/ConfirmOrder'
 
 /**
  * COMPONENT
@@ -24,7 +26,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-
+        {/* the Login and Signup components are both connected to the AuthForm component */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/" component={Landing} />
@@ -32,7 +34,9 @@ class Routes extends Component {
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/cart" component={Cart} />
-        <Route exact path="/checkoutmethods" component={LoginSignup} />
+        <Route exact path="/checkoutmethods" component={CheckoutMethods} />
+        <Route exact path="/checkout" component={Checkout} />
+        <Route exact path="/confirmorder" component={ConfirmOrder} />
 
         {isLoggedIn && (
           <Switch>

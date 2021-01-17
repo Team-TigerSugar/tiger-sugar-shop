@@ -1,145 +1,202 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
+// import React, { Component } from "react";
+// import { Link } from "react-router-dom";
+// import { connect } from "react-redux";
+// import { auth } from "../redux/user";
+// import OAuthForm from "./OAuthForm";
+// import Avatar from "avataaars";
+// class Login extends Component {
+//    constructor() {
+//       super();
+//       this.state = {
+//          email: “”,
+//          password: “”,
+//          //is this safe?
+//          method: "log-in",
+//          errorMessage: "",
+//       };
+//       this.handleSubmit = this.handleSubmit.bind(this);
+//       this.changeHandler = this.changeHandler.bind(this);
+//    }
+//    changeHandler(e) {
+//       this.setState({ [e.target.name]: e.target.value });
+//    }
+//    async handleSubmit(e) {
+//       e.preventDefault();
+//       const email = this.state.email;
+//       const password = this.state.password;
+//       const method = this.state.method;
+//       try {
+//          await this.props.auth(email, password, method);
+//       } catch (error) {
+//          console.log(error);
+//       }
+//    }
+//    render() {
+//       const error = this.props.error;
+//       const avatar = {
+//          width: “200px”,
+//          height: “200px”,
+//          alignSelf: “center”
+//       };
+//       return (
+//          <div className="main">
+//             <div className="login-container">
+//                <Avatar
+//                   style={avatar}
+//                   avatarStyle="Circle"
+//                   topType="LongHairCurly"
+//                   accessoriesType="Blank"
+//                   hairColor="PastelPink"
+//                   facialHairType="Blank"
+//                   clotheType="ShirtCrewNeck"
+//                   clotheColor="Gray01"
+//                   eyeType="Wink"
+//                   eyebrowType="Default"
+//                   mouthType="Smile"
+//                   skinColor="Light"
+//                />
+//                <form>
+//                   <label htmlFor="email"></label>
+//                   <input
+//                      type="text"
+//                      placeholder="Enter Email"
+//                      name="email"
+//                      required
+//                      onChange={this.changeHandler}
+//                   ></input>
+//                   <label htmlFor="password"></label>
+//                   <input
+//                      type="password"
+//                      placeholder="Enter Password"
+//                      name="password"
+//                      required
+//                      onChange={this.changeHandler}
+//                   ></input>
+//                   <button
+//                      className="form-button"
+//                      type="submit"
+//                      onClick={this.handleSubmit}
+//                   >
+//                      Log In
+//                   </button>
+//                   <div> {this.state.errorMessage} </div>
+//                </form>
+//                <OAuthForm authMethod="Log In" />
+//                <div className="login-footer">
+//                   <Link to="/sign-up">Create an Account</Link>
+//                </div>
+//             </div>
+//          </div>
+//       );
+//    }
+// }
+// const mapDispatch = (dispatch) => {
+//    return {
+//       auth: (email, password, method) => dispatch(auth(email, password, method)),
+//    };
+// };
+// export default connect(null, mapDispatch)(Login);
+
+// import React from 'react'
+// import {Link} from 'react-router-dom'
+// import {connect} from 'react-redux'
+// import {compose} from 'redux'
 // import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {logout, me} from '../store'
-import {compose} from 'redux'
+// import {auth} from '../store'
+// import {withStyles} from '@material-ui/core/styles'
 
-import {withStyles} from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+// import Grid from '@material-ui/core/Grid'
+// import Typography from '@material-ui/core/Typography'
+// import TextField from '@material-ui/core/TextField'
 
-// import tornPaperVert from '../../public/images/tornPaperVert.png'
+// const styles = (theme) => ({
+//   toolbar: {
+//     paddingTop: '1em',
+//     paddingBottom: '1em',
+//   },
+//   toolbarMargin: {
+//     ...theme.mixins.toolbar,
+//     marginBottom: '2em',
+//   },
+//   navbar: {
+//     backgroundColor: theme.palette.common.colorWhite,
+//   },
+//   tabsCont: {
+//     marginLeft: '9em',
+//   },
+//   tab: {
+//     ...theme.typography.tab,
+//   },
+//   tabs2: {
+//     ...theme.typography.tab,
+//     marginLeft: '66em',
+//     [theme.breakpoints.down('md')]: {
+//       marginLeft: '20em',
+//       color: 'fff',
+//     },
+//   },
+//   cartButtonImg: {
+//     width: '4em',
+//   },
+// })
 
-const styles = theme => ({
-  toolbar: {
-    paddingTop: '1em',
-    paddingBottom: '1em'
-  },
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: '2em'
-  },
-  navbar: {
-    backgroundColor: theme.palette.common.colorWhite
-  },
-  tabsCont: {
-    marginLeft: '9em'
-  },
-  tab: {
-    ...theme.typography.tab
-  },
-  tabs2: {
-    ...theme.typography.tab,
-    marginLeft: '66em',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '20em',
-      color: 'fff'
-    }
-  },
-  cartButtonImg: {
-    width: '4em'
-  }
-})
+// const AuthForm = (props) => {
+//   const {name, displayName, handleSubmit, error} = props
+//   const classes = this.props
 
-class Cart extends Component {
-  constructor() {
-    super()
-    this.state = {
-      cartItems: []
-    }
-    this.handleDelete = this.handleDelete.bind(this)
-  }
+//   return (
+//     //   ------------------ entire page wrapper
+//     <Grid container direction="column">
+//       <Grid item>
+//         <Typography variant="h1">Sign In</Typography>
+//       </Grid>
+//       {/* //   ------------------ text fields wrapper */}
+//       <Grid item container direction='column'>
+//           <TextField
+//             label="Email"
+//             id="name"
+//             value={name}
+//             fullWidth
+//             onChange={(event) => setName(event.target.value)}
+//           ></TextField>
+//       </Grid>
+//     </Grid>
+//   )
+// }
 
-  async componentDidMount() {
-    try {
-      await this.props.getMe()
-    } catch (err) {
-      console.log(err)
-    }
+// const mapLogin = (state) => {
+//   return {
+//     name: 'login',
+//     displayName: 'Login',
+//     error: state.user.error,
+//   }
+// }
+// const mapSignup = (state) => {
+//   return {
+//     name: 'signup',
+//     displayName: 'Sign Up',
+//     error: state.user.error,
+//   }
+// }
 
-    await this.setState({
-      cartItems: this.props.cartItems
-    })
-    const userId = this.props.user.id
-    await this.props.getCart(userId)
-    console.log('cart; ', this.props.cart)
-  }
+// const mapDispatch = (dispatch) => {
+//   return {
+//     handleSubmit(evt) {
+//       evt.preventDefault()
+//       const formName = evt.target.name
+//       const email = evt.target.email.value
+//       const password = evt.target.password.value
+//       dispatch(auth(email, password, formName))
+//     },
+//   }
+// }
 
-  async handleDelete(e) {
-    e.preventDefault()
-    const cartId = this.props.cart.id
-    const itemId = e.target.value
-    console.log('itemId: ', itemId)
-    try {
-      await this.props.deleteFromCart(cartId, itemId)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+// export const Login = compose(
+//   connect(mapLogin, mapDispatch),
+//   withStyles(styles, {withTheme: true})
+// )(AuthForm)
 
-  render() {
-    //   const cartItems = this.state.cartItems
-
-    return (
-      <React.Fragment>
-        <Grid container>
-          {this.props.cartItems.length ? (
-            <Typography variant="h1">Here are your Cart Items</Typography>
-          ) : (
-            <Typography variant="h1">No cart items! Get shoppin!</Typography>
-          )}
-        </Grid>
-        <Grid container>
-          <Grid item container>
-            <Grid item container>
-              {this.props.cartItems &&
-                this.props.cartItems.map(item => (
-                  <div key={item.id}>
-                    <ul>
-                      <img src={item.img} />
-                      <li>{item.name}</li>
-                      <li>{item.price}</li>
-                    </ul>
-                    <button
-                      type="submit"
-                      onClick={this.handleDelete}
-                      value={item.id}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-            </Grid>
-          </Grid>
-          <Grid item container direction="column">
-            <Typography variant="body1">order summary</Typography>
-          </Grid>
-        </Grid>
-      </React.Fragment>
-    )
-  }
-}
-
-const mapState = state => {
-  return {
-    cartItems: state.cart.products,
-    cart: state.cart,
-    user: state.user
-  }
-}
-
-const mapDispatch = dispatch => {
-  return {
-    getCart: userId => dispatch(getCartThunk(userId)),
-    addToCart: (userId, itemId) => dispatch(addToCartThunk(userId, itemId)),
-    deleteFromCart: (cartId, itemId) =>
-      dispatch(deleteFromCartThunk(cartId, itemId)),
-    getMe: () => dispatch(me())
-  }
-}
-
-export default compose(
-  connect(mapState, mapDispatch),
-  withStyles(styles, {withTheme: true})
-)(Cart)
+// export const Signup = compose(
+//   connect(mapSignup, mapDispatch),
+//   withStyles(styles, {withTheme: true})
+// )(AuthForm)

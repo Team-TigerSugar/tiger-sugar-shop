@@ -18,6 +18,9 @@ import tornPaperVert from '../../public/images/tornPaperVert.png'
 const styles = theme => ({
   removeButt: {
     backgroundColor: theme.palette.common.colorTwo
+  },
+  otherButts: {
+    backgroundColor: theme.palette.common.colorOne
   }
 })
 
@@ -53,11 +56,15 @@ class Cart extends Component {
 
   render() {
     //   const cartItems = this.state.cartItems
+    const isLoggedIn = this.props.user && Object.keys(this.props.user).length
+    const cartHasItems = this.props.cartItems && this.props.cartItems.length
+    console.log('cartHasItems', cartHasItems)
+    console.log('cart items', this.state.cartItems)
     const {classes} = this.props
     return (
       <React.Fragment>
         <Grid container justify="center">
-          {this.props.cartItems && this.props.cartItems.length ? (
+          {cartHasItems ? (
             <Typography variant="h1">Here are your Cart Items</Typography>
           ) : (
             <Typography variant="h1">No cart items! Get shoppin!</Typography>
@@ -94,6 +101,28 @@ class Cart extends Component {
           </Grid>
           <Grid item container direction="column">
             <Typography variant="body1">order summary</Typography>
+
+            <Link to="/products">
+              <Button className={classes.otherButts}>continue shopping</Button>
+            </Link>
+
+            <div>
+              {(() => {
+                if (!cartHasItems) return null
+                if (isLoggedIn)
+                  return (
+                    <Link to="/checkout">
+                      <Button className={classes.otherButts}>checkout</Button>
+                    </Link>
+                  )
+                else
+                  return (
+                    <Link to="/checkoutmethods">
+                      <Button className={classes.otherButts}>checkout</Button>
+                    </Link>
+                  )
+              })()}
+            </div>
           </Grid>
         </Grid>
       </React.Fragment>

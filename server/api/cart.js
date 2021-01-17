@@ -7,7 +7,8 @@ router.get('/:userId', async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        isOrder: false
       },
       include: Product
     })
@@ -38,6 +39,19 @@ router.get('/:userId/:itemId', async (req, res, next) => {
     console.log('###QTY: ', cartItem.qty)
 
     res.json(cartItem)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/:userId', async (req, res, next) => {
+  try {
+    const cart = await Cart.create({
+      userId: req.params.userId,
+      sessionId: req.sessionID,
+      isOrder: false
+    })
+    res.send(cart)
   } catch (error) {
     next(error)
   }
@@ -92,11 +106,22 @@ router.put('/:userId/:itemId/:qty', async (req, res, next) => {
   }
 })
 
-router.delete('/:cartId/:itemId', async (req, res, next) => {
+router.put('/:cartId/:itemId', async (req, res, next) => {
   try {
     const cart = await Cart.findByPk(req.params.cartId)
     const product = await Product.findByPk(req.params.itemId)
     await cart.removeProduct(product)
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:cartId', async (req, res, next) => {
+  try {
+    const cart = await Cart.findByPk(req.params.cartId)
+    cart.isOrder = true
+    await cart.save()
     res.sendStatus(204)
   } catch (error) {
     next(error)

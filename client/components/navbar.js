@@ -61,7 +61,12 @@ class Navbar extends React.Component {
     })
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    try {
+      await this.props.me()
+    } catch (error) {
+      console.log(error)
+    }
     if (window.location.pathname === '/' && this.state.value !== 0) {
       this.setState({value: 0})
     } else if (
@@ -74,17 +79,16 @@ class Navbar extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    try {
-      await this.props.me()
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //   async componentDidMount() {
+  //     try {
+  //       await this.props.me()
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
 
   render() {
     const isLoggedIn = this.props.user
-    console.log('isLoggedIn', isLoggedIn)
     const {classes} = this.props
 
     const value = this.state.value

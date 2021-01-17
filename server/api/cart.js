@@ -62,7 +62,6 @@ router.post('/:userId/:itemId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.itemId)
 
-
     const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId

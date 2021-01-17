@@ -61,7 +61,7 @@ class UpdateCart extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    console.log(this.state)
+    console.log('tttttyyy', this.state)
     const userId = this.props.user.id
     const itemId = this.props.item.id
     const qty = this.state.qty

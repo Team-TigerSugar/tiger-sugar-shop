@@ -4,7 +4,7 @@ node_js:
 services:
   - postgresql # starts up postgres
 addons:
-  postgresql: '13' # recent postgres version on Travis
+  postgresql: '10' # recent postgres version on Travis
 dist: xenial # uses xenial environment
 notifications:
   email:
@@ -13,7 +13,7 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - psql -c 'create database "tiger-sugar-balm";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "tiger-sugar-balm-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 script:
   - npm test # test the code
   - npm run build-client # make the bundle

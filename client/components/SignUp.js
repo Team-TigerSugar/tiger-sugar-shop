@@ -12,21 +12,21 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-const styles = (theme) => ({
+const styles = theme => ({
   wrapper: {
-    width: '40em',
+    width: '40em'
   },
   inputWrapper: {
     width: '50%',
-    marginTop: '5em',
+    marginTop: '5em'
   },
   inputField: {
-    backgroundColor: theme.palette.common.colorThree,
+    backgroundColor: theme.palette.common.colorThree
   },
   button: {
     fontFamily: 'Lato',
-    fontWeight: 300,
-  },
+    fontWeight: 300
+  }
 })
 
 class Signup extends React.Component {
@@ -35,7 +35,7 @@ class Signup extends React.Component {
     this.state = {
       email: '',
       password: '',
-      method: 'signup',
+      method: 'signup'
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.changeHander = this.changeHander.bind(this)
@@ -89,7 +89,7 @@ class Signup extends React.Component {
                 className={classes.inputField}
                 onChange={this.changeHander}
                 style={{marginBottom: '2em'}}
-              ></TextField>
+              />
               <TextField
                 label="Password"
                 name="password"
@@ -97,11 +97,11 @@ class Signup extends React.Component {
                 variant="filled"
                 onChange={this.changeHander}
                 className={classes.inputField}
-              ></TextField>
+              />
               {error && error.response && <div> {error.response.data} </div>}
             </Grid>
             {/* ---------------------------------------buttons container */}
-            <Grid item container></Grid>
+            <Grid item container />
             <Button
               style={{marginTop: '2em'}}
               variant="contained"
@@ -142,16 +142,16 @@ class Signup extends React.Component {
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
-    error: state.user.error,
+    error: state.user.error
   }
 }
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    auth: (email, password, method) => dispatch(auth(email, password, method)),
+    auth: (email, password, method) => dispatch(auth(email, password, method))
   }
 }
 

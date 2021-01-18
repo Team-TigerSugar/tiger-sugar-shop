@@ -48,6 +48,14 @@ const styles = theme => ({
   },
   cartButtonImg: {
     width: '4em'
+  },
+  menu: {
+    ...theme.typography.tab,
+    backgroundColor: theme.palette.common.colorThree
+  },
+
+  menuItem: {
+    fontSize: '0.7em'
   }
 })
 
@@ -72,14 +80,14 @@ class Navbar extends React.Component {
 
   handleClick = event => {
     this.setState({
-      anchorEl: event.currentTarget.value,
+      anchorEl: event.currentTarget,
       menuOpen: true
     })
   }
 
   handleClose = event => {
     this.setState({
-      anchorEl: event.currentTarget.value,
+      anchorEl: event.currentTarget,
       menuOpen: false
     })
   }
@@ -168,28 +176,41 @@ class Navbar extends React.Component {
                   anchorEl={this.state.anchorEl}
                   open={this.state.menuOpen}
                   onClose={this.handleClose}
+                  classes={{paper: classes.menu}}
+                  elevation={0}
                   MenuListProps={{onMouseLeave: this.handleClose}}
                 >
                   <MenuItem
                     component={Link}
+                    to="/home"
+                    onClick={this.handleClose}
+                    classes={{root: classes.menuItem}}
+                  >
+                    ACCOUNT
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
                     to="/admininventory"
                     onClick={this.handleClose}
+                    classes={{root: classes.menuItem}}
                   >
-                    Inventory
+                    INVENTORY
                   </MenuItem>
                   <MenuItem
                     component={Link}
                     to="/admincustomers"
                     onClick={this.handleClose}
+                    classes={{root: classes.menuItem}}
                   >
-                    Customers
+                    CUSTOMERS
                   </MenuItem>
                   <MenuItem
                     component={Link}
                     to="/adminorders"
                     onClick={this.handleClose}
+                    classes={{root: classes.menuItem}}
                   >
-                    Orders
+                    ORDERS
                   </MenuItem>
                 </Menu>
                 <Button component={Link} to="/cart">

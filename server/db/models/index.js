@@ -31,6 +31,7 @@ Product.belongsToMany(Cart, {through: 'cartItems'})
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
  */
+
 module.exports = {
   User,
   Cart,

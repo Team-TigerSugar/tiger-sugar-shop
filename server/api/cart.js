@@ -25,7 +25,8 @@ router.get('/:userId/:itemId', async (req, res, next) => {
     //creates cart if user has no cart
     const [cart] = await Cart.findOrCreate({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        isOrder: false
         /* sessionId: req.sessionID <-- this was creating a new cart everytime
         a seeded user added items to their cart, */
       }
@@ -86,7 +87,8 @@ router.put('/plusOne/:userId/:itemId', async (req, res, next) => {
 
     const [cart] = await Cart.findOrCreate({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        isOrder: false
       }
     })
     //  console.log('*******', cart)
@@ -111,7 +113,8 @@ router.put('/minusOne/:userId/:itemId', async (req, res, next) => {
 
     const [cart] = await Cart.findOrCreate({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        isOrder: false
       }
     })
     //  console.log('*******', cart)

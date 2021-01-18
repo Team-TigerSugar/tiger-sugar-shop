@@ -10,7 +10,6 @@ import Footer from './Footer'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 import info from '../../public/images/info.png'
@@ -88,12 +87,6 @@ const mapState = state => {
     email: state.user.email,
     shippingInfo: state.user.shippingInfo,
     billingInfo: state.user.billingInfo
-  }
-}
-
-const mapDispatch = dispatch => {
-  return {
-    auth: (email, password, method) => dispatch(auth(email, password, method))
   }
 }
 

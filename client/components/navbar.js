@@ -180,6 +180,7 @@ class Navbar extends React.Component {
                   to="/login"
                   label="SIGN IN"
                   className={classes.tabs2}
+                  style={{marginLeft: '55em'}}
                 />
 
                 <Button component={Link} to="/cart">

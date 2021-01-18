@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const pkg = require('../../package.json')
-require('../../secrets')
+// require('../../secrets')
 
 const databaseName = pkg.name + (process.env.NODE_ENV === 'test' ? '-test' : '')
 
@@ -10,7 +10,7 @@ const db = new Sequelize(
     logging: false,
     operatorAliases: false,
     dialect: 'postgres',
-    protocol: 'postgres',
+    //  protocol: 'postgres',
     ssl: true,
     rejectUnauthorized: false,
     dialectOptions: {

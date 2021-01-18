@@ -7,11 +7,11 @@ import {compose} from 'redux'
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import {useTheme, makeStyles} from '@material-ui/core/styles'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 
 import cartButton from '../../public/icons/cartButton.png'
 
@@ -25,7 +25,11 @@ const styles = theme => ({
     marginBottom: '2em'
   },
   navbar: {
-    backgroundColor: theme.palette.common.colorWhite
+    backgroundColor: theme.palette.common.colorWhite,
+    maxWidth: '100%',
+    minWidth: 1450,
+    marginRight: 'auto',
+    marginLeft: 'auto'
   },
   tabsCont: {
     marginLeft: '9em'
@@ -34,12 +38,12 @@ const styles = theme => ({
     ...theme.typography.tab
   },
   tabs2: {
-    ...theme.typography.tab,
-    marginLeft: '66em',
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '20em',
-      color: 'fff'
-    }
+    ...theme.typography.tab
+    //     marginLeft: 'auto',
+    //     [theme.breakpoints.down('md')]: {
+    //       marginLeft: '20em',
+    //       color: 'fff',
+    //     },
   },
   cartButtonImg: {
     width: '4em'
@@ -94,11 +98,7 @@ class Navbar extends React.Component {
     const value = this.state.value
     return (
       <React.Fragment>
-        <AppBar
-          position="fixed"
-          style={{boxShadow: 'none'}}
-          className={classes.navbar}
-        >
+        <AppBar style={{boxShadow: 'none'}} className={classes.navbar}>
           {isLoggedIn && Object.keys(isLoggedIn).length ? (
             <Toolbar className={classes.toolbar}>
               <Tabs
@@ -125,8 +125,12 @@ class Navbar extends React.Component {
                   to="/products"
                   label="SHOP"
                 />
-
-                <Button component="a" to="/" onClick={this.props.logout}>
+                <Button
+                  component="a"
+                  to="/"
+                  onClick={this.props.logout}
+                  style={{marginLeft: '55em'}}
+                >
                   SIGN OUT
                 </Button>
                 <Tab
@@ -134,16 +138,16 @@ class Navbar extends React.Component {
                   component={Link}
                   to="/home"
                   label="ACCOUNT"
-                  style={{marginLeft: '66em'}}
                 />
+
+                <Button component={Link} to="/cart">
+                  <img
+                    src={cartButton}
+                    alt="circle with cart"
+                    className={classes.cartButtonImg}
+                  />
+                </Button>
               </Tabs>
-              <Button component={Link} to="/cart">
-                <img
-                  src={cartButton}
-                  alt="circle with cart"
-                  className={classes.cartButtonImg}
-                />
-              </Button>
             </Toolbar>
           ) : (
             <Toolbar className={classes.toolbar}>
@@ -176,6 +180,7 @@ class Navbar extends React.Component {
                   to="/login"
                   label="SIGN IN"
                   className={classes.tabs2}
+                  style={{marginLeft: '55em'}}
                 />
 
                 <Button component={Link} to="/cart">

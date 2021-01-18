@@ -74,7 +74,7 @@ class SingleProduct extends Component {
             <CardContent>
               <Typography variant="h1">{product.name}</Typography>
               <Typography variant="body1">
-                ${product.price * 0.01}.00
+                ${(product.price * 0.01).toFixed(2)}
               </Typography>
               <Typography variant="body2">{product.description}</Typography>
             </CardContent>

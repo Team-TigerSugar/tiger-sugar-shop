@@ -45,7 +45,7 @@ class AllProducts extends Component {
                   <img src={product.img} />
                   <Typography variant="body1">{product.name}</Typography>
                   <Typography variant="body2">
-                    {product.price * 0.01}.00
+                    {(product.price * 0.01).toFixed(2)}
                   </Typography>
                 </Link>
                 <Button

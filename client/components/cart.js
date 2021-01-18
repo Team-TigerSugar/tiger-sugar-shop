@@ -38,8 +38,9 @@ class Cart extends Component {
       console.log(err)
     }
     const userId = this.props.user.id
+
     await this.props.getCart(userId)
-    console.log('cart; ', this.props.cartItems)
+    //  console.log('cart; ', this.props.cartItems)
   }
 
   async handleDelete(e) {
@@ -47,7 +48,7 @@ class Cart extends Component {
     const cartId = this.props.cart.id
     // const cart = this.props.cart
     const itemId = e.currentTarget.value
-    console.log('itemId: ', itemId)
+    //  console.log('itemId: ', itemId)
     try {
       await this.props.deleteFromCart(cartId, itemId)
       // await this.props.deleteFromCart(
@@ -75,7 +76,7 @@ class Cart extends Component {
             {cartHasItems ? (
               <Typography variant="h1">Here are your Cart Items</Typography>
             ) : (
-              <Typography variant="h1">No cart items! Get shoppin!</Typography>
+              <Typography variant="h1">No cart items!</Typography>
             )}
           </Grid>
           <Grid container>
@@ -111,14 +112,14 @@ class Cart extends Component {
             </Grid>
             <Grid item container direction="column">
               <Link to="/products">
-                <Button className={classes.otherButts}>
+                <Button className={classes.otherButts} justify="center">
                   continue shopping
                 </Button>
               </Link>
 
               <div>
                 {(() => {
-                  if (!cartHasItems) return null
+                  // if (!cartHasItems) return null
                   if (isLoggedIn)
                     return (
                       <Grid item container direction="column">

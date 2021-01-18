@@ -30,7 +30,29 @@ router.get('/:userId', async (req, res, next) => {
     })
     res.json(user)
   } catch (error) {
-    console.log(error)
+    next(error)
+  }
+})
+
+// edit/update user
+router.put('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId)
+    await user.update(req.body)
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// delete user
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {id: req.params.userId}
+    })
+    res.sendStatus(204).end()
+  } catch (error) {
     next(error)
   }
 })

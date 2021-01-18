@@ -28,7 +28,7 @@ class Cart extends Component {
   constructor() {
     super()
 
-    this.handleDelete = this.handleDelete.bind(this)
+    //  this.handleDelete = this.handleDelete.bind(this)
   }
 
   async componentDidMount() {
@@ -39,32 +39,23 @@ class Cart extends Component {
     }
     const userId = this.props.user.id
     await this.props.getCart(userId)
-    console.log('cart; ', this.props.cartItems)
   }
 
-  async handleDelete(e) {
-    e.preventDefault()
-    const cartId = this.props.cart.id
-    // const cart = this.props.cart
-    const itemId = e.currentTarget.value
-    console.log('itemId: ', itemId)
-    try {
-      await this.props.deleteFromCart(cartId, itemId)
-      // await this.props.deleteFromCart(
-      //   {...cart, products: cart.products.filter((p) => p.id !== itemId)},
-      //   itemId
-      // )
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  //   async handleDelete(e) {
+  //     e.preventDefault()
+  //     const cartId = this.props.cart.id
+  //     const itemId = e.currentTarget.value
+  //     try {
+  //       await this.props.deleteFromCart(cartId, itemId)
+  //     } catch (err) {
+  //       console.log(err)
+  //     }
+  //   }
 
   render() {
     //   const cartItems = this.state.cartItems
     const isLoggedIn = this.props.user && Object.keys(this.props.user).length
     const cartHasItems = this.props.cartItems && this.props.cartItems.length
-    // console.log('cartHasItems', cartHasItems)
-    // console.log('cart items', this.state.cartItems)
 
     const {classes} = this.props
     if (this.props.cart) {
@@ -75,7 +66,7 @@ class Cart extends Component {
             {cartHasItems ? (
               <Typography variant="h1">Here are your Cart Items</Typography>
             ) : (
-              <Typography variant="h1">No cart items! Get shoppin!</Typography>
+              <Typography variant="h1">No cart items!</Typography>
             )}
           </Grid>
           <Grid container>
@@ -99,7 +90,10 @@ class Cart extends Component {
                       <UpdateCart item={item} userId={this.props.user.id} />
                       <Button
                         type="submit"
-                        onClick={this.handleDelete}
+                        // onClick={this.handleDelete}
+                        onClick={() =>
+                          this.props.deleteFromCart(this.props.cart.id, item.id)
+                        }
                         value={item.id}
                         className={classes.removeButt}
                       >
@@ -111,7 +105,7 @@ class Cart extends Component {
             </Grid>
             <Grid item container direction="column">
               <Link to="/products">
-                <Button className={classes.otherButts}>
+                <Button className={classes.otherButts} justify="center">
                   continue shopping
                 </Button>
               </Link>

@@ -44,7 +44,9 @@ class AllProducts extends Component {
                 <Link to={`/products/${product.id}`} key={product.id}>
                   <img src={product.img} />
                   <Typography variant="body1">{product.name}</Typography>
-                  <Typography variant="body2">{product.price}</Typography>
+                  <Typography variant="body2">
+                    {(product.price * 0.01).toFixed(2)}
+                  </Typography>
                 </Link>
                 <Button
                   type="submit"

@@ -23,6 +23,9 @@ const styles = theme => ({
   },
   button: {
     backgroundColor: theme.palette.common.colorOne
+  },
+  margin: {
+    margin: 20
   }
 })
 
@@ -68,10 +71,16 @@ class Checkout extends Component {
       cartItemsPrices.reduce(function(a, b) {
         return a + b
       }, 0)
-    const tax = cartTotal * 0.089
+    const tax = cartTotal * 0.01 * 0.089
+    console.log('tax', tax)
 
     return (
-      <Grid container direction="column" alignContent="flex-end">
+      <Grid container direction="column">
+        <Grid item container direction="column" alignContent="center">
+          <Typography variant="h1" className={classes.margin}>
+            Ready to place your order?
+          </Typography>
+        </Grid>
         <Grid container direction="row" justify="center">
           <Card className={classes.root}>
             <CardContent>
@@ -98,17 +107,18 @@ class Checkout extends Component {
               </Typography>
               <Typography variant="body1">
                 Subtotal
-                {this.props.cartItems && '........$' + cartTotal}
+                {this.props.cartItems &&
+                  '........$' + (cartTotal * 0.01).toFixed(2)}
               </Typography>
               <Typography variant="body1">
                 Taxes
-                {this.props.cartItems && '.............$' + tax}
+                {this.props.cartItems && '.............$' + tax.toFixed(2)}
               </Typography>
-              <Typography variant="body1">Shipping........$5</Typography>
+              <Typography variant="body1">Shipping........$5.00</Typography>
               <Typography variant="body1">
                 Total
                 {this.props.cartItems &&
-                  '..............$' + (cartTotal + tax + 5)}
+                  '..............$' + (cartTotal * 0.01 + tax + 5).toFixed(2)}
               </Typography>
             </CardContent>
             <CardActions className={classes.pos}>

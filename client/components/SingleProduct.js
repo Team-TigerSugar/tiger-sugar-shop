@@ -68,32 +68,31 @@ class SingleProduct extends Component {
 
     if (product) {
       return (
+
         <Grid container justify="center">
-          <Card style={{width: '50%'}}>
-            <CardActionArea key={product.id}>
-              <img src={product.img} />
-              <CardContent>
-                <Typography variant="h1">{product.name}</Typography>
-                <Typography variant="body1">${product.price}</Typography>
-                <Typography variant="body2">{product.description}</Typography>
-              </CardContent>
-            </CardActionArea>
-            <form onSubmit={this.handleSubmit}>
-              <input
-                type="text"
-                value={this.state.qty}
-                onChange={this.handleChange}
-              />
-              <Button
-                type="submit"
-                onClick={this.handleClick}
-                value={product.id}
-              >
-                Add To Cart
-              </Button>
-            </form>
-          </Card>
-        </Grid>
+        <Card style={{width: '50%'}}>
+          <CardActionArea key={product.id}>
+            <img src={product.img} />
+            <CardContent>
+              <Typography variant="h1">{product.name}</Typography>
+              <Typography variant="body1">
+                ${(product.price * 0.01).toFixed(2)}
+              </Typography>
+              <Typography variant="body2">{product.description}</Typography>
+            </CardContent>
+          </CardActionArea>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              value={this.state.qty}
+              onChange={this.handleChange}
+            />
+            <Button type="submit" onClick={this.handleClick} value={product.id}>
+              Add To Cart
+            </Button>
+          </form>
+        </Card>
+    </Grid>
       )
     } else {
       return <div>Single product render failed</div>

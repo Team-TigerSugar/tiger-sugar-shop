@@ -14,8 +14,8 @@ const Product = db.define('product', {
     }
   },
   price: {
-    type: Sequelize.FLOAT,
-    //figure out how to deal with pennies using FLOAT + JS
+    type: Sequelize.INTEGER,
+
     allowNull: false,
     validate: {
       notEmpty: true

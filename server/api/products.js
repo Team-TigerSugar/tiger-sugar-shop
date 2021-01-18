@@ -2,7 +2,7 @@ const router = require('express').Router()
 const {Product, Cart} = require('../db/models')
 module.exports = router
 
-//GET  /api/products
+//GET  all products
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll()
@@ -12,19 +12,35 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-//GET /api/products/:productId
+//GET one product by id
 router.get('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(
-      req.params.productId //, {
-      // include: Cart,
-      //} I commented out this code because the cart association is keeping
-      //the SingleProduct component from rendering. Hopefully once we add more
-      //Cart->Product data to the seed file we'll be able to add this code back in
-      //without any problems.
-    )
+    const product = await Product.findByPk(req.params.productId)
     res.send(product)
   } catch (err) {
     next(err)
+  }
+})
+
+// update product
+router.put('/:productId', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.productId)
+    await product.update(req.body)
+    res.json(product)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// delete product from database
+router.delete('/:productId', async (req, res, next) => {
+  try {
+    await Product.destroy({
+      where: {id: req.params.productId}
+    })
+    res.sendStatus(204).end()
+  } catch (error) {
+    next(error)
   }
 })

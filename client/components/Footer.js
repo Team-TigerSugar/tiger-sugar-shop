@@ -16,14 +16,14 @@ const styles = theme => ({
     marginTop: '20em'
   },
   footerImgCont: {
-    width: '35em'
+    width: '25em'
   },
   footerLogo: {
-    width: '35em',
+    width: '25em',
     paddingTop: '1em'
   },
   footerNavCont: {
-    width: '35em',
+    width: '25em',
     marginLeft: '10em',
     marginTop: '5em'
   },
@@ -39,7 +39,7 @@ const styles = theme => ({
     width: '3em'
   },
   footerLinktCont: {
-    width: '35em',
+    width: '25em',
     marginTop: '5em'
   }
 })

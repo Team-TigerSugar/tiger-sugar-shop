@@ -68,12 +68,16 @@ class SingleProduct extends Component {
 
     if (product) {
       return (
-        <Card justify="center">
+
+        <Grid container justify="center">
+        <Card style={{width: '50%'}}>
           <CardActionArea key={product.id}>
             <img src={product.img} />
             <CardContent>
               <Typography variant="h1">{product.name}</Typography>
-              <Typography variant="body1">${product.price}</Typography>
+              <Typography variant="body1">
+                ${(product.price * 0.01).toFixed(2)}
+              </Typography>
               <Typography variant="body2">{product.description}</Typography>
             </CardContent>
           </CardActionArea>
@@ -88,6 +92,7 @@ class SingleProduct extends Component {
             </Button>
           </form>
         </Card>
+    </Grid>
       )
     } else {
       return <div>Single product render failed</div>

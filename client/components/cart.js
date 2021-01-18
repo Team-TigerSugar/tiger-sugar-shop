@@ -45,10 +45,15 @@ class Cart extends Component {
   async handleDelete(e) {
     e.preventDefault()
     const cartId = this.props.cart.id
+    // const cart = this.props.cart
     const itemId = e.currentTarget.value
     console.log('itemId: ', itemId)
     try {
       await this.props.deleteFromCart(cartId, itemId)
+      // await this.props.deleteFromCart(
+      //   {...cart, products: cart.products.filter((p) => p.id !== itemId)},
+      //   itemId
+      // )
     } catch (err) {
       console.log(err)
     }
@@ -62,7 +67,8 @@ class Cart extends Component {
     // console.log('cart items', this.state.cartItems)
 
     const {classes} = this.props
-    if (isLoggedIn && cartHasItems) {
+    if (this.props.cart) {
+      console.log('cart', this.props.cart)
       return (
         <React.Fragment>
           <Grid container justify="center">
@@ -84,7 +90,9 @@ class Cart extends Component {
                         </Grid>
                         <Grid item container>
                           <Typography variant="body1">{item.name}</Typography>
-                          <Typography variant="body2">${item.price}</Typography>
+                          <Typography variant="body2">
+                            ${(item.price * 0.01).toFixed(2)}
+                          </Typography>
                         </Grid>
                       </Grid>
 
@@ -102,8 +110,6 @@ class Cart extends Component {
               </Grid>
             </Grid>
             <Grid item container direction="column">
-              <Typography variant="body1">order summary</Typography>
-
               <Link to="/products">
                 <Button className={classes.otherButts}>
                   continue shopping
@@ -115,15 +121,25 @@ class Cart extends Component {
                   if (!cartHasItems) return null
                   if (isLoggedIn)
                     return (
-                      <Link to="/checkout">
-                        <Button className={classes.otherButts}>checkout</Button>
-                      </Link>
+                      <Grid item container direction="column">
+                        <Typography variant="body1">order summary</Typography>
+                        <Link to="/checkout">
+                          <Button className={classes.otherButts}>
+                            checkout
+                          </Button>
+                        </Link>
+                      </Grid>
                     )
                   else
                     return (
-                      <Link to="/checkoutmethods">
-                        <Button className={classes.otherButts}>checkout</Button>
-                      </Link>
+                      <Grid item container direction="column">
+                        <Typography variant="body1">order summary</Typography>
+                        <Link to="/checkoutmethods">
+                          <Button className={classes.otherButts}>
+                            checkout
+                          </Button>
+                        </Link>
+                      </Grid>
                     )
                 })()}
               </div>

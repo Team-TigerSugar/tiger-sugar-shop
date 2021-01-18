@@ -5,11 +5,16 @@ import {connect} from 'react-redux'
 import {me} from '../store'
 import {compose} from 'redux'
 import {getCartThunk, addToCartThunk} from '../store/cart'
-import {cartItemThunk, updateCartItemThunk} from '../store/cartItem'
+import {
+  cartItemThunk,
+  updateCartItemThunk,
+  incrementCartItemThunk,
+  decrementCartItemThunk
+} from '../store/cartItem'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-//import Typography from '@material-ui/core/Typography'
+import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
 //import tornPaperVert from '../../public/images/tornPaperVert.png'
@@ -26,8 +31,8 @@ class UpdateCart extends Component {
     this.state = {
       qty: 0
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    //this.handleChange = this.handleChange.bind(this)
+    this.handleIncrementSubmit = this.handleIncrementSubmit.bind(this)
   }
 
   async componentDidMount() {
@@ -51,22 +56,26 @@ class UpdateCart extends Component {
 
     // console.log('cart; ', this.props.cartItems)
   }
-  handleChange(event) {
+  /* handleChange(event) {
     // event.preventDefault()
 
     this.setState({
       qty: event.currentTarget.value
     })
-  }
+  } */
 
-  async handleSubmit(event) {
+  async handleIncrementSubmit(event) {
     event.preventDefault()
     console.log('tttttyyu66yy', this.state)
     const userId = this.props.user.id
     const itemId = this.props.item.id
     const qty = this.state.qty
-    console.log('this.state.qty: ', this.state, qty)
-    await this.props.updateCartItem(userId, itemId, qty)
+    console.log('this.state.qty: ', this.state.qty)
+    await this.props.incrementCartItem(userId, itemId)
+    await this.props.getCartItem(userId, itemId)
+    this.setState({
+      qty: this.props.qty
+    })
   }
 
   render() {
@@ -76,16 +85,21 @@ class UpdateCart extends Component {
       <React.Fragment>
         <Grid container>
           <Grid item container>
-            <form onSubmit={this.handleSubmit}>
+            <Typography variant="body2">{this.state.qty}</Typography>
+            {/* <form onSubmit={this.handleSubmit}>
               <input
                 type="text"
                 value={this.state.qty}
                 onChange={this.handleChange}
-              />
-              <Button className={classes.Butt} type="submit">
-                UPDATE
-              </Button>
-            </form>
+              /> */}
+            <Button
+              className={classes.Butt}
+              type="submit"
+              onClick={this.handleIncrementSubmit}
+            >
+              +
+            </Button>
+            {/*   </form> */}
           </Grid>
         </Grid>
       </React.Fragment>
@@ -110,7 +124,9 @@ const mapDispatch = dispatch => {
     getMe: () => dispatch(me()),
     getCartItem: (userId, itemId) => dispatch(cartItemThunk(userId, itemId)),
     updateCartItem: (userId, itemId, qty) =>
-      dispatch(updateCartItemThunk(userId, itemId, qty))
+      dispatch(updateCartItemThunk(userId, itemId, qty)),
+    incrementCartItem: (userId, itemId) =>
+      dispatch(incrementCartItemThunk(userId, itemId))
   }
 }
 

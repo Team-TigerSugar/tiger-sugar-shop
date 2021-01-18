@@ -64,7 +64,8 @@ router.post('/:userId/:itemId', async (req, res, next) => {
 
     const [cart] = await Cart.findOrCreate({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        isOrder: false
         /* sessionId: req.sessionID <-- this was creating a new cart everytime
         a seeded user added items to their cart on the website for the first time, */
       }
@@ -78,9 +79,33 @@ router.post('/:userId/:itemId', async (req, res, next) => {
     next(error)
   }
 })
+router.put('/plusOne/:userId/:itemId', async (req, res, next) => {
+  try {
+    console.log('#######$%&&UNwsss')
+    const product = await Product.findByPk(req.params.itemId)
 
-//update cartItem /api/cart/:cartId/:itemId/:qty
-router.put('/:userId/:itemId/:qty', async (req, res, next) => {
+    const [cart] = await Cart.findOrCreate({
+      where: {
+        userId: req.params.userId
+      }
+    })
+    //  console.log('*******', cart)
+    const cartItem = await CartItem.findOne({
+      where: {cartId: cart.id, productId: product.id}
+    })
+    //  console.log('^^^^CARTITEM: ', cartItem)
+    console.log('%%%%CARTITEM.QTY : ', cartItem.qty)
+    //console.log('&&&&&REQ.PARAMS.QTY : ', req.params.qty)
+    const updatedTotalQty = cartItem.qty + 1
+    console.log('$$$$$$CARTITEM: ', updatedTotalQty)
+    await cart.addProduct(product, {through: {qty: updatedTotalQty}})
+    res.send(product)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/minusOne/:userId/:itemId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.itemId)
 
@@ -94,6 +119,40 @@ router.put('/:userId/:itemId/:qty', async (req, res, next) => {
       where: {cartId: cart.id, productId: product.id}
     })
     //  console.log('^^^^CARTITEM: ', cartItem)
+    console.log('current CARTITEM.QTY : ', cartItem.qty)
+    //console.log('&&&&&REQ.PARAMS.QTY : ', req.params.qty)
+    let updatedTotalQty = cartItem.qty - 1
+    if (updatedTotalQty <= 0) {
+      updatedTotalQty = 0
+      console.log('Updated CARTITEM QTY: ', updatedTotalQty)
+      console.log(`${product.name} is about to be removed`)
+      await cart.removeProduct(product)
+      console.log('Succesfully removed')
+    } else {
+      console.log('$$$$$$CARTITEM QTY: ', updatedTotalQty)
+      await cart.addProduct(product, {through: {qty: updatedTotalQty}})
+    }
+    res.send(product)
+  } catch (error) {
+    next(error)
+  }
+})
+//update cartItem /api/cart/:userId/:itemId/:qty
+router.put('/:userId/:itemId/:qty', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.itemId)
+
+    const [cart] = await Cart.findOrCreate({
+      where: {
+        userId: req.params.userId,
+        isOrder: false
+      }
+    })
+    //  console.log('*******', cart)
+    const cartItem = await CartItem.findOne({
+      where: {cartId: cart.id, productId: product.id}
+    })
+    console.log('^^^^CARTITEM: ', cartItem.dataValues)
     //  console.log('%%%%CARTITEM.QTY : ', cartItem.qty)
     //  console.log('&&&&&REQ.PARAMS.QTY : ', req.params.qty)
     const updatedTotalQty = cartItem.qty + Number(req.params.qty)

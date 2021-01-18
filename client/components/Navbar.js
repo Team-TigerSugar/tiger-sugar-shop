@@ -11,7 +11,8 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 
 import cartButton from '../../public/icons/cartButton.png'
 
@@ -54,14 +55,32 @@ class Navbar extends React.Component {
   constructor() {
     super()
     this.state = {
-      value: 0
+      value: 0,
+      anchorEl: null,
+      menuOpen: false
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   handleChange = (event, value) => {
     this.setState({
       value: value
+    })
+  }
+
+  handleClick = event => {
+    this.setState({
+      anchorEl: event.currentTarget.value,
+      menuOpen: true
+    })
+  }
+
+  handleClose = event => {
+    this.setState({
+      anchorEl: event.currentTarget.value,
+      menuOpen: false
     })
   }
 
@@ -134,12 +153,45 @@ class Navbar extends React.Component {
                   SIGN OUT
                 </Button>
                 <Tab
+                  aria-controls={
+                    this.state.anchorEl ? 'simple-menu' : undefined
+                  }
+                  aria-haspopup={this.state.anchorEl ? 'true' : undefined}
+                  onMouseOver={this.handleClick}
                   className={classes.tab}
                   component={Link}
                   to="/home"
                   label="ACCOUNT"
                 />
-
+                <Menu
+                  id="simple-menu"
+                  anchorEl={this.state.anchorEl}
+                  open={this.state.menuOpen}
+                  onClose={this.handleClose}
+                  MenuListProps={{onMouseLeave: this.handleClose}}
+                >
+                  <MenuItem
+                    component={Link}
+                    to="/admininventory"
+                    onClick={this.handleClose}
+                  >
+                    Inventory
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/admincustomers"
+                    onClick={this.handleClose}
+                  >
+                    Customers
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/adminorders"
+                    onClick={this.handleClose}
+                  >
+                    Orders
+                  </MenuItem>
+                </Menu>
                 <Button component={Link} to="/cart">
                   <img
                     src={cartButton}

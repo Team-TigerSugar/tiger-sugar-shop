@@ -11,6 +11,9 @@ import Landing from './components/Landing'
 import CheckoutMethods from './components/CheckoutMethods'
 import Checkout from './components/Checkout'
 import ConfirmOrder from './components/ConfirmOrder'
+import AdminOrders from './components/AdminOrders'
+import AdminCustomers from './components/AdminCustomers'
+import AdminInventory from './components/AdminInventory'
 
 /**
  * COMPONENT
@@ -37,6 +40,9 @@ class Routes extends Component {
         <Route exact path="/checkoutmethods" component={CheckoutMethods} />
         <Route exact path="/checkout" component={Checkout} />
         <Route exact path="/confirmorder" component={ConfirmOrder} />
+        <Route exact path="/adminorders" component={AdminOrders} />
+        <Route exact path="/admininventory" component={AdminInventory} />
+        <Route exact path="/adminCustomers" component={AdminCustomers} />
 
         {isLoggedIn && (
           <Switch>

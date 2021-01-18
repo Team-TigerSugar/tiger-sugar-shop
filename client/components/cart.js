@@ -84,7 +84,9 @@ class Cart extends Component {
                         </Grid>
                         <Grid item container>
                           <Typography variant="body1">{item.name}</Typography>
-                          <Typography variant="body2">${item.price}</Typography>
+                          <Typography variant="body2">
+                            ${item.price * 0.01}.00
+                          </Typography>
                         </Grid>
                       </Grid>
 

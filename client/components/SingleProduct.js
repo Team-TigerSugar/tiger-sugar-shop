@@ -73,7 +73,9 @@ class SingleProduct extends Component {
             <img src={product.img} />
             <CardContent>
               <Typography variant="h1">{product.name}</Typography>
-              <Typography variant="body1">${product.price}</Typography>
+              <Typography variant="body1">
+                ${product.price * 0.01}.00
+              </Typography>
               <Typography variant="body2">{product.description}</Typography>
             </CardContent>
           </CardActionArea>

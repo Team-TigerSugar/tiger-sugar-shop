@@ -22,6 +22,12 @@ import Button from '@material-ui/core/Button'
 const styles = theme => ({
   removeButt: {
     backgroundColor: theme.palette.common.colorTwo
+  },
+  IncrementButton: {
+    backgroundColor: theme.palette.common.colorFour
+  },
+  DecrementButton: {
+    backgroundColor: theme.palette.common.colorFour
   }
 })
 
@@ -33,6 +39,7 @@ class UpdateCart extends Component {
     }
     //this.handleChange = this.handleChange.bind(this)
     this.handleIncrementSubmit = this.handleIncrementSubmit.bind(this)
+    this.handleDecrementSubmit = this.handleDecrementSubmit.bind(this)
   }
 
   async componentDidMount() {
@@ -53,26 +60,27 @@ class UpdateCart extends Component {
     console.log('QTY: ', this.props.qty)
     const userId = this.props.user.id
     await this.props.getCart(userId)
-
-    // console.log('cart; ', this.props.cartItems)
   }
-  /* handleChange(event) {
-    // event.preventDefault()
-
-    this.setState({
-      qty: event.currentTarget.value
-    })
-  } */
 
   async handleIncrementSubmit(event) {
     event.preventDefault()
-    console.log('tttttyyu66yy', this.state)
     const userId = this.props.user.id
     const itemId = this.props.item.id
-    const qty = this.state.qty
     console.log('this.state.qty: ', this.state.qty)
     await this.props.incrementCartItem(userId, itemId)
     await this.props.getCartItem(userId, itemId)
+    this.setState({
+      qty: this.props.qty
+    })
+  }
+  async handleDecrementSubmit(event) {
+    event.preventDefault()
+    const userId = this.props.user.id
+    const itemId = this.props.item.id
+
+    await this.props.decrementCartItem(userId, itemId)
+    await this.props.getCartItem(userId, itemId)
+    console.log('DECREMENTthis.state.qty: ', this.state.qty)
     this.setState({
       qty: this.props.qty
     })
@@ -85,21 +93,29 @@ class UpdateCart extends Component {
       <React.Fragment>
         <Grid container>
           <Grid item container>
-            <Typography variant="body2">{this.state.qty}</Typography>
-            {/* <form onSubmit={this.handleSubmit}>
-              <input
-                type="text"
-                value={this.state.qty}
-                onChange={this.handleChange}
-              /> */}
+            <Typography variant="body2" display="block">
+              Qty: {this.state.qty}
+            </Typography>
             <Button
-              className={classes.Butt}
+              className={classes.IncrementButton}
               type="submit"
               onClick={this.handleIncrementSubmit}
             >
-              +
+              <Typography variant="button" display="block" gutterBottom>
+                {'   '}+{'   '}
+              </Typography>
             </Button>
-            {/*   </form> */}
+
+            <Button
+              className={classes.DecrementButton}
+              type="submit"
+              onClick={this.handleDecrementSubmit}
+            >
+              <Typography variant="button" display="block" gutterBottom>
+                {' '}
+                -{' '}
+              </Typography>
+            </Button>
           </Grid>
         </Grid>
       </React.Fragment>
@@ -126,7 +142,9 @@ const mapDispatch = dispatch => {
     updateCartItem: (userId, itemId, qty) =>
       dispatch(updateCartItemThunk(userId, itemId, qty)),
     incrementCartItem: (userId, itemId) =>
-      dispatch(incrementCartItemThunk(userId, itemId))
+      dispatch(incrementCartItemThunk(userId, itemId)),
+    decrementCartItem: (userId, itemId) =>
+      dispatch(decrementCartItemThunk(userId, itemId))
   }
 }
 

@@ -47,5 +47,10 @@ export default createMuiTheme({
       fontFamily: 'Lato',
       letterSpacing: 2
     }
+  },
+  breakpoints: {
+    values: {
+      ml: 1720
+    }
   }
 })

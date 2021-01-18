@@ -1,21 +1,16 @@
 const User = require('./user')
 const Cart = require('./cart')
 const Product = require('./product')
-const CartItem = require('./cartItem')
+const CartItem = require('./cartItems')
 
-User.hasOne(Cart) //change this -- user has many orders
+User.hasMany(Cart)
 Cart.belongsTo(User)
 
 User.belongsToMany(Product, {through: 'UserProducts'})
 Product.belongsToMany(User, {through: 'UserProducts'})
 
-//this Product->CartItem association causes problems with
-//rendering the AllProducts and SingleProduct view
-// Product.belongsToMany(CartItem, {through: 'ProductsInCart'})
-// CartItem.hasOne(Product)
-
-Cart.hasMany(CartItem)
-CartItem.belongsTo(Cart)
+Cart.belongsToMany(Product, {through: 'cartItems'})
+Product.belongsToMany(Cart, {through: 'cartItems'})
 
 //user has many orders
 //order should have a bool to determine if it's a cart

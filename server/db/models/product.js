@@ -27,6 +27,13 @@ const Product = db.define('product', {
   },
   quantity: {
     type: Sequelize.INTEGER
+  },
+  isCartItem: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  discount: {
+    type: Sequelize.FLOAT
   }
 })
 

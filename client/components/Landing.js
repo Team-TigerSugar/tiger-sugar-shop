@@ -26,7 +26,7 @@ class Landing extends React.Component {
     return (
       <Grid container direction="column">
         {/* ------------------------------------------------------------ hero section */}
-        <Grid item container>
+        <Grid item container direction="row">
           <Grid item lg={3}>
             <img
               src={heroImg}
@@ -39,7 +39,7 @@ class Landing extends React.Component {
             item
             container
             direction="column"
-            style={{marginTop: '20em', marginLeft: '15em'}}
+            style={{marginTop: '20em', marginLeft: '15em', width: '31em'}}
             lg={3}
           >
             <Typography variant="body1">WELCOME TO</Typography>
@@ -62,7 +62,7 @@ class Landing extends React.Component {
             container
             style={{
               backgroundImage: `url(${featureSection})`,
-              height: '75em',
+              height: '60em',
               backgroundPosition: 'center',
               backgroundSize: 'cover',
               backgroundRepeat: 'no-reapeat'
@@ -78,14 +78,14 @@ class Landing extends React.Component {
               <img
                 src={potion1}
                 alt="tag with potion bottle"
-                style={{width: '35em', height: '35em'}}
+                style={{width: '25em', height: '25em'}}
               />
               <img
                 src={potion2}
                 alt="tag with potion bottle"
                 style={{
-                  width: '50em',
-                  height: '50em',
+                  width: '40em',
+                  height: '40em',
                   marginTop: '-10em',
                   marginLeft: '5em'
                 }}
@@ -93,7 +93,7 @@ class Landing extends React.Component {
               <img
                 src={potion3}
                 alt="tag with potion bottle"
-                style={{width: '35em', height: '35em'}}
+                style={{width: '28em', height: '28em'}}
               />
             </Grid>
           </Grid>

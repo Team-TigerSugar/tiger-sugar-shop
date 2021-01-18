@@ -4,9 +4,10 @@ import axios from 'axios'
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
+const PLACE_ORDER = 'PLACE_ORDER'
 
 //INITAIL STATE
-const defaultState = {}
+const defaultState = {products: []}
 //maybe items should be an array?
 
 //ACTION CREATORS
@@ -15,20 +16,27 @@ const getCart = cart => ({
   cart
 })
 
-const addToCart = item => ({
+const addToCart = product => ({
   type: ADD_TO_CART,
-  item
+  product
 })
 
-const deleteFromCart = itemId => ({
+const deleteFromCart = productId => ({
   type: DELETE_FROM_CART,
-  itemId
+  productId
+})
+
+const placeOrder = (cart, newCart) => ({
+  type: PLACE_ORDER,
+  cart,
+  newCart
 })
 
 //THUNK CREATORS
 export const getCartThunk = userId => async dispatch => {
   try {
     const cart = await axios.get(`/api/cart/${userId}`)
+    //  console.log('%%%%%%%$$$', cart.data)
     dispatch(getCart(cart.data))
   } catch (error) {
     console.log(error)
@@ -38,16 +46,26 @@ export const getCartThunk = userId => async dispatch => {
 export const addToCartThunk = (userId, itemId) => async dispatch => {
   try {
     const cartItem = await axios.post(`/api/cart/${userId}/${itemId}`)
-    dispatch(addToCart(cartItem))
+    dispatch(addToCart(cartItem.data))
   } catch (error) {
     console.log(error)
   }
 }
 
-export const deleteFromCartThunk = itemId => async dispatch => {
+export const deleteFromCartThunk = (cartId, itemId) => async dispatch => {
   try {
-    await axios.delete(`/api/cart/${itemId}`)
+    await axios.put(`/api/cart/${cartId}/${itemId}`)
     dispatch(deleteFromCart(itemId))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const placeOrderThunk = (cartId, userId) => async dispatch => {
+  try {
+    const cart = await axios.put(`/api/cart/${cartId}`)
+    const newCart = await axios.post(`/api/cart/${userId}`)
+    dispatch(placeOrder(cart, newCart))
   } catch (error) {
     console.log(error)
   }
@@ -60,9 +78,12 @@ export default function(state = defaultState, action) {
     case GET_CART:
       return action.cart
     case ADD_TO_CART:
-      return {...state, items: [...state.items, action.item]}
+      let newArr = state.products.push(action.product)
+      return {...state, products: newArr}
     case DELETE_FROM_CART:
-      return state.items.filter(item => item.id !== action.itemId)
+      return state.products.filter(product => product.id !== action.productId)
+    case PLACE_ORDER:
+      return action.newCart
     default:
       return state
   }

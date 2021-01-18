@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Cart, CartItem, Product, User} = require('../db/models')
+const {Cart, Product, User, CartItem} = require('../db/models')
 module.exports = router
 
 //get a user's cart and items in it
@@ -7,9 +7,10 @@ router.get('/:userId', async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        isOrder: false
       },
-      include: CartItem
+      include: Product
     })
     res.json(cart)
   } catch (err) {
@@ -17,40 +18,111 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-router.post('/:userId/:itemId', async (req, res, next) => {
+//get cartItem(qty) //api/cart/userId/itemId
+router.get('/:userId/:itemId', async (req, res, next) => {
   try {
-    const product = await Product.findOne({where: {id: req.params.itemId}})
-
-    //  const product = await Product.findByPk(req.params.itemId)
-    console.log('***********', product)
-    //  const user = await User.findByPk(req.params.userId)
-    const cart = await Cart.findOrCreate({
+    const product = await Product.findByPk(req.params.itemId)
+    //creates cart if user has no cart
+    const [cart] = await Cart.findOrCreate({
       where: {
-        userId: req.params.userId,
-        sessionId: req.sessionID
+        userId: req.params.userId
+        /* sessionId: req.sessionID <-- this was creating a new cart everytime
+        a seeded user added items to their cart, */
       }
     })
 
-    const cartItem = await CartItem.create({
-      img: product.img,
-      name: product.name,
-      price: product.price,
-      quantity: product.quantity
+    const cartItem = await CartItem.findOne({
+      where: {cartId: cart.id, productId: product.id}
     })
+    //  console.log('****CART', cartItem)
+    //  console.log('****CARTITEM.CARTID', cartItem.cartId)
+    //  console.log('###QTY: ', cartItem.qty)
 
-    //  await cart.setUser(user)
-    await cart.addCartItem(cartItem)
-    res.sendStatus(204).send(cartItem)
+    res.json(cartItem)
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 })
 
-router.delete('/:itemId', async (req, res, next) => {
+router.post('/:userId', async (req, res, next) => {
   try {
-    await CartItem.destroy({where: {id: req.params.itemId}})
+    const cart = await Cart.create({
+      userId: req.params.userId,
+      sessionId: req.sessionID,
+      isOrder: false
+    })
+    res.send(cart)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//POST add to cart /api/cart/userId/itemId
+router.post('/:userId/:itemId', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.itemId)
+
+    const [cart] = await Cart.findOrCreate({
+      where: {
+        userId: req.params.userId
+        /* sessionId: req.sessionID <-- this was creating a new cart everytime
+        a seeded user added items to their cart on the website for the first time, */
+      }
+    })
+
+    //  console.log('*******', cart)
+
+    await cart.addProduct(product)
+    res.send(product)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//update cartItem /api/cart/:cartId/:itemId/:qty
+router.put('/:userId/:itemId/:qty', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.itemId)
+
+    const [cart] = await Cart.findOrCreate({
+      where: {
+        userId: req.params.userId
+      }
+    })
+    //  console.log('*******', cart)
+    const cartItem = await CartItem.findOne({
+      where: {cartId: cart.id, productId: product.id}
+    })
+    //  console.log('^^^^CARTITEM: ', cartItem)
+    //  console.log('%%%%CARTITEM.QTY : ', cartItem.qty)
+    //  console.log('&&&&&REQ.PARAMS.QTY : ', req.params.qty)
+    const updatedTotalQty = cartItem.qty + Number(req.params.qty)
+    //  console.log('$$$$$$CARTITEM: ', updatedTotalQty)
+    await cart.addProduct(product, {through: {qty: req.params.qty}})
+    res.send(product)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:cartId/:itemId', async (req, res, next) => {
+  try {
+    const cart = await Cart.findByPk(req.params.cartId)
+    const product = await Product.findByPk(req.params.itemId)
+    await cart.removeProduct(product)
     res.sendStatus(204)
   } catch (error) {
-    console.log(error)
+    next(error)
+  }
+})
+
+router.put('/:cartId', async (req, res, next) => {
+  try {
+    const cart = await Cart.findByPk(req.params.cartId)
+    cart.isOrder = true
+    await cart.save()
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
   }
 })

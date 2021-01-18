@@ -6,7 +6,7 @@ export default class AboutUs extends Component {
   render() {
     return (
       <div>
-        <Card>
+        <Card elevation={0}>
           <Typography variant="body1">Hi</Typography>
         </Card>
       </div>

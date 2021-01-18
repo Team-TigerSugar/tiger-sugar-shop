@@ -71,13 +71,13 @@ class Cart extends Component {
           </Grid>
           <Grid container>
             <Grid item container>
-              <Grid item container>
+              <Grid item container direction="column">
                 {this.props.cartItems &&
                   this.props.cartItems.map(item => (
-                    <Grid key={item.id}>
+                    <Grid key={item.id} direction="row">
                       <Grid item container>
                         <Grid item>
-                          <img src={item.img} />
+                          <img className="browsingImg" src={item.img} />
                         </Grid>
                         <Grid item container>
                           <Typography variant="body1">{item.name}</Typography>
@@ -103,7 +103,7 @@ class Cart extends Component {
                   ))}
               </Grid>
             </Grid>
-            <Grid item container direction="column">
+            <Grid item container direction="column" alignContent="center">
               <Link to="/products">
                 <Button className={classes.otherButts} justify="center">
                   continue shopping
@@ -115,7 +115,12 @@ class Cart extends Component {
                   if (!cartHasItems) return null
                   if (isLoggedIn)
                     return (
-                      <Grid item container direction="column">
+                      <Grid
+                        item
+                        container
+                        direction="column"
+                        alignContent="center"
+                      >
                         <Typography variant="body1">order summary</Typography>
                         <Link to="/checkout">
                           <Button className={classes.otherButts}>

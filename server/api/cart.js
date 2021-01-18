@@ -8,7 +8,7 @@ router.get('/:userId', async (req, res, next) => {
     const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId,
-        sessionId: req.sessionID,
+        //   sessionId: req.sessionID,
         isOrder: false
       },
       include: Product

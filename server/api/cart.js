@@ -73,7 +73,6 @@ router.post('/:userId/:itemId', async (req, res, next) => {
 router.put('/plusOne/:userId/:itemId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.itemId)
-
     const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId,
@@ -94,7 +93,6 @@ router.put('/plusOne/:userId/:itemId', async (req, res, next) => {
 router.put('/minusOne/:userId/:itemId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.itemId)
-
     const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId,
@@ -107,8 +105,8 @@ router.put('/minusOne/:userId/:itemId', async (req, res, next) => {
 
     let updatedTotalQty = cartItem.qty - 1
     if (updatedTotalQty <= 0) {
-      updatedTotalQty = 0
-      await cart.removeProduct(product)
+      updatedTotalQty = 1
+
     } else {
       await cart.addProduct(product, {through: {qty: updatedTotalQty}})
     }
@@ -132,7 +130,10 @@ router.put('/:userId/:itemId/:qty', async (req, res, next) => {
     const cartItem = await CartItem.findOne({
       where: {cartId: cart.id, productId: product.id}
     })
-    //  const updatedTotalQty = cartItem.qty + Number(req.params.qty)
+
+    const updatedTotalQty = cartItem.qty + Number(req.params.qty)
+    //  console.log('$$$$$$CARTITEM: ', updatedTotalQty)
+
     await cart.addProduct(product, {through: {qty: req.params.qty}})
     res.send(product)
   } catch (error) {

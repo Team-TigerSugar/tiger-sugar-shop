@@ -77,8 +77,22 @@ async function seed() {
     lastName: 'Shadow',
     email: 'lilpandie@aol.com',
     password: 'whaDDup',
-    shippingInfo: '312 Gingerbread Lane',
-    billingInfo: '312 Gingerbread Lane'
+    addressLine1: '312 Gingerbread Lane',
+    addressLine2: 'apartment 1',
+    city: 'Boston',
+    state: 'MA'
+  })
+
+  const kris = await User.create({
+    firstName: 'Kris',
+    lastName: 'Jenner',
+    email: 'kris@aol.com',
+    password: 'money',
+    addressLine1: '123 Hidden Hills',
+    addressLine2: '',
+    city: 'Calabasas',
+    state: 'CA',
+    isAdmin: true
   })
 
   const pandaCart = await Cart.create({
@@ -86,10 +100,10 @@ async function seed() {
     //  firstName: 'Panda',
     //  lastName: 'Shadow',
     //  email: 'lilpandie@aol.com',
-    //  addressLine1: '312 Gingerbread Lane',
-    //  addressLine2: 'apartment 1',
-    //  city: 'Boston',
-    //  state: 'MA'
+  })
+
+  const krisCart = await Cart.create({
+    sessionId: 'p24e6FhjQG9En-ctAeYlAxAtzU7Mi3Rl'
   })
 
   const potion = await Product.create({
@@ -101,27 +115,20 @@ async function seed() {
       "He's very sad that he is going to lose a lot of money after Kim divorces him."
   })
 
+  const potion2 = await Product.create({
+    img:
+      'https://i.pinimg.com/236x/a9/e8/1e/a9e81e5feed2cc716f777d3380badc92--essential-oils-homemade-hair.jpg',
+    name: `Kanye West's Tears`,
+    price: 30000,
+    description:
+      "He's very sad that he is going to lose a lot of money after Kim divorces him."
+  })
+
   await pandaCart.setUser(panda)
   await pandaCart.addProduct(potion, {through: {qty: 12}})
-  const kris = await User.create({
-    firstName: 'Kris',
-    lastName: 'Jenner',
-    email: 'kris@aol.com',
-    password: 'money',
-    shippingInfo: '123  Hidden Hills',
-    billingInfo: '123  Hidden Hills',
-    isAdmin: true
-  })
-  //const kris = await users[4]
-  const krisCart = await Cart.create({
-    sessionId: 'p24e6FhjQG9En-ctAeYlAxAtzU7Mi3Rl'
-  })
+
   await krisCart.setUser(kris)
   await krisCart.addProduct(potion, {through: {qty: 19}})
-  console.log(`seeded ${users.length} users`)
-
-  await Promise.all(products.map(product => Product.create(product)))
-  console.log(`seeded ${products.length} products`)
 
   console.log(`seeded successfully`)
 }

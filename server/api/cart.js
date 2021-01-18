@@ -64,7 +64,8 @@ router.post('/:userId/:itemId', async (req, res, next) => {
 
     const [cart] = await Cart.findOrCreate({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        isOrder: false
         /* sessionId: req.sessionID <-- this was creating a new cart everytime
         a seeded user added items to their cart on the website for the first time, */
       }
@@ -86,7 +87,8 @@ router.put('/:userId/:itemId/:qty', async (req, res, next) => {
 
     const [cart] = await Cart.findOrCreate({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
+        isOrder: false
       }
     })
     console.log('*******', cart)

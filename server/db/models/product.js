@@ -15,9 +15,11 @@ const Product = db.define('product', {
   },
   price: {
     type: Sequelize.INTEGER,
+
     allowNull: false,
     validate: {
       notEmpty: true
+      //no negative value
     }
   },
   description: {

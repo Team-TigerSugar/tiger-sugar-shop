@@ -1,6 +1,6 @@
 import React from 'react'
 import {ThemeProvider} from '@material-ui/styles'
-import theme from './Components/theme'
+import theme from './components/theme'
 import {BrowserRouter, Switch} from 'react-router-dom'
 
 import {Navbar} from './components'

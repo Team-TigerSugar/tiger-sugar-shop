@@ -68,7 +68,9 @@ class SingleProduct extends Component {
 
     if (product) {
       return (
-        <Card justify="center">
+
+        <Grid container justify="center">
+        <Card style={{width: '50%'}}>
           <CardActionArea key={product.id}>
             <img src={product.img} />
             <CardContent>
@@ -90,6 +92,7 @@ class SingleProduct extends Component {
             </Button>
           </form>
         </Card>
+    </Grid>
       )
     } else {
       return <div>Single product render failed</div>

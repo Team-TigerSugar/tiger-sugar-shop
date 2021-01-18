@@ -34,9 +34,9 @@ router.get('/:userId/:itemId', async (req, res, next) => {
     const cartItem = await CartItem.findOne({
       where: {cartId: cart.id, productId: product.id}
     })
-    console.log('****CART', cartItem)
-    console.log('****CARTITEM.CARTID', cartItem.cartId)
-    console.log('###QTY: ', cartItem.qty)
+    //  console.log('****CART', cartItem)
+    //  console.log('****CARTITEM.CARTID', cartItem.cartId)
+    //  console.log('###QTY: ', cartItem.qty)
 
     res.json(cartItem)
   } catch (error) {
@@ -70,7 +70,7 @@ router.post('/:userId/:itemId', async (req, res, next) => {
       }
     })
 
-    console.log('*******', cart)
+    //  console.log('*******', cart)
 
     await cart.addProduct(product)
     res.send(product)
@@ -89,15 +89,15 @@ router.put('/:userId/:itemId/:qty', async (req, res, next) => {
         userId: req.params.userId
       }
     })
-    console.log('*******', cart)
+    //  console.log('*******', cart)
     const cartItem = await CartItem.findOne({
       where: {cartId: cart.id, productId: product.id}
     })
-    console.log('^^^^CARTITEM: ', cartItem)
-    console.log('%%%%CARTITEM.QTY : ', cartItem.qty)
-    console.log('&&&&&REQ.PARAMS.QTY : ', req.params.qty)
+    //  console.log('^^^^CARTITEM: ', cartItem)
+    //  console.log('%%%%CARTITEM.QTY : ', cartItem.qty)
+    //  console.log('&&&&&REQ.PARAMS.QTY : ', req.params.qty)
     const updatedTotalQty = cartItem.qty + Number(req.params.qty)
-    console.log('$$$$$$CARTITEM: ', updatedTotalQty)
+    //  console.log('$$$$$$CARTITEM: ', updatedTotalQty)
     await cart.addProduct(product, {through: {qty: req.params.qty}})
     res.send(product)
   } catch (error) {

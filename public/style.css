@@ -20,3 +20,17 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.browsingImg {
+  object-fit: cover;
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+}
+
+.singleImg {
+  object-fit: cover;
+  border-radius: 50%;
+  height: 400px;
+  width: 400px;
+}

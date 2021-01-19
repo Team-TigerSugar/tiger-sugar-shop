@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Cart} from './components'
+import {Login, Signup, UserHome, Cart, AboutUs} from './components'
 import {me} from './store'
 import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
@@ -11,6 +11,11 @@ import Landing from './components/Landing'
 import CheckoutMethods from './components/CheckoutMethods'
 import Checkout from './components/Checkout'
 import ConfirmOrder from './components/ConfirmOrder'
+import AdminOrders from './components/AdminOrders'
+import AdminCustomers from './components/AdminCustomers'
+import AdminInventory from './components/AdminInventory'
+import AdminAddNewProd from './components/AdminAddNewProd'
+import AdminEditProd from './components/AdminEditProd'
 
 /**
  * COMPONENT
@@ -30,13 +35,18 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/" component={Landing} />
-        <Route exact path="/about" component={() => <div>About Us</div>} />
+        <Route exact path="/about" component={AboutUs} />
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/checkoutmethods" component={CheckoutMethods} />
         <Route exact path="/checkout" component={Checkout} />
         <Route exact path="/confirmorder" component={ConfirmOrder} />
+        <Route exact path="/adminorders" component={AdminOrders} />
+        <Route exact path="/admininventory" component={AdminInventory} />
+        <Route exact path="/adminCustomers" component={AdminCustomers} />
+        <Route exact path="/addinventory" component={AdminAddNewProd} />
+        <Route exact path="/editinventory" component={AdminEditProd} />
 
         {isLoggedIn && (
           <Switch>

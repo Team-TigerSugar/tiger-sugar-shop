@@ -5,15 +5,20 @@ module.exports = router
 //get a user's cart and items in it
 router.get('/:userId', async (req, res, next) => {
   try {
+    const userId = req.params.userId
+    // if (userId === "undefined"){
+    //    // if the user is a guest (does not have an id)
+    // } else {
     const [cart] = await Cart.findOrCreate({
       where: {
-        userId: req.params.userId,
-        //   sessionId: req.sessionID,
+        userId: req.userId,
         isOrder: false
       },
       include: Product
     })
+    console.log('CARTTTTTT', cart)
     res.json(cart)
+    // }
   } catch (err) {
     next(err)
   }
@@ -106,7 +111,6 @@ router.put('/minusOne/:userId/:itemId', async (req, res, next) => {
     let updatedTotalQty = cartItem.qty - 1
     if (updatedTotalQty <= 0) {
       updatedTotalQty = 1
-
     } else {
       await cart.addProduct(product, {through: {qty: updatedTotalQty}})
     }

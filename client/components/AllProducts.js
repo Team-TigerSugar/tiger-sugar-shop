@@ -63,14 +63,15 @@ class AllProducts extends Component {
                   <Link to={`/products/${product.id}`} key={product.id}>
                     <img className="browsingImg" src={product.img} />
                   </Link>
+
                   <Typography variant="body1" style={{alignSelf: 'center'}}>
                     {product.name}
                   </Typography>
                   <Typography variant="body2" style={{alignSelf: 'center'}}>
                     {(product.price * 0.01).toFixed(2)}
                   </Typography>
+                </Grid>
 
-                </Link>
                 <Button
                   className={classes.addButt}
                   type="submit"
@@ -79,7 +80,6 @@ class AllProducts extends Component {
                 >
                   Add To Cart
                 </Button>
-
               </Card>
             ))}
           </Grid>

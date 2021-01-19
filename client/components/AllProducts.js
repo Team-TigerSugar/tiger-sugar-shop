@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper'
 
 const styles = theme => ({
   addButt: {
-    backgroundColor: theme.palette.common.colorTwo
+    backgroundColor: theme.palette.common.colorFour
   },
   // not sure how to apply this root stuff!
   root: {
@@ -46,7 +46,8 @@ class AllProducts extends Component {
 
   render() {
     const products = this.props.products
-    console.log('user from products component', this.props.user)
+
+    const {classes} = this.props
 
     if (products) {
       return (
@@ -62,6 +63,7 @@ class AllProducts extends Component {
                   </Typography>
                 </Link>
                 <Button
+                  className={classes.addButt}
                   type="submit"
                   onClick={this.handleClick}
                   value={product.id}

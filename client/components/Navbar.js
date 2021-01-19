@@ -23,7 +23,7 @@ const styles = theme => ({
   },
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    marginBottom: '2em'
+    marginBottom: '4em'
   },
   navbar: {
     backgroundColor: theme.palette.common.colorWhite,

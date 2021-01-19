@@ -16,7 +16,9 @@ import Box from '@material-ui/core/Box'
 const styles = theme => ({
   button: {
     backgroundColor: theme.palette.common.colorTwo,
-    marginTop: '2em'
+    marginTop: '2em',
+    fontFamily: 'Lato',
+    textTransform: 'none'
   }
 })
 
@@ -42,6 +44,16 @@ class AdminInventory extends React.Component {
     const products = this.props.products
     return (
       <Grid container>
+        <Grid container justify="center">
+          <Button
+            component={Link}
+            to="/addinventory"
+            variant="filled"
+            classes={{root: classes.button}}
+          >
+            Add a New Item
+          </Button>
+        </Grid>
         <Grid item container justify="center" alignItems="flex-end">
           {products.map(product => (
             <Box
@@ -88,12 +100,14 @@ class AdminInventory extends React.Component {
                   </Typography>
                 </Grid>
                 <Grid item container justify="center">
-                  <Button variant="contained" className={classes.button}>
+                  <Button variant="contained" classes={{root: classes.button}}>
                     Delete
                   </Button>
                   <Button
+                    component={Link}
+                    to="/editinventory"
                     variant="contained"
-                    className={classes.button}
+                    classes={{root: classes.button}}
                     style={{marginLeft: '1em'}}
                   >
                     Edit

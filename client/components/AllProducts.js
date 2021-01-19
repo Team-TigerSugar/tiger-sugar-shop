@@ -46,7 +46,9 @@ class AllProducts extends Component {
 
   render() {
     const products = this.props.products
+
     const {classes} = this.props
+
     if (products) {
       return (
         <Grid container justify="center">

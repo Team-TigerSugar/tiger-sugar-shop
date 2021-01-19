@@ -63,7 +63,7 @@ class Checkout extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, addressLine1, addressLine2, city, state} = this.props
     const cartItemsPrices =
       this.props.cartItems && this.props.cartItems.map(item => item.price)
     const cartTotal =
@@ -87,7 +87,14 @@ class Checkout extends Component {
               <Typography variant="h1" gutterBottom>
                 Shipping Address
               </Typography>
-              <Typography variant="body1">{this.props.shippingInfo}</Typography>
+              <Typography variant="body1">Address Line 1:</Typography>
+              <Typography variant="body2">{addressLine1}</Typography>
+              <Typography variant="body1">Address Line 2:</Typography>
+              <Typography variant="body2">{addressLine2}</Typography>
+              <Typography variant="body1">City:</Typography>
+              <Typography variant="body2">{city}</Typography>
+              <Typography variant="body1">State:</Typography>
+              <Typography variant="body2">{state}</Typography>
             </CardContent>
             <CardActions className={classes.pos}>
               {/* edit button goes here */}
@@ -133,10 +140,13 @@ class Checkout extends Component {
               <Typography variant="h1" gutterBottom>
                 Payment Information
               </Typography>
-              <Typography variant="body1">
-                Billing Address: {this.props.billingInfo}
-              </Typography>
-              <Typography variant="body1">Payment Method: Paypal</Typography>
+              <Typography variant="body1">Billing Address:</Typography>
+              <Typography variant="body2">{addressLine1}</Typography>
+              <Typography variant="body2">{addressLine2}</Typography>
+              <Typography variant="body2">{city}</Typography>
+              <Typography variant="body2">{state}</Typography>
+              <Typography variant="body1">Payment Method:</Typography>
+              <Typography variant="body2">Paypal</Typography>
             </CardContent>
             <CardActions className={classes.pos}>
               {/* <Link to="/Login">
@@ -165,8 +175,10 @@ const mapState = state => {
     firstName: state.user.firstName,
     lastName: state.user.lastName,
     email: state.user.email,
-    shippingInfo: state.user.shippingInfo,
-    billingInfo: state.user.billingInfo
+    addressLine1: state.user.addressLine1,
+    addressLine2: state.user.addressLine2,
+    city: state.user.city,
+    state: state.user.state
   }
 }
 

@@ -106,7 +106,6 @@ router.put('/minusOne/:userId/:itemId', async (req, res, next) => {
     let updatedTotalQty = cartItem.qty - 1
     if (updatedTotalQty <= 0) {
       updatedTotalQty = 1
-
     } else {
       await cart.addProduct(product, {through: {qty: updatedTotalQty}})
     }

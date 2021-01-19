@@ -33,21 +33,21 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
-  billingInfo: {
+  addressLine1: {
     type: Sequelize.STRING
   },
-  shippingInfo: {
+  addressLine2: {
+    type: Sequelize.STRING
+  },
+  city: {
+    type: Sequelize.STRING
+  },
+  state: {
     type: Sequelize.STRING
   },
   isAdmin: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false,
-    get() {
-      if (this.userType === 'admin') {
-        return true
-      }
-      return false
-    }
+    defaultValue: false
   },
   googleId: {
     type: Sequelize.STRING

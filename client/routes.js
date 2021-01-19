@@ -14,6 +14,8 @@ import ConfirmOrder from './components/ConfirmOrder'
 import AdminOrders from './components/AdminOrders'
 import AdminCustomers from './components/AdminCustomers'
 import AdminInventory from './components/AdminInventory'
+import AdminAddNewProd from './components/AdminAddNewProd'
+import AdminEditProd from './components/AdminEditProd'
 
 /**
  * COMPONENT
@@ -43,6 +45,8 @@ class Routes extends Component {
         <Route exact path="/adminorders" component={AdminOrders} />
         <Route exact path="/admininventory" component={AdminInventory} />
         <Route exact path="/adminCustomers" component={AdminCustomers} />
+        <Route exact path="/addinventory" component={AdminAddNewProd} />
+        <Route exact path="/editinventory" component={AdminEditProd} />
 
         {isLoggedIn && (
           <Switch>

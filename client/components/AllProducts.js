@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper'
 
 const styles = theme => ({
   addButt: {
-    backgroundColor: theme.palette.common.colorTwo
+    backgroundColor: theme.palette.common.colorFour
   },
   // not sure how to apply this root stuff!
   root: {
@@ -47,26 +47,39 @@ class AllProducts extends Component {
   render() {
     const products = this.props.products
 
+    const {classes} = this.props
+
     if (products) {
       return (
         <Grid container justify="center">
-          <Grid item container direction="column" alignItems="center">
+          <Grid item container>
             {products.map(product => (
-              <Card key={product.id} style={{width: '50%'}} elevation={4}>
-                <Link to={`/products/${product.id}`} key={product.id}>
-                  <img className="browsingImg" src={product.img} />
-                  <Typography variant="body1">{product.name}</Typography>
-                  <Typography variant="body2">
+              <Card
+                key={product.id}
+                style={{width: '18%', marginTop: '5em'}}
+                elevation={4}
+              >
+                <Grid item container justify="center" direction="column">
+                  <Link to={`/products/${product.id}`} key={product.id}>
+                    <img className="browsingImg" src={product.img} />
+                  </Link>
+                  <Typography variant="body1" style={{alignSelf: 'center'}}>
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" style={{alignSelf: 'center'}}>
                     {(product.price * 0.01).toFixed(2)}
                   </Typography>
+
                 </Link>
                 <Button
+                  className={classes.addButt}
                   type="submit"
                   onClick={this.handleClick}
                   value={product.id}
                 >
                   Add To Cart
                 </Button>
+
               </Card>
             ))}
           </Grid>

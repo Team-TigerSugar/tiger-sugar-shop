@@ -3,8 +3,7 @@ const db = require('../db')
 
 const Cart = db.define('cart', {
   sessionId: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
   },
   //   firstName: {
   //     type: Sequelize.STRING

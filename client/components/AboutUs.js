@@ -22,6 +22,7 @@ export default class AboutUs extends Component {
 
     return (
       <div>
+
         <Grid container style={{padding: '5%'}}>
           <Grid item>
             <Typography variant="h1">ABOUT US</Typography>
@@ -103,6 +104,7 @@ export default class AboutUs extends Component {
             </Card>
           </Grid>
         </Grid>
+
       </div>
     )
   }

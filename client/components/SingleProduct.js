@@ -14,13 +14,17 @@ import CardMedia from '@material-ui/core/CardMedia'
 import {fetchSingleProduct} from '../store/singleProduct'
 import {me} from '../store'
 import {getCartThunk, addToCartThunk} from '../store/cart'
-import {cartItemThunk, updateCartItemThunk} from '../store/cartItem'
+import {
+  cartItemThunk,
+  updateCartItemThunk,
+  sumOfCartItemThunk
+} from '../store/cartItem'
 import Paper from '@material-ui/core/Paper'
 //import UpdateCart from './updateCart'
 
 const styles = theme => ({
   addButt: {
-    backgroundColor: theme.palette.common.colorTwo
+    backgroundColor: theme.palette.common.colorFour
   }
 })
 
@@ -57,16 +61,17 @@ class SingleProduct extends Component {
     e.preventDefault()
     const userId = this.props.user.id
     const itemId = e.currentTarget.value
-    await this.props.addToCart(userId, itemId)
+    //await this.props.addToCart(userId, itemId)
     const qty = this.state.qty
-    console.log('this.state.qty: ', this.state, qty)
-    await this.props.updateCartItem(userId, itemId, qty)
+    await this.props.sumOfCartItem(userId, itemId, qty)
+    /*   console.log('this.state.qty: ', this.state, qty)
+    await this.props.updateCartItem(userId, itemId, qty) */
   }
 
   render() {
     const product = this.props.product
     //  console.log('this.props', this.props)
-
+    const {classes} = this.props
     if (product) {
       return (
         <Grid container justify="center">
@@ -88,6 +93,7 @@ class SingleProduct extends Component {
                 onChange={this.handleChange}
               />
               <Button
+                className={classes.addButt}
                 type="submit"
                 onClick={this.handleClick}
                 value={product.id}
@@ -121,7 +127,9 @@ const mapDispatchToProps = dispatch => ({
   getCart: userId => dispatch(getCartThunk(userId)),
   getCartItem: (userId, itemId) => dispatch(cartItemThunk(userId, itemId)),
   updateCartItem: (userId, itemId, qty) =>
-    dispatch(updateCartItemThunk(userId, itemId, qty))
+    dispatch(updateCartItemThunk(userId, itemId, qty)),
+  sumOfCartItem: (userId, itemId, qty) =>
+    dispatch(sumOfCartItemThunk(userId, itemId, qty))
 })
 
 export default compose(

@@ -29,7 +29,16 @@ const styles = theme => ({
 })
 
 export const UserHome = props => {
-  const {firstName, classes, lastName, email, shippingInfo, billingInfo} = props
+  const {
+    firstName,
+    classes,
+    lastName,
+    email,
+    addressLine1,
+    addressLine2,
+    city,
+    state
+  } = props
 
   return (
     <Grid container direction="column">
@@ -66,9 +75,12 @@ export const UserHome = props => {
               {email}
             </Typography>
             <Typography variant="body1" style={{marginBottom: '0.7em'}}>
-              ADDRESSES:
+              ADDRESS:
             </Typography>
-            <Typography variant="body2">{shippingInfo}</Typography>
+            <Typography variant="body2">{addressLine1}</Typography>
+            <Typography variant="body2">{addressLine2}</Typography>
+            <Typography variant="body2">{city}</Typography>
+            <Typography variant="body2">{state}</Typography>
             <Button variant="filled" className={classes.button}>
               Edit
             </Button>
@@ -85,8 +97,10 @@ const mapState = state => {
     firstName: state.user.firstName,
     lastName: state.user.lastName,
     email: state.user.email,
-    shippingInfo: state.user.shippingInfo,
-    billingInfo: state.user.billingInfo
+    addressLine1: state.user.addressLine1,
+    addressLine2: state.user.addressLine2,
+    city: state.user.city,
+    state: state.user.state
   }
 }
 
@@ -98,9 +112,10 @@ export default compose(
 UserHome.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
-  email: PropTypes.string,
-  shippingInfo: PropTypes.string,
-  billingInfo: PropTypes.string
+  addressLine1: PropTypes.string,
+  addressLine2: PropTypes.string,
+  city: PropTypes.string,
+  state: PropTypes.string
 }
 
 // ============================================================

@@ -15,7 +15,7 @@ const styles = theme => ({
 })
 
 export const ConfirmOrder = props => {
-  const {firstName, shippingInfo, classes} = props
+  const {firstName, addressLine1, city, state, classes} = props
 
   return (
     <React.Fragment>
@@ -25,7 +25,7 @@ export const ConfirmOrder = props => {
         </Typography>
         <Typography variant="body1">
           Your order was placed successfully. You will be receiving your potions
-          at {shippingInfo} soon.
+          soon at {addressLine1} in {city}, {state}.
         </Typography>
         <Link to="/">
           <Button>back to Tiger Sugar Balm</Button>
@@ -38,7 +38,9 @@ export const ConfirmOrder = props => {
 const mapState = state => {
   return {
     firstName: state.user.firstName,
-    shippingInfo: state.user.shippingInfo
+    addressLine1: state.user.addressLine1,
+    city: state.user.city,
+    state: state.user.state
   }
 }
 

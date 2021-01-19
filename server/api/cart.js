@@ -1,19 +1,30 @@
 const router = require('express').Router()
+// const {default: user} = require('../../client/store/user')
 const {Cart, Product, User, CartItem} = require('../db/models')
 module.exports = router
 
 //get a user's cart and items in it
 router.get('/:userId', async (req, res, next) => {
   try {
-    const [cart] = await Cart.findOrCreate({
-      where: {
-        userId: req.params.userId,
-        //   sessionId: req.sessionID,
-        isOrder: false
-      },
-      include: Product
-    })
-    res.json(cart)
+    if (req.params.userId === undefined) {
+      const [cart] = await Cart.findOrCreate({
+        where: {
+          sessionId: req.sessionID,
+          isOrder: false
+        }
+      })
+      res.json(cart)
+    } else {
+      const [cart] = await Cart.findOrCreate({
+        where: {
+          userId: req.params.userId,
+          // sessionId: req.sessionID,
+          isOrder: false
+        },
+        include: Product
+      })
+      res.json(cart)
+    }
   } catch (err) {
     next(err)
   }
@@ -106,7 +117,6 @@ router.put('/minusOne/:userId/:itemId', async (req, res, next) => {
     let updatedTotalQty = cartItem.qty - 1
     if (updatedTotalQty <= 0) {
       updatedTotalQty = 1
-
     } else {
       await cart.addProduct(product, {through: {qty: updatedTotalQty}})
     }

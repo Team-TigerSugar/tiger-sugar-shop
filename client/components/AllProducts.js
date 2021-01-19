@@ -46,6 +46,7 @@ class AllProducts extends Component {
 
   render() {
     const products = this.props.products
+    console.log('user from products component', this.props.user)
 
     if (products) {
       return (

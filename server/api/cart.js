@@ -63,7 +63,53 @@ router.post('/:userId/:itemId', async (req, res, next) => {
         isOrder: false
       }
     })
-    await cart.addProduct(product)
+    //console.log('CART', cart.dataValues)
+    const cartItem = await CartItem.findOne({
+      where: {cartId: cart.id, productId: product.id}
+    })
+    //console.log('-------', cartItem)
+    if (cartItem) {
+      //console.log('cartitem.qty:', cartItem.qty)
+
+      const updatedTotalQty = cartItem.qty + 1
+      //console.log('UPDATEDQTY:', updatedTotalQty)
+      await cart.addProduct(product, {through: {qty: updatedTotalQty}})
+    } else {
+      await cart.addProduct(product, {through: {qty: 1}})
+    }
+
+    res.send(product)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//adding input to qty
+//POST /api/cart/sum/:userId/:itemId
+router.post('/sum/:userId/:itemId/:qty', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.itemId)
+    const [cart] = await Cart.findOrCreate({
+      where: {
+        userId: req.params.userId,
+        isOrder: false
+      }
+    })
+    //console.log('CART', cart.dataValues)
+    const cartItem = await CartItem.findOne({
+      where: {cartId: cart.id, productId: product.id}
+    })
+    //console.log('-------', cartItem)
+    if (cartItem) {
+      //console.log('cartitem.qty:', cartItem.qty)
+
+      const updatedTotalQty = cartItem.qty + Number(req.params.qty)
+      //console.log('UPDATEDQTY:', updatedTotalQty)
+      await cart.addProduct(product, {through: {qty: updatedTotalQty}})
+    } else {
+      await cart.addProduct(product, {through: {qty: Number(req.params.qty)}})
+    }
+
     res.send(product)
   } catch (error) {
     next(error)
@@ -106,7 +152,6 @@ router.put('/minusOne/:userId/:itemId', async (req, res, next) => {
     let updatedTotalQty = cartItem.qty - 1
     if (updatedTotalQty <= 0) {
       updatedTotalQty = 1
-
     } else {
       await cart.addProduct(product, {through: {qty: updatedTotalQty}})
     }
@@ -132,7 +177,6 @@ router.put('/:userId/:itemId/:qty', async (req, res, next) => {
     })
 
     const updatedTotalQty = cartItem.qty + Number(req.params.qty)
-    //  console.log('$$$$$$CARTITEM: ', updatedTotalQty)
 
     await cart.addProduct(product, {through: {qty: req.params.qty}})
     res.send(product)

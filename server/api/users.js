@@ -2,14 +2,12 @@ const router = require('express').Router()
 const {User, Cart} = require('../db/models')
 module.exports = router
 
+//see every user's info as an admin
 router.get('/admin/:userId', async (req, res, next) => {
   const currentUser = await User.findByPk(req.params.userId)
   try {
     if (currentUser.isAdmin) {
       const users = await User.findAll({
-        // explicitly select only the id and email fields - even though
-        // users' passwords are encrypted, it won't help if we just
-        // send everything to anyone who asks!
         attributes: [
           'id',
           'email',

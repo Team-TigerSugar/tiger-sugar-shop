@@ -3,7 +3,6 @@ import axios from 'axios'
 //ACTION TYPES
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
-
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const PLACE_ORDER = 'PLACE_ORDER'
 
@@ -86,7 +85,12 @@ export default function(state = defaultState, action) {
     case DELETE_FROM_CART:
       // console.log('thunk cart-products', action.cart.products)
       // return action.cart.products
-      return state.products.filter(product => product.id !== action.productId)
+      return {
+        ...state,
+        products: state.products.filter(
+          product => product.id !== action.productId
+        )
+      }
     case PLACE_ORDER:
       return action.newCart
     default:

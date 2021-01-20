@@ -1,73 +1,82 @@
-// import React from 'react'
-// import {Link} from 'react-router-dom'
-// import {connect} from 'react-redux'
-// import {compose} from 'redux'
-// import {auth} from '../store'
-// import {withStyles} from '@material-ui/core/styles'
+import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 // import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {me} from '../store'
+import {compose} from 'redux'
+import {getCartThunk, addToCartThunk, deleteFromCartThunk} from '../store/cart'
+import {cartItemThunk} from '../store/cartItem'
 
-// import Footer from './Footer'
+import {withStyles} from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import UpdateCart from './updateCart'
 
-// import Grid from '@material-ui/core/Grid'
-// import Typography from '@material-ui/core/Typography'
-// import TextField from '@material-ui/core/TextField'
-// import Button from '@material-ui/core/Button'
+import tornPaperVert from '../../public/images/tornPaperVert.png'
 
-// const styles = (theme) => ({
-//   wrapper: {
-//     width: '40em',
-//   },
-//   inputWrapper: {
-//     width: '50%',
-//     marginTop: '5em',
-//   },
-//   inputField: {
-//     backgroundColor: theme.palette.common.colorThree,
-//   },
-//   button: {
-//     fontFamily: 'Lato',
-//     fontWeight: 300,
-//   },
-// })
+const styles = theme => ({
+  removeButt: {
+    backgroundColor: theme.palette.common.colorTwo
+  },
+  otherButts: {
+    backgroundColor: theme.palette.common.colorOne
+  }
+})
 
-// export const UserHome = (props) => {
-//   const {firstName, lastName, email, shippingInfo, billingInfo} = props
+class Cart extends Component {
+  constructor() {
+    super()
+  }
 
-//   return (
-//     <Grid container direction="column">
-//       <Grid container>
-//         <Typography variant="h1">Welcome, {firstName}</Typography>
-//       </Grid>
-//       <Grid item container></Grid>
-//     </Grid>
-//   )
-// }
+  async componentDidMount() {
+    try {
+      await this.props.getMe()
+    } catch (err) {
+      console.log(err)
+    }
+    const userId = this.props.user.id
+    if (!userId) {
+      // try gettign local cart
+      // if there is no local cart, create a new, empty cart
+      await localStorage.setItem('localCart', {products: []})
+    } else {
+      await this.props.getCart(userId)
+    }
+  }
 
-// const mapState = (state) => {
-//   return {
-//     firstName: state.user.firstName,
-//     lastName: state.user.lastName,
-//     email: state.user.email,
-//     shippingInfo: state.user.shippingInfo,
-//     billingInfo: state.user.billingInfo,
-//   }
-// }
+  render() {
+    //   const cartItems = this.state.cartItems
+    const isLoggedIn = this.props.user && Object.keys(this.props.user).length
+    const cartHasItems = this.props.cartItems && this.props.cartItems.length
 
-// const mapDispatch = (dispatch) => {
-//   return {
-//     auth: (email, password, method) => dispatch(auth(email, password, method)),
-//   }
-// }
+    const {classes} = this.props
+    return <Grid container />
+  }
+}
 
-// export default compose(
-//   connect(mapState),
-//   withStyles(styles, {withTheme: true})
-// )(UserHome)
+const mapState = state => {
+  return {
+    cartItems: state.cart.products,
+    cart: state.cart,
+    user: state.user,
+    qty: state.cartItem.qty
+  }
+}
 
-// UserHome.propTypes = {
-//   firstName: PropTypes.string,
-//   lastName: PropTypes.string,
-//   email: PropTypes.string,
-//   shippingInfo: PropTypes.string,
-//   billingInfo: PropTypes.string,
-// }
+const mapDispatch = dispatch => {
+  return {
+    getCart: userId => dispatch(getCartThunk(userId)),
+    addToCart: (userId, itemId, qty) =>
+      dispatch(addToCartThunk(userId, itemId, qty)),
+    deleteFromCart: (cartId, itemId) =>
+      dispatch(deleteFromCartThunk(cartId, itemId)),
+    getMe: () => dispatch(me()),
+    getCartItem: (userId, itemId) => dispatch(cartItemThunk(userId, itemId))
+  }
+}
+
+export default compose(
+  connect(mapState, mapDispatch),
+  withStyles(styles, {withTheme: true})
+)(Cart)

@@ -13,14 +13,25 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import UpdateCart from './updateCart'
 
-import tornPaperVert from '../../public/images/tornPaperVert.png'
+import cartSummary from './../../public/images/cartSummary.png'
 
 const styles = theme => ({
   removeButt: {
-    backgroundColor: theme.palette.common.colorTwo
+    backgroundColor: theme.palette.common.colorTwo,
+    textTransform: 'none',
+    fontFamily: 'Lato',
+    marginTop: '1em'
   },
   otherButts: {
     backgroundColor: theme.palette.common.colorOne
+  },
+  summary: {
+    backgroundImage: `url(${cartSummary})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-reapeat',
+    width: '30%',
+    marginLeft: '15em'
   }
 })
 
@@ -55,85 +66,105 @@ class Cart extends Component {
       console.log('cart', this.props.cart)
       return (
         <React.Fragment>
-          <Grid container justify="center">
-            {cartHasItems ? (
-              <Typography variant="h1">Here are your Cart Items</Typography>
-            ) : (
-              <Typography variant="h1">No cart items!</Typography>
-            )}
-          </Grid>
           <Grid container>
-            <Grid item container>
-              <Grid item container direction="column">
-                {this.props.cartItems &&
-                  this.props.cartItems.map(item => (
-                    <Grid key={item.id} direction="row">
-                      <Grid item container>
-                        <Grid item>
-                          <img className="browsingImg" src={item.img} />
-                        </Grid>
-                        <Grid item container>
-                          <Typography variant="body1">{item.name}</Typography>
-                          <Typography variant="body2">
-                            ${(item.price * 0.01).toFixed(2)}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-
-                      <UpdateCart item={item} userId={this.props.user.id} />
-                      <Button
-                        type="submit"
-                        onClick={() =>
-                          this.props.deleteFromCart(this.props.cart.id, item.id)
-                        }
-                        value={item.id}
-                        className={classes.removeButt}
-                      >
-                        Remove
-                      </Button>
-                    </Grid>
-                  ))}
-              </Grid>
+            <Grid container justify="center">
+              {cartHasItems ? (
+                <Typography variant="h1">Here are your Cart Items</Typography>
+              ) : (
+                <Typography variant="h1">No cart items!</Typography>
+              )}
             </Grid>
-            <Grid item container direction="column" alignContent="center">
-              <Link to="/products">
-                <Button className={classes.otherButts} justify="center">
-                  continue shopping
-                </Button>
-              </Link>
+            <Grid container direction="row">
+              <Grid item container style={{width: '50%'}}>
+                <Grid item container direction="column" style={{width: '100'}}>
+                  {this.props.cartItems &&
+                    this.props.cartItems.map(item => (
+                      <Grid key={item.id}>
+                        <Grid
+                          item
+                          container
+                          alignItems="center"
+                          style={{marginTop: '4em', marginLeft: '6em'}}
+                        >
+                          <Grid item>
+                            <img className="browsingImg" src={item.img} />
+                          </Grid>
+                          <Grid item style={{marginLeft: '2em'}}>
+                            <Typography variant="body1">{item.name}</Typography>
+                            <Typography variant="body2">
+                              ${(item.price * 0.01).toFixed(2)}
+                            </Typography>
+                            <Button
+                              type="submit"
+                              onClick={() =>
+                                this.props.deleteFromCart(
+                                  this.props.cart.id,
+                                  item.id
+                                )
+                              }
+                              value={item.id}
+                              classes={{root: classes.removeButt}}
+                            >
+                              Remove
+                            </Button>
+                          </Grid>
+                          <Grid item style={{marginLeft: 'auto'}}>
+                            <UpdateCart
+                              item={item}
+                              userId={this.props.user.id}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    ))}
+                </Grid>
+              </Grid>
+              <Grid
+                item
+                container
+                direction="column"
+                alignContent="center"
+                className={classes.summary}
+              >
+                <Link to="/products">
+                  <Button className={classes.otherButts} justify="center">
+                    continue shopping
+                  </Button>
+                </Link>
 
-              <div>
-                {(() => {
-                  if (!cartHasItems) return null
-                  if (isLoggedIn)
-                    return (
-                      <Grid
-                        item
-                        container
-                        direction="column"
-                        alignContent="center"
-                      >
-                        <Typography variant="body1">order summary</Typography>
-                        <Link to="/checkout">
-                          <Button className={classes.otherButts}>
-                            checkout
-                          </Button>
-                        </Link>
-                      </Grid>
-                    )
-                  else
-                    return (
-                      <Grid item container direction="column">
-                        <Typography variant="body1">order summary</Typography>
-                        <Link to="/checkoutmethods">
-                          <Button className={classes.otherButts}>
-                            checkout
-                          </Button>
-                        </Link>
-                      </Grid>
-                    )
-                })()}
-              </div>
+                <div>
+                  {(() => {
+                    if (!cartHasItems) return null
+                    if (isLoggedIn)
+                      return (
+                        <Grid
+                          item
+                          container
+                          direction="column"
+                          alignContent="center"
+                        >
+                          <Typography variant="body1">order summary</Typography>
+                          <Link to="/checkout">
+                            <Button className={classes.otherButts}>
+                              checkout
+                            </Button>
+                          </Link>
+                        </Grid>
+                      )
+                    else
+                      return (
+                        <Grid item container direction="column">
+                          <Typography variant="body1">order summary</Typography>
+                          <Link to="/checkoutmethods">
+                            <Button className={classes.otherButts}>
+                              checkout
+                            </Button>
+                          </Link>
+                        </Grid>
+                      )
+                  })()}
+                </div>
+              </Grid>
             </Grid>
           </Grid>
         </React.Fragment>

@@ -33,15 +33,31 @@ class AllProducts extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.getProducts()
+    const userId = this.props.user.id
+    if (!userId) {
+      if (!localStorage.getItem('localCart')) {
+        await localStorage.setItem('localCart', JSON.stringify({products: []}))
+      }
+    }
   }
 
   async handleClick(e) {
     e.preventDefault()
     const userId = this.props.user.id
     const itemId = e.currentTarget.value
-    await this.props.addToCart(userId, itemId)
+    const product = await this.props.products.filter(
+      prod => prod.id === Number(itemId)
+    )[0]
+
+    if (!userId) {
+      const cart = JSON.parse(localStorage.getItem('localCart'))
+      cart.products.push(product)
+      await localStorage.setItem('localCart', JSON.stringify(cart))
+    } else {
+      await this.props.addToCart(userId, itemId)
+    }
   }
 
   render() {

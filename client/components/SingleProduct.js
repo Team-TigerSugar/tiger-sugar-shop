@@ -14,6 +14,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import {fetchSingleProduct} from '../store/singleProduct'
 import {me} from '../store'
 import {getCartThunk, addToCartThunk} from '../store/cart'
+import {addToGuestCartThunk} from '../store/guestCart'
 import {
   cartItemThunk,
   updateCartItemThunk,
@@ -123,6 +124,7 @@ const mapDispatchToProps = dispatch => ({
   setSingleProduct: id => dispatch(fetchSingleProduct(id)),
   addToCart: (userId, itemId, qty) =>
     dispatch(addToCartThunk(userId, itemId, qty)),
+  addToGuestCart: itemId => dispatch(addToGuestCartThunk(itemId)),
   getMe: () => dispatch(me()),
   getCart: userId => dispatch(getCartThunk(userId)),
   getCartItem: (userId, itemId) => dispatch(cartItemThunk(userId, itemId)),

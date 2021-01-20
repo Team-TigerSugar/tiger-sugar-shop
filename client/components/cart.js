@@ -43,19 +43,16 @@ class Cart extends Component {
     if (!userId) {
       if (!localStorage.getItem('localCart')) {
         await localStorage.setItem('localCart', JSON.stringify({products: []}))
-        //maybe need to include a localCart id as well
       }
       this.setState({cart: JSON.parse(localStorage.getItem('localCart'))})
-      // console.log('localCart', this.state.cart)
+      console.log('localCart', this.state.cart)
     } else {
       await this.props.getCart(userId)
       this.setState({cart: this.props.cart})
-      // console.log('userCart', this.state.cart)
     }
   }
 
   render() {
-    //   const cartItems = this.state.cartItems
     const isLoggedIn = this.props.user && Object.keys(this.props.user).length
     //  const cartHasItems = this.props.cartItems && this.props.cartItems.length
     const cartItems = this.state.cart.products
@@ -64,7 +61,6 @@ class Cart extends Component {
 
     const {classes} = this.props
     if (this.state.cart) {
-      // console.log('cart in render', this.state.cart)
       return (
         <React.Fragment>
           <Grid container justify="center">
@@ -158,14 +154,16 @@ class Cart extends Component {
 
 const mapState = state => {
   return {
+    //switch statement
     cartItems: state.cart.products,
     cart: state.cart,
+    guestCart: state.guestCart,
     user: state.user,
     qty: state.cartItem.qty
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
     getCart: userId => dispatch(getCartThunk(userId)),
     addToCart: (userId, itemId, qty) =>

@@ -191,6 +191,14 @@ class Navbar extends React.Component {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      to="/myorderhistory"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      MY ORDER HISTORY
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
                       to="/admininventory"
                       onClick={this.handleClose}
                       classes={{root: classes.menuItem}}

@@ -57,14 +57,14 @@ class AdminEditProd extends React.Component {
           <Grid container direction="column" alignItems="center">
             <Grid item style={{width: '50%'}}>
               <Typography align="center" variant="body1">
-                Edit PRODUCT_NAME
+                Edit
               </Typography>
             </Grid>
             <Grid
               item
               container
               // direction="column"
-              style={{width: '50%', marginTop: '4em'}}
+              style={{marginTop: '1em'}}
               justify="center"
             >
               <TextField
@@ -91,10 +91,10 @@ class AdminEditProd extends React.Component {
                 label="Description"
                 multiline
                 rows={5}
-                fullWidth
+                //  fullWidth
                 variant="filled"
                 onChange={this.changeHandler}
-                style={{marginTop: '2em'}}
+                style={{marginTop: '2em', width: '100%'}}
               />
             </Grid>
             <Grid item>

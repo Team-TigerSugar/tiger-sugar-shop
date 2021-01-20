@@ -26,9 +26,8 @@ router.get('/myorders/:userId', async (req, res, next) => {
         userId: req.params.userId,
         isOrder: true
       },
-      include: {
-        all: true
-      }
+      include: Product,
+      CartItem
     })
     res.json(orders)
   } catch (error) {

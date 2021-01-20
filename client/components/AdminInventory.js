@@ -4,6 +4,7 @@ import {compose} from 'redux'
 import {connect} from 'react-redux'
 import {fetchProducts} from '../store/products'
 import {addToCartThunk, deleteFromCartThunk} from '../store/cart'
+import AdminEditProd from './AdminEditProd'
 
 import Button from '@material-ui/core/Button'
 import {withStyles} from '@material-ui/core/styles'
@@ -12,6 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import {shadows} from '@material-ui/system'
 import Box from '@material-ui/core/Box'
+import AdminAddNewProd from './AdminAddNewProd'
 
 const styles = theme => ({
   button: {
@@ -25,11 +27,22 @@ const styles = theme => ({
 class AdminInventory extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      editOpen: false
+    }
     this.handleClick = this.handleClick.bind(this)
+    this.clickEditHandler = this.clickEditHandler.bind(this)
   }
 
   componentDidMount() {
     this.props.getProducts()
+  }
+
+  clickEditHandler(event) {
+    event.preventDefault()
+    this.setState({
+      editOpen: !this.state.editOpen
+    })
   }
 
   async handleClick(e) {
@@ -104,8 +117,8 @@ class AdminInventory extends React.Component {
                     Delete
                   </Button>
                   <Button
-                    component={Link}
-                    to="/editinventory"
+                    type="button"
+                    onClick={this.clickEditHandler}
                     variant="contained"
                     classes={{root: classes.button}}
                     style={{marginLeft: '1em'}}
@@ -114,6 +127,13 @@ class AdminInventory extends React.Component {
                   </Button>
                 </Grid>
               </Grid>
+              {this.state.editOpen ? (
+                <Grid className="update-info">
+                  {product.id && <AdminEditProd products={product} />}
+                </Grid>
+              ) : (
+                <div />
+              )}
             </Box>
           ))}
         </Grid>

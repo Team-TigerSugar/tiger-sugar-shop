@@ -11,12 +11,15 @@ export default class AboutUs extends Component {
     const cardTheme = {
       root: {
         width: '21%',
-        height: '350px',
+        height: '25em',
         margin: '2%',
         alignItems: 'center'
       },
       media: {
-        height: '100px'
+        height: '100px',
+        objectFit: 'cover',
+        borderRadius: '50%',
+        width: '100px'
       }
     }
 
@@ -24,19 +27,20 @@ export default class AboutUs extends Component {
       <div>
         <Grid container style={{padding: '5%'}}>
           <Grid item>
-            <Typography variant="h1">ABOUT US</Typography>
+            <Typography variant="h1">About Us</Typography>
             <Typography variant="body1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              We are Tiger Sugar Balm.
+              <br />
+              An apothecary founded by four ladies with a passion for making
+              people’s lives easier... with a twist.
+              <br />
+              With potions for every occasion, we’re positive you’ll find
+              soemthing for you or a loved one. Take your next step into this
+              magical apothecary.
             </Typography>
           </Grid>
           <Grid item container>
-            <Typography variant="h1">CREATORS</Typography>
+            <Typography variant="h1">Meet Our Team</Typography>
             <Typography variant="body1">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.

@@ -27,8 +27,6 @@ const styles = theme => ({
 class Cart extends Component {
   constructor() {
     super()
-
-    //  this.handleDelete = this.handleDelete.bind(this)
   }
 
   async componentDidMount() {
@@ -38,19 +36,14 @@ class Cart extends Component {
       console.log(err)
     }
     const userId = this.props.user.id
-    await this.props.getCart(userId)
+    if (!userId) {
+      // try gettign local cart
+      // if there is no local cart, create a new, empty cart
+      await localStorage.setItem('localCart', {products: []})
+    } else {
+      await this.props.getCart(userId)
+    }
   }
-
-  //   async handleDelete(e) {
-  //     e.preventDefault()
-  //     const cartId = this.props.cart.id
-  //     const itemId = e.currentTarget.value
-  //     try {
-  //       await this.props.deleteFromCart(cartId, itemId)
-  //     } catch (err) {
-  //       console.log(err)
-  //     }
-  //   }
 
   render() {
     //   const cartItems = this.state.cartItems
@@ -90,7 +83,6 @@ class Cart extends Component {
                       <UpdateCart item={item} userId={this.props.user.id} />
                       <Button
                         type="submit"
-                        // onClick={this.handleDelete}
                         onClick={() =>
                           this.props.deleteFromCart(this.props.cart.id, item.id)
                         }

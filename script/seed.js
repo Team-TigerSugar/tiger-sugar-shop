@@ -494,7 +494,7 @@ async function seed() {
   await lolaCart.addProduct(potion6)
 
   await Promise.all(userData.map(user => User.create(user)))
-  // await Promise.all(productData.map((product) => Product.create(product)))
+  await Promise.all(productData.map(product => Product.create(product)))
 
   console.log(`seeded successfully`)
 }

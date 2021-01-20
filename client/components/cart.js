@@ -27,6 +27,9 @@ const styles = theme => ({
 class Cart extends Component {
   constructor() {
     super()
+    this.state = {
+      cart: {}
+    }
   }
 
   async componentDidMount() {
@@ -35,24 +38,33 @@ class Cart extends Component {
     } catch (err) {
       console.log(err)
     }
+
     const userId = this.props.user.id
     if (!userId) {
-      // try gettign local cart
-      // if there is no local cart, create a new, empty cart
-      await localStorage.setItem('localCart', {products: []})
+      if (!localStorage.getItem('localCart')) {
+        await localStorage.setItem('localCart', JSON.stringify({products: []}))
+        //maybe need to include a localCart id as well
+      }
+      this.setState({cart: JSON.parse(localStorage.getItem('localCart'))})
+      // console.log('localCart', this.state.cart)
     } else {
       await this.props.getCart(userId)
+      this.setState({cart: this.props.cart})
+      // console.log('userCart', this.state.cart)
     }
   }
 
   render() {
     //   const cartItems = this.state.cartItems
     const isLoggedIn = this.props.user && Object.keys(this.props.user).length
-    const cartHasItems = this.props.cartItems && this.props.cartItems.length
+    //  const cartHasItems = this.props.cartItems && this.props.cartItems.length
+    const cartItems = this.state.cart.products
+    const cartHasItems =
+      this.state.cart.products && this.state.cart.products.length
 
     const {classes} = this.props
-    if (this.props.cart) {
-      console.log('cart', this.props.cart)
+    if (this.state.cart) {
+      // console.log('cart in render', this.state.cart)
       return (
         <React.Fragment>
           <Grid container justify="center">
@@ -65,8 +77,8 @@ class Cart extends Component {
           <Grid container>
             <Grid item container>
               <Grid item container direction="column">
-                {this.props.cartItems &&
-                  this.props.cartItems.map(item => (
+                {cartItems &&
+                  cartItems.map(item => (
                     <Grid key={item.id} direction="row">
                       <Grid item container>
                         <Grid item>

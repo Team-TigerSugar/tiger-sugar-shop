@@ -48,7 +48,7 @@ class SingleProduct extends Component {
     }
     const userId = this.props.user.id
     await this.props.getCart(userId)
-    console.log('cart; ', this.props.cartItems)
+    //  console.log('cart; ', this.props.cartItems)
   }
 
   handleChange(event) {

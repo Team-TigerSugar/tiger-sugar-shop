@@ -45,9 +45,9 @@ class UpdateCart extends Component {
   async componentDidMount() {
     try {
       const userId = this.props.userId
-      console.log('Update UserId:', userId)
+      // console.log('Update UserId:', userId)
       const itemId = this.props.item.id
-      console.log('Udpate ItemId:', itemId)
+      // console.log('Udpate ItemId:', itemId)
       await this.props.getCartItem(userId, itemId)
 
       //console.log('CART ITEM IN COMPONENT:', cartItem)
@@ -57,7 +57,7 @@ class UpdateCart extends Component {
     } catch (err) {
       console.log(err)
     }
-    console.log('QTY: ', this.props.qty)
+    //  console.log('QTY: ', this.props.qty)
     const userId = this.props.user.id
     await this.props.getCart(userId)
   }
@@ -80,7 +80,7 @@ class UpdateCart extends Component {
 
     await this.props.decrementCartItem(userId, itemId)
     await this.props.getCartItem(userId, itemId)
-    console.log('DECREMENTthis.state.qty: ', this.state.qty)
+    //  console.log('DECREMENTthis.state.qty: ', this.state.qty)
     this.setState({
       qty: this.props.qty
     })
@@ -97,16 +97,6 @@ class UpdateCart extends Component {
               Qty: {this.state.qty}
             </Typography>
             <Button
-              className={classes.IncrementButton}
-              type="submit"
-              onClick={this.handleIncrementSubmit}
-            >
-              <Typography variant="button" display="block" gutterBottom>
-                {'   '}+{'   '}
-              </Typography>
-            </Button>
-
-            <Button
               className={classes.DecrementButton}
               type="submit"
               onClick={this.handleDecrementSubmit}
@@ -114,6 +104,15 @@ class UpdateCart extends Component {
               <Typography variant="button" display="block" gutterBottom>
                 {' '}
                 -{' '}
+              </Typography>
+            </Button>
+            <Button
+              className={classes.IncrementButton}
+              type="submit"
+              onClick={this.handleIncrementSubmit}
+            >
+              <Typography variant="button" display="block" gutterBottom>
+                {'   '}+{'   '}
               </Typography>
             </Button>
           </Grid>

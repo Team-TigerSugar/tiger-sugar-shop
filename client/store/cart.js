@@ -77,13 +77,8 @@ export default function(state = defaultState, action) {
     case GET_CART:
       return action.cart
     case ADD_TO_CART:
-      // let newArr = [...state.push(action.product)]
-      // return {...state, products: newArr}
       return {...state, products: [...state.products, action.product]}
     case DELETE_FROM_CART:
-
-      // return action.cart.products
-
       return {
         ...state,
         products: state.products.filter(

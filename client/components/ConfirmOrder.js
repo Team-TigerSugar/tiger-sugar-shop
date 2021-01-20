@@ -16,7 +16,7 @@ const styles = theme => ({
 
 export const ConfirmOrder = props => {
   const {firstName, addressLine1, city, state, classes} = props
-
+  localStorage.clear()
   return (
     <React.Fragment>
       <Grid container direction="column" className={classes.root}>

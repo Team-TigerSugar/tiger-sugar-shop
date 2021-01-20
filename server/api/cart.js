@@ -6,10 +6,6 @@ module.exports = router
 //get a user's cart and items in it
 router.get('/:userId', async (req, res, next) => {
   try {
-    //const userId = req.params.userId
-    // if (userId === "undefined"){
-    //    // if the user is a guest (does not have an id)
-    // } else {
     const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId,
@@ -17,9 +13,7 @@ router.get('/:userId', async (req, res, next) => {
       },
       include: Product
     })
-    console.log('CARTTTTTT', cart)
     res.json(cart)
-    // }
   } catch (err) {
     next(err)
   }

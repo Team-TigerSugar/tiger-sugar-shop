@@ -54,7 +54,6 @@ class Cart extends Component {
 
   render() {
     const isLoggedIn = this.props.user && Object.keys(this.props.user).length
-    //  const cartHasItems = this.props.cartItems && this.props.cartItems.length
     const cartItems = this.state.cart.products
     const cartHasItems =
       this.state.cart.products && this.state.cart.products.length

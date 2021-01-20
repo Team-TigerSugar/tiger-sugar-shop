@@ -14,7 +14,6 @@ import CardMedia from '@material-ui/core/CardMedia'
 import {fetchSingleProduct} from '../store/singleProduct'
 import {me} from '../store'
 import {getCartThunk, addToCartThunk} from '../store/cart'
-import {addToGuestCartThunk} from '../store/guestCart'
 import {
   cartItemThunk,
   updateCartItemThunk,
@@ -62,16 +61,18 @@ class SingleProduct extends Component {
     e.preventDefault()
     const userId = this.props.user.id
     const itemId = e.currentTarget.value
-    //await this.props.addToCart(userId, itemId)
     const qty = this.state.qty
-    await this.props.sumOfCartItem(userId, itemId, qty)
-    /*   console.log('this.state.qty: ', this.state, qty)
-    await this.props.updateCartItem(userId, itemId, qty) */
+    if (userId) {
+      await this.props.sumOfCartItem(userId, itemId, qty)
+    } else {
+      const cart = JSON.parse(localStorage.getItem('localCart'))
+      cart.products.push(this.props.product)
+      localStorage.setItem('localCart', JSON.stringify(cart))
+    }
   }
 
   render() {
     const product = this.props.product
-    //  console.log('this.props', this.props)
     const {classes} = this.props
     if (product) {
       return (
@@ -124,7 +125,6 @@ const mapDispatchToProps = dispatch => ({
   setSingleProduct: id => dispatch(fetchSingleProduct(id)),
   addToCart: (userId, itemId, qty) =>
     dispatch(addToCartThunk(userId, itemId, qty)),
-  addToGuestCart: itemId => dispatch(addToGuestCartThunk(itemId)),
   getMe: () => dispatch(me()),
   getCart: userId => dispatch(getCartThunk(userId)),
   getCartItem: (userId, itemId) => dispatch(cartItemThunk(userId, itemId)),

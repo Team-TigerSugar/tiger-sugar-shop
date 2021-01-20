@@ -95,7 +95,6 @@ router.post('/:userId', async (req, res, next) => {
   try {
     const cart = await Cart.create({
       userId: req.params.userId,
-      sessionId: req.sessionID,
       isOrder: false
     })
     res.send(cart)

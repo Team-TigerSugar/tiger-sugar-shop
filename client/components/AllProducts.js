@@ -9,8 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import {addToCartThunk, deleteFromCartThunk} from '../store/cart'
 import Box from '@material-ui/core/Box'
-import Card from '@material-ui/core/Card'
-import Paper from '@material-ui/core/Paper'
+import Footer from './Footer'
 
 const styles = theme => ({
   addButt: {
@@ -126,6 +125,7 @@ class AllProducts extends Component {
               </Box>
             ))}
           </Grid>
+          <Footer />
         </Grid>
       )
     } else {

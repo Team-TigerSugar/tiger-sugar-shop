@@ -8,6 +8,7 @@ import {me} from '../store'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import MuiTableCell from '@material-ui/core/TableCell'
 import {
   TableContainer,
   TableRow,
@@ -62,8 +63,13 @@ class AdminCustomers extends React.Component {
           </TableHead>
           <TableBody>
             {users.map(user => (
-              <TableRow key={user.id}>
-                <TableCell>{user.id}</TableCell>
+              <TableRow
+                key={user.id}
+                style={
+                  user.id % 2 ? {background: '#f8f6f4'} : {background: 'white'}
+                }
+              >
+                <TableCell align="right">{user.id}</TableCell>
                 <TableCell align="right">{user.email}</TableCell>
                 <TableCell align="right">{user.lastName}</TableCell>
                 <TableCell align="right">{user.firstName}</TableCell>

@@ -43,22 +43,7 @@ export const updateProductThunk = (productId, editedProd) => async dispatch => {
     console.log(err)
   }
 }
-// export const updateSingleProjectThunk = (
-//   projectId,
-//   updateSingleProjectState
-// ) => {
-//   return async (dispatch) => {
-//     try {
-//       const {data} = await axios.put(
-//         `/api/projects/${projectId}`,
-//         updateSingleProjectState
-//       )
-//       dispatch(updateSingleProject(data))
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-// }
+
 export const removeProductThunk = productId => async dispatch => {
   try {
     await axios.delete(`/api/products/${productId}`)
@@ -87,7 +72,7 @@ const productsReducer = (state = intialState, action) => {
     case UPDATE_PRODUCT:
       return [...state, action.editedProd]
     case REMOVE_PRODUCT:
-      return state.products.filter(product => product.id !== action.productId)
+      return state.filter(product => product.id !== action.productId)
     case ADD_PRODUCT:
       return [...state.products]
     default:

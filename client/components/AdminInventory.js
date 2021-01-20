@@ -2,8 +2,8 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {compose} from 'redux'
 import {connect} from 'react-redux'
-import {fetchProducts} from '../store/products'
-import {addToCartThunk, deleteFromCartThunk} from '../store/cart'
+import {fetchProducts, removeProductThunk} from '../store/products'
+import {addToCartThunk} from '../store/cart'
 import AdminEditProd from './AdminEditProd'
 
 import Button from '@material-ui/core/Button'
@@ -113,7 +113,12 @@ class AdminInventory extends React.Component {
                   </Typography>
                 </Grid>
                 <Grid item container justify="center">
-                  <Button variant="contained" classes={{root: classes.button}}>
+                  <Button
+                    value={product.id}
+                    onClick={() => this.props.deleteProduct(product.id)}
+                    variant="contained"
+                    classes={{root: classes.button}}
+                  >
                     Delete
                   </Button>
                   <Button
@@ -151,7 +156,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   getProducts: () => dispatch(fetchProducts()),
-  addToCart: (userId, itemId) => dispatch(addToCartThunk(userId, itemId))
+  addToCart: (userId, itemId) => dispatch(addToCartThunk(userId, itemId)),
+  deleteProduct: id => dispatch(removeProductThunk(id))
 })
 
 export default compose(

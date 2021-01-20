@@ -62,7 +62,12 @@ class AdminCustomers extends React.Component {
           </TableHead>
           <TableBody>
             {users.map(user => (
-              <TableRow key={user.id}>
+              <TableRow
+                key={user.id}
+                style={
+                  user.id % 2 ? {background: '#f8f6f4'} : {background: 'white'}
+                }
+              >
                 <TableCell>{user.id}</TableCell>
                 <TableCell align="right">{user.email}</TableCell>
                 <TableCell align="right">{user.lastName}</TableCell>

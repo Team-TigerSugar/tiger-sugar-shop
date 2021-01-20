@@ -14,7 +14,22 @@ router.get('/admin/:userId', async (req, res, next) => {
       res.send(404)
     }
   } catch (error) {
-    console.log('hello from order history api')
+    next(error)
+  }
+})
+
+//get user's own personal order history
+router.get('/myorders/:userId', async (req, res, next) => {
+  try {
+    const orders = await Cart.findAll({
+      where: {
+        userId: req.params.userId,
+        isOrder: true
+      },
+      include: Product
+    })
+    res.json(orders)
+  } catch (error) {
     next(error)
   }
 })

@@ -1,13 +1,10 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import {adminFetchOrdersThunk} from '../store/orderHistory'
 import {me} from '../store'
 
 import {withStyles} from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
 import {
   TableContainer,
   TableRow,
@@ -69,7 +66,15 @@ class AdminOrders extends React.Component {
                 </TableCell>
                 <TableCell align="right">{order.createdAt}</TableCell>
                 <TableCell align="right">
-                  {order.products.map(product => product.name + ', ')}
+                  {order.products.map(
+                    product =>
+                      product.name +
+                      (order.products.length > 1 &&
+                      order.products.indexOf(product) !==
+                        order.products.length - 1
+                        ? ', '
+                        : '')
+                  )}
                 </TableCell>
               </TableRow>
             ))}

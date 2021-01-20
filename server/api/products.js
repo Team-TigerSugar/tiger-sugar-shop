@@ -44,3 +44,14 @@ router.delete('/:productId', async (req, res, next) => {
     next(error)
   }
 })
+
+// creating new product
+router.post('/', async (req, res, next) => {
+  try {
+    const product = await Product.create(req.body)
+    console.log(product)
+    res.json(product)
+  } catch (error) {
+    next(error)
+  }
+})

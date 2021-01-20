@@ -3,7 +3,6 @@ import axios from 'axios'
 //ACTION TYPES
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
-
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const PLACE_ORDER = 'PLACE_ORDER'
 
@@ -82,6 +81,9 @@ export default function(state = defaultState, action) {
       // return {...state, products: newArr}
       return {...state, products: [...state.products, action.product]}
     case DELETE_FROM_CART:
+
+      // return action.cart.products
+
       return {
         ...state,
         products: state.products.filter(

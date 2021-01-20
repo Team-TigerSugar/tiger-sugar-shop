@@ -3,6 +3,42 @@ const router = require('express').Router()
 const {Cart, Product, User, CartItem} = require('../db/models')
 module.exports = router
 
+//get every user's order history info as an admin
+router.get('/admin/:userId', async (req, res, next) => {
+  const currentUser = await User.findByPk(req.params.userId)
+  try {
+    if (currentUser.isAdmin) {
+      const orders = await Cart.findAll({include: Product})
+      res.json(orders)
+    } else {
+      res.send(404)
+    }
+  } catch (error) {
+    console.log('hello from order history api')
+    next(error)
+  }
+})
+
+//get all cart items associated with a user
+router.get('/cartItems/:userId', async (req, res, next) => {
+  try {
+    const [cart] = await Cart.findOrCreate({
+      where: {
+        userId: req.params.userId,
+        isOrder: false
+      }
+    })
+    const cartItems = await CartItem.findAll({
+      where: {
+        cartId: cart.id
+      }
+    })
+    res.json(cartItems)
+  } catch (error) {
+    next(error)
+  }
+})
+
 //get a user's cart and items in it
 router.get('/:userId', async (req, res, next) => {
   try {

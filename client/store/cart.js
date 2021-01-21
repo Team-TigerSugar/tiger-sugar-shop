@@ -72,20 +72,24 @@ export const placeOrderThunk = (cartId, userId) => async dispatch => {
 }
 
 //REDUCER
-
 export default function(state = defaultState, action) {
   switch (action.type) {
     case GET_CART:
       return action.cart
     case ADD_TO_CART:
-      // return [...state.push(action.product)]
       // let newArr = [...state.push(action.product)]
       // return {...state, products: newArr}
       return {...state, products: [...state.products, action.product]}
     case DELETE_FROM_CART:
-      // console.log('thunk cart-products', action.cart.products)
+
       // return action.cart.products
-      return state.products.filter(product => product.id !== action.productId)
+
+      return {
+        ...state,
+        products: state.products.filter(
+          product => product.id !== action.productId
+        )
+      }
     case PLACE_ORDER:
       return action.newCart
     default:

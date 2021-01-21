@@ -3,6 +3,7 @@ import axios from 'axios'
 //ACTION TYPES
 const GET_CART_ITEM = 'GET_CART_ITEM'
 const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM'
+const SUM_OF_CART_ITEM = 'SUM_OF_CART_ITEM'
 const INCREMENT_CART_ITEM = 'INCREMENT_CART_ITEM'
 const DECREMENT_CART_ITEM = 'DECREMENT_CART_ITEM'
 //ACTION CREATORS
@@ -13,6 +14,11 @@ const getCartItem = cartItem => ({
 
 const updateCartItem = cartItem => ({
   type: UPDATE_CART_ITEM,
+  cartItem
+})
+
+const sumOfCartItem = cartItem => ({
+  SUM_OF_CART_ITEM,
   cartItem
 })
 const incrementCartItem = cartItem => ({
@@ -47,6 +53,18 @@ export const updateCartItemThunk = (userId, itemId, qty) => async dispatch => {
   }
 }
 
+export const sumOfCartItemThunk = (userId, itemId, qty) => async dispatch => {
+  try {
+    const cartItem = await axios.post(
+      `/api/cart/sum/${userId}/${itemId}/${qty}`
+    )
+    console.log('SUM of CartItem from redux:', cartItem.data)
+    dispatch(sumOfCartItem(cartItem.data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export const incrementCartItemThunk = (userId, itemId) => async dispatch => {
   try {
     const cartItem = await axios.put(`/api/cart/plusOne/${userId}/${itemId}`)
@@ -72,6 +90,8 @@ export default function cartItemReducer(state = initialState, action) {
     case GET_CART_ITEM:
       return action.cartItem
     case UPDATE_CART_ITEM:
+      return action.cartItem
+    case SUM_OF_CART_ITEM:
       return action.cartItem
     case INCREMENT_CART_ITEM:
       return action.cartItem

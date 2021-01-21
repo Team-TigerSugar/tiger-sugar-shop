@@ -8,22 +8,18 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import {addToCartThunk, deleteFromCartThunk} from '../store/cart'
-import Card from '@material-ui/core/Card'
-import Paper from '@material-ui/core/Paper'
+import Box from '@material-ui/core/Box'
+import Footer from './Footer'
 
 const styles = theme => ({
   addButt: {
     backgroundColor: theme.palette.common.colorTwo
   },
-  // not sure how to apply this root stuff!
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(1),
-      width: theme.spacing(16),
-      height: theme.spacing(16)
-    }
+  productImg: {
+    objectFit: 'cover',
+    borderRadius: '50%',
+    height: '12.5em',
+    width: '12.5em'
   }
 })
 
@@ -47,29 +43,89 @@ class AllProducts extends Component {
   render() {
     const products = this.props.products
 
+    const {classes} = this.props
+
     if (products) {
       return (
-        <Grid container justify="center">
-          <Grid item container direction="column" alignItems="center">
+        <Grid container>
+          <Grid
+            item
+            container
+            alignItems="center"
+            style={{marginTop: '5em'}}
+            direction="column"
+          >
+            <Typography variant="h1">Here are all of our products</Typography>
+            <Typography
+              variant="body2"
+              style={{width: '50%', marginTop: '2em'}}
+              align="center"
+            >
+              Take a look around and be prepared to be mesmerized by our
+              wonderful selection of life-changing products.
+            </Typography>
+          </Grid>
+          <Grid item container justify="center" alignItems="flex-end">
             {products.map(product => (
-              <Card key={product.id} style={{width: '50%'}} elevation={4}>
-                <Link to={`/products/${product.id}`} key={product.id}>
-                  <img className="browsingImg" src={product.img} />
-                  <Typography variant="body1">{product.name}</Typography>
-                  <Typography variant="body2">
-                    {(product.price * 0.01).toFixed(2)}
-                  </Typography>
-                </Link>
-                <Button
-                  type="submit"
-                  onClick={this.handleClick}
-                  value={product.id}
-                >
-                  Add To Cart
-                </Button>
-              </Card>
+              <Box
+                key={product.id}
+                justifyContent="space-around"
+                justify="center"
+                boxShadow={3}
+                style={{
+                  width: '20em',
+                  marginTop: '5em',
+                  paddingBottom: '2em',
+                  paddingTop: '2em',
+                  marginRight: '2em'
+                }}
+              >
+                <Grid container alignContent="flex-end">
+                  <Grid
+                    item
+                    container
+                    component={Link}
+                    to={`/products/${product.id}`}
+                    key={product.id}
+                    justify="center"
+                  >
+                    <img
+                      key={product.id}
+                      src={product.img}
+                      //   style={{width: '8em'}}
+                      className={classes.productImg}
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    key={product.id}
+                    direction="column"
+                    justify="center"
+                    style={{marginTop: '1em'}}
+                  >
+                    <Typography align="center" variant="body1">
+                      {product.name}
+                    </Typography>
+                    <Typography align="center" variant="body2">
+                      {(product.price * 0.01).toFixed(2)}
+                    </Typography>
+                  </Grid>
+                  <Grid item container justify="center">
+                    <Button
+                      classes={{root: classes.addButt}}
+                      type="submit"
+                      onClick={this.handleClick}
+                      value={product.id}
+                    >
+                      Add To Cart
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
             ))}
           </Grid>
+          <Footer />
         </Grid>
       )
     } else {

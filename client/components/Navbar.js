@@ -56,6 +56,14 @@ const styles = theme => ({
 
   menuItem: {
     fontSize: '0.7em'
+  },
+  signOutButt: {
+    textTransform: 'none',
+    fontFamily: 'Lato',
+    backgroundColor: theme.palette.common.colorTwo,
+    height: '2em',
+    alignSelf: 'center',
+    marginRight: '1em'
   }
 })
 
@@ -157,6 +165,7 @@ class Navbar extends React.Component {
                   to="/"
                   onClick={this.props.logout}
                   style={{marginLeft: '55em'}}
+                  classes={{root: classes.signOutButt}}
                 >
                   SIGN OUT
                 </Button>
@@ -171,48 +180,86 @@ class Navbar extends React.Component {
                   to="/home"
                   label="ACCOUNT"
                 />
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.anchorEl}
-                  open={this.state.menuOpen}
-                  onClose={this.handleClose}
-                  classes={{paper: classes.menu}}
-                  elevation={0}
-                  MenuListProps={{onMouseLeave: this.handleClose}}
-                >
-                  <MenuItem
-                    component={Link}
-                    to="/home"
-                    onClick={this.handleClose}
-                    classes={{root: classes.menuItem}}
+                {this.props.user.isAdmin ? (
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={this.state.anchorEl}
+                    open={this.state.menuOpen}
+                    onClose={this.handleClose}
+                    classes={{paper: classes.menu}}
+                    elevation={0}
+                    MenuListProps={{onMouseLeave: this.handleClose}}
                   >
-                    ACCOUNT
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/admininventory"
-                    onClick={this.handleClose}
-                    classes={{root: classes.menuItem}}
+                    <MenuItem
+                      component={Link}
+                      to="/home"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      ACCOUNT
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/myorderhistory"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      MY ORDER HISTORY
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/admininventory"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      INVENTORY
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/admincustomers"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      CUSTOMERS
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/adminorders"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      ORDERS
+                    </MenuItem>
+                  </Menu>
+                ) : (
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={this.state.anchorEl}
+                    open={this.state.menuOpen}
+                    onClose={this.handleClose}
+                    classes={{paper: classes.menu}}
+                    elevation={0}
+                    MenuListProps={{onMouseLeave: this.handleClose}}
                   >
-                    INVENTORY
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/admincustomers"
-                    onClick={this.handleClose}
-                    classes={{root: classes.menuItem}}
-                  >
-                    CUSTOMERS
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/adminorders"
-                    onClick={this.handleClose}
-                    classes={{root: classes.menuItem}}
-                  >
-                    ORDERS
-                  </MenuItem>
-                </Menu>
+                    <MenuItem
+                      component={Link}
+                      to="/home"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      ACCOUNT
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/myorderhistory"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      ORDER HISTORY
+                    </MenuItem>
+                  </Menu>
+                )}
+
                 <Button component={Link} to="/cart">
                   <img
                     src={cartButton}

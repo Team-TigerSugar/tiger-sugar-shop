@@ -8,9 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import {fetchSingleProduct} from '../store/singleProduct'
 import {me} from '../store'
 import {getCartThunk, addToCartThunk} from '../store/cart'
@@ -19,8 +17,6 @@ import {
   updateCartItemThunk,
   sumOfCartItemThunk
 } from '../store/cartItem'
-import Paper from '@material-ui/core/Paper'
-//import UpdateCart from './updateCart'
 
 const styles = theme => ({
   addButt: {
@@ -61,16 +57,12 @@ class SingleProduct extends Component {
     e.preventDefault()
     const userId = this.props.user.id
     const itemId = e.currentTarget.value
-    //await this.props.addToCart(userId, itemId)
     const qty = this.state.qty
     await this.props.sumOfCartItem(userId, itemId, qty)
-    /*   console.log('this.state.qty: ', this.state, qty)
-    await this.props.updateCartItem(userId, itemId, qty) */
   }
 
   render() {
     const product = this.props.product
-    //  console.log('this.props', this.props)
     const {classes} = this.props
     if (product) {
       return (

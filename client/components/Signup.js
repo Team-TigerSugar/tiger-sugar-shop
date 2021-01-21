@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import {auth} from '../store'
@@ -43,7 +42,6 @@ class Signup extends React.Component {
 
   changeHander(event) {
     this.setState({[event.currentTarget.name]: event.target.value})
-    console.log('@@@@@@@@@@', this.state.email)
   }
 
   async handleSubmit(evt) {
@@ -109,7 +107,7 @@ class Signup extends React.Component {
               type="submit"
               className={classes.button}
             >
-              Sign Up In
+              Sign Up
             </Button>
             <Grid item container justify="center">
               <Button
@@ -122,17 +120,6 @@ class Signup extends React.Component {
               >
                 Sign Up With Google
               </Button>
-              {/* <Button
-                style={{marginTop: '2em'}}
-                variant="contained"
-                color="secondary"
-                component={Link}
-                to="/login"
-                className={classes.button}
-                onClick={this.handleSubmit}
-              >
-                Sign In
-              </Button> */}
             </Grid>
           </Grid>
         </form>

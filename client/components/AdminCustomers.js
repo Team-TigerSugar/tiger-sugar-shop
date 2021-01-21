@@ -1,13 +1,11 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import {adminFetchUsersThunk} from '../store/allUsers'
 import {me} from '../store'
 
 import {withStyles} from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+
 import {
   TableContainer,
   TableRow,
@@ -62,7 +60,12 @@ class AdminCustomers extends React.Component {
           </TableHead>
           <TableBody>
             {users.map(user => (
-              <TableRow key={user.id}>
+              <TableRow
+                key={user.id}
+                style={
+                  user.id % 2 ? {background: '#f8f6f4'} : {background: 'white'}
+                }
+              >
                 <TableCell>{user.id}</TableCell>
                 <TableCell align="right">{user.email}</TableCell>
                 <TableCell align="right">{user.lastName}</TableCell>

@@ -4,9 +4,9 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, Cart, AboutUs} from './components'
 import {me} from './store'
+
 import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
-
 import Landing from './components/Landing'
 import CheckoutMethods from './components/CheckoutMethods'
 import Checkout from './components/Checkout'
@@ -16,6 +16,7 @@ import AdminCustomers from './components/AdminCustomers'
 import AdminInventory from './components/AdminInventory'
 import AdminAddNewProd from './components/AdminAddNewProd'
 import AdminEditProd from './components/AdminEditProd'
+import CustomerOrders from './components/CustomerOrders'
 
 /**
  * COMPONENT
@@ -47,6 +48,7 @@ class Routes extends Component {
         <Route exact path="/adminCustomers" component={AdminCustomers} />
         <Route exact path="/addinventory" component={AdminAddNewProd} />
         <Route exact path="/editinventory" component={AdminEditProd} />
+        <Route exact path="/myorderhistory" component={CustomerOrders} />
 
         {isLoggedIn && (
           <Switch>

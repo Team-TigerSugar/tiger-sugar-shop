@@ -3,13 +3,64 @@ const router = require('express').Router()
 const {Cart, Product, User, CartItem} = require('../db/models')
 module.exports = router
 
+//get every user's order history info as an admin
+router.get('/admin/:userId', async (req, res, next) => {
+  const currentUser = await User.findByPk(req.params.userId)
+  try {
+    if (currentUser.isAdmin) {
+      const orders = await Cart.findAll({include: Product})
+      res.json(orders)
+    } else {
+      res.send(404)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+//get user's own personal order history
+router.get('/myorders/:userId', async (req, res, next) => {
+  try {
+    const orders = await Cart.findAll({
+      where: {
+        userId: req.params.userId,
+        isOrder: true
+      },
+      include: Product,
+      CartItem
+    })
+    res.json(orders)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//get all cart items associated with a user's current cart
+router.get('/cartItems/:userId', async (req, res, next) => {
+  try {
+    const [cart] = await Cart.findOrCreate({
+      where: {
+        userId: req.params.userId,
+        isOrder: false
+      },
+      include: {
+        all: true
+      }
+    })
+    const cartItems = await CartItem.findAll({
+      where: {
+        cartId: cart.id
+      }
+    })
+    res.json(cartItems)
+  } catch (error) {
+    next(error)
+  }
+})
+
 //get a user's cart and items in it
 router.get('/:userId', async (req, res, next) => {
   try {
-    //const userId = req.params.userId
-    // if (userId === "undefined"){
-    //    // if the user is a guest (does not have an id)
-    // } else {
     const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId,
@@ -17,9 +68,7 @@ router.get('/:userId', async (req, res, next) => {
       },
       include: Product
     })
-    console.log('CARTTTTTT', cart)
     res.json(cart)
-    // }
   } catch (err) {
     next(err)
   }
@@ -50,7 +99,6 @@ router.post('/:userId', async (req, res, next) => {
   try {
     const cart = await Cart.create({
       userId: req.params.userId,
-      sessionId: req.sessionID,
       isOrder: false
     })
     res.send(cart)
@@ -69,16 +117,14 @@ router.post('/:userId/:itemId', async (req, res, next) => {
         isOrder: false
       }
     })
-    //console.log('CART', cart.dataValues)
+
     const cartItem = await CartItem.findOne({
       where: {cartId: cart.id, productId: product.id}
     })
-    //console.log('-------', cartItem)
-    if (cartItem) {
-      //console.log('cartitem.qty:', cartItem.qty)
 
+    if (cartItem) {
       const updatedTotalQty = cartItem.qty + 1
-      //console.log('UPDATEDQTY:', updatedTotalQty)
+
       await cart.addProduct(product, {through: {qty: updatedTotalQty}})
     } else {
       await cart.addProduct(product, {through: {qty: 1}})

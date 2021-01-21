@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-// import PropTypes from 'prop-types'
+import history from '../history'
+import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logout, me} from '../store'
 import {compose} from 'redux'
@@ -40,11 +41,6 @@ const styles = theme => ({
   },
   tabs2: {
     ...theme.typography.tab
-    //     marginLeft: 'auto',
-    //     [theme.breakpoints.down('md')]: {
-    //       marginLeft: '20em',
-    //       color: 'fff',
-    //     },
   },
   cartButtonImg: {
     width: '4em'
@@ -56,6 +52,14 @@ const styles = theme => ({
 
   menuItem: {
     fontSize: '0.7em'
+  },
+  signOutButt: {
+    textTransform: 'none',
+    fontFamily: 'Lato',
+    backgroundColor: theme.palette.common.colorTwo,
+    height: '2em',
+    alignSelf: 'center',
+    marginRight: '1em'
   }
 })
 
@@ -65,11 +69,24 @@ class Navbar extends React.Component {
     this.state = {
       value: 0,
       anchorEl: null,
-      menuOpen: false
+      menuOpen: false,
+      hello: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleClose = this.handleClose.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  async handleLogout(e) {
+    e.preventDefault()
+    try {
+      await this.props.logout()
+      history.push('/login')
+      location.reload()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   handleChange = (event, value) => {
@@ -110,14 +127,6 @@ class Navbar extends React.Component {
     }
   }
 
-  //   async componentDidMount() {
-  //     try {
-  //       await this.props.me()
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-
   render() {
     const isLoggedIn = this.props.user
     const {classes} = this.props
@@ -154,9 +163,9 @@ class Navbar extends React.Component {
                 />
                 <Button
                   component="a"
-                  to="/"
-                  onClick={this.props.logout}
+                  onClick={this.handleLogout}
                   style={{marginLeft: '55em'}}
+                  classes={{root: classes.signOutButt}}
                 >
                   SIGN OUT
                 </Button>
@@ -171,48 +180,86 @@ class Navbar extends React.Component {
                   to="/home"
                   label="ACCOUNT"
                 />
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.anchorEl}
-                  open={this.state.menuOpen}
-                  onClose={this.handleClose}
-                  classes={{paper: classes.menu}}
-                  elevation={0}
-                  MenuListProps={{onMouseLeave: this.handleClose}}
-                >
-                  <MenuItem
-                    component={Link}
-                    to="/home"
-                    onClick={this.handleClose}
-                    classes={{root: classes.menuItem}}
+                {this.props.user.isAdmin ? (
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={this.state.anchorEl}
+                    open={this.state.menuOpen}
+                    onClose={this.handleClose}
+                    classes={{paper: classes.menu}}
+                    elevation={0}
+                    MenuListProps={{onMouseLeave: this.handleClose}}
                   >
-                    ACCOUNT
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/admininventory"
-                    onClick={this.handleClose}
-                    classes={{root: classes.menuItem}}
+                    <MenuItem
+                      component={Link}
+                      to="/home"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      ACCOUNT
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/myorderhistory"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      MY ORDER HISTORY
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/admininventory"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      INVENTORY
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/admincustomers"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      CUSTOMERS
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/adminorders"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      ORDERS
+                    </MenuItem>
+                  </Menu>
+                ) : (
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={this.state.anchorEl}
+                    open={this.state.menuOpen}
+                    onClose={this.handleClose}
+                    classes={{paper: classes.menu}}
+                    elevation={0}
+                    MenuListProps={{onMouseLeave: this.handleClose}}
                   >
-                    INVENTORY
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/admincustomers"
-                    onClick={this.handleClose}
-                    classes={{root: classes.menuItem}}
-                  >
-                    CUSTOMERS
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/adminorders"
-                    onClick={this.handleClose}
-                    classes={{root: classes.menuItem}}
-                  >
-                    ORDERS
-                  </MenuItem>
-                </Menu>
+                    <MenuItem
+                      component={Link}
+                      to="/home"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      ACCOUNT
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/myorderhistory"
+                      onClick={this.handleClose}
+                      classes={{root: classes.menuItem}}
+                    >
+                      ORDER HISTORY
+                    </MenuItem>
+                  </Menu>
+                )}
+
                 <Button component={Link} to="/cart">
                   <img
                     src={cartButton}
@@ -294,57 +341,3 @@ export default compose(
   connect(mapState, mapDispatch),
   withStyles(styles, {withTheme: true})
 )(Navbar)
-
-// export default withStyles(styles, {withTheme: true})(Navbar)
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// const Navbar = ({handleClick, isLoggedIn}) => (
-//   <div>
-//     <h1>BOILERMAKER</h1>
-//     <nav>
-//       {isLoggedIn ? (
-//         <div>
-//           {/* The navbar will show these links after you log in */}
-//           <Link to="/home">Home</Link>
-//           <a href="#" onClick={handleClick}>
-//             Logout
-//           </a>
-//         </div>
-//       ) : (
-//         <div>
-//           {/* The navbar will show these links before you log in */}
-//           <Link to="/login">Login</Link>
-//           <Link to="/signup">Sign Up</Link>
-//         </div>
-//       )}
-//     </nav>
-//     <hr />
-//   </div>
-// )
-
-// /**
-//  * CONTAINER
-//  */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     handleClick() {
-//       dispatch(logout())
-//     }
-//   }
-// }
-
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// /**
-//  * PROP TYPES
-//  */
-// Navbar.propTypes = {
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }

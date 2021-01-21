@@ -19,7 +19,6 @@ const Product = db.define('product', {
     allowNull: false,
     validate: {
       notEmpty: true
-      //no negative value
     }
   },
   description: {

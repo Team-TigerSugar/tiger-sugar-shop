@@ -1,5 +1,7 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {compose} from 'redux'
+import {updateProductThunk} from '../store/products'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -17,55 +19,92 @@ const styles = theme => ({
 })
 
 class AdminEditProd extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      img: this.props.products.img,
+      name: this.props.products.name,
+      price: this.props.products.price,
+      description: this.props.products.description
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.changeHandler = this.changeHandler.bind(this)
+  }
+  async handleSubmit(event) {
+    event.preventDefault()
+    let editedProd = {
+      img: this.state.img,
+      name: this.state.name,
+      price: this.state.price,
+      description: this.state.description
+    }
+    await this.props.updateProduct(this.props.products.id, editedProd)
+  }
+
+  changeHandler(event) {
+    this.setState({[event.currentTarget.name]: event.currentTarget.value})
+  }
   render() {
     const {classes} = this.props
 
     return (
-      <Grid container direction="column" alignItems="center">
-        <Grid item style={{width: '50%'}}>
-          <Typography align="center" variant="h1">
-            Edit PRODUCT_NAME
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          container
-          // direction="column"
-          style={{width: '50%', marginTop: '4em'}}
-          justify="center"
-        >
-          <TextField label="Image Url" variant="filled" />
-          <TextField
-            label="Product Name"
-            variant="filled"
-            style={{marginRight: '2em', marginLeft: '2em'}}
-          />
-          <TextField label="Product Price" variant="filled" />
-          <TextField
-            label="Description"
-            multiline
-            rows={5}
-            fullWidth
-            variant="filled"
-            style={{marginTop: '2em'}}
-          />
-        </Grid>
-        <Grid item>
-          <Button classes={{root: classes.button}}>Update</Button>
-        </Grid>
-      </Grid>
+      <React.Fragment>
+        <form onSubmit={this.handleSubmit}>
+          <Grid container direction="column" alignItems="center">
+            <Grid item style={{width: '50%'}}>
+              <Typography align="center" variant="body1">
+                Edit
+              </Typography>
+            </Grid>
+            <Grid item container style={{marginTop: '1em'}} justify="center">
+              <TextField
+                name="img"
+                label="Image Url"
+                variant="filled"
+                onChange={this.changeHandler}
+              />
+              <TextField
+                name="name"
+                label="Product Name"
+                variant="filled"
+                onChange={this.changeHandler}
+                style={{marginRight: '2em', marginLeft: '2em'}}
+              />
+              <TextField
+                name="price"
+                label="Product Price"
+                variant="filled"
+                onChange={this.changeHandler}
+              />
+              <TextField
+                name="description"
+                label="Description"
+                multiline
+                rows={5}
+                //  fullWidth
+                variant="filled"
+                onChange={this.changeHandler}
+                style={{marginTop: '2em', width: '100%'}}
+              />
+            </Grid>
+            <Grid item>
+              <Button type="submit" classes={{root: classes.button}}>
+                Update
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </React.Fragment>
     )
   }
 }
-export default withStyles(styles, {withTheme: true})(AdminEditProd)
 
-{
-  /* <TextField
-                label="Email"
-                name="email"
-                variant="filled"
-                className={classes.inputField}
-                onChange={this.changeHander}
-                style={{marginBottom: '2em'}}
-              /> */
-}
+const mapDispatch = dispatch => ({
+  updateProduct: (productId, editedProd) =>
+    dispatch(updateProductThunk(productId, editedProd))
+})
+
+export default compose(
+  connect(null, mapDispatch),
+  withStyles(styles, {withTheme: true})
+)(AdminEditProd)

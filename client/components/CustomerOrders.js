@@ -8,9 +8,7 @@ import {me} from '../store'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 
 const styles = theme => ({
@@ -42,7 +40,9 @@ class CustomerOrders extends React.Component {
   }
 
   render() {
-    const {classes, orders} = this.props
+    const {classes, orders, cartItems, products} = this.props
+
+    const reducer = (accumulator, currentValue) => accumulator + currentValue
 
     return (
       <React.Fragment>
@@ -63,15 +63,23 @@ class CustomerOrders extends React.Component {
                     {order.products.map(product => (
                       <Link to={`/products/${product.id}`}>
                         <Typography>
-                          {product.name +
-                            (order.products.length > 1 &&
-                            order.products.indexOf(product) !==
-                              order.products.length - 1
-                              ? ', '
-                              : '')}
+                          ${(product.price * 0.01).toFixed(2)}...
+                          {product.name}
+                          {' x'}
+                          {product.cartItems.qty}
                         </Typography>
                       </Link>
                     ))}
+                  </Typography>
+                  <Typography variant="body1">Order Total:</Typography>
+                  <Typography variant="body2">
+                    {(
+                      order.products
+                        .map(product => {
+                          return product.price * product.cartItems.qty
+                        })
+                        .reduce(reducer, 0) * 0.01
+                    ).toFixed(2)}
                   </Typography>
                 </CardContent>
               </Card>

@@ -26,7 +26,8 @@ router.get('/myorders/:userId', async (req, res, next) => {
         userId: req.params.userId,
         isOrder: true
       },
-      include: Product
+      include: Product,
+      CartItem
     })
     res.json(orders)
   } catch (error) {
@@ -34,13 +35,16 @@ router.get('/myorders/:userId', async (req, res, next) => {
   }
 })
 
-//get all cart items associated with a user
+//get all cart items associated with a user's current cart
 router.get('/cartItems/:userId', async (req, res, next) => {
   try {
     const [cart] = await Cart.findOrCreate({
       where: {
         userId: req.params.userId,
         isOrder: false
+      },
+      include: {
+        all: true
       }
     })
     const cartItems = await CartItem.findAll({
@@ -113,16 +117,14 @@ router.post('/:userId/:itemId', async (req, res, next) => {
         isOrder: false
       }
     })
-    //console.log('CART', cart.dataValues)
+
     const cartItem = await CartItem.findOne({
       where: {cartId: cart.id, productId: product.id}
     })
-    //console.log('-------', cartItem)
-    if (cartItem) {
-      //console.log('cartitem.qty:', cartItem.qty)
 
+    if (cartItem) {
       const updatedTotalQty = cartItem.qty + 1
-      //console.log('UPDATEDQTY:', updatedTotalQty)
+
       await cart.addProduct(product, {through: {qty: updatedTotalQty}})
     } else {
       await cart.addProduct(product, {through: {qty: 1}})

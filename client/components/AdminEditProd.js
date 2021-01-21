@@ -20,13 +20,13 @@ const styles = theme => ({
 })
 
 class AdminEditProd extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      img: '',
-      name: '',
-      price: 0,
-      description: ''
+      img: this.props.products.img,
+      name: this.props.products.name,
+      price: this.props.products.price,
+      description: this.props.products.description
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.changeHandler = this.changeHandler.bind(this)

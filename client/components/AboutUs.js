@@ -7,11 +7,14 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
+import Footer from './Footer'
+
 import aboutUs from '../../public/images/aboutUs.png'
 import kay from '../../public/images/kay.png'
 import jackie from '../../public/images/jackie.png'
 import julia from '../../public/images/julia.png'
 import lindsey from '../../public/images/lindsey.png'
+import sam from '../../public/images/sam.png'
 import pris from '../../public/images/pris.png'
 
 export default class AboutUs extends Component {
@@ -45,12 +48,12 @@ export default class AboutUs extends Component {
           justify="center"
           style={{marginTop: '5em'}}
         >
-          <Grid item>
+          <Grid>
             <img src={aboutUs} alt="wall of bottles" style={{width: '40em'}} />
           </Grid>
           <Grid item style={{width: '30em', marginLeft: '10em'}}>
             <Typography variant="body2" paragraph>
-              We’re Tiger Sugar Balm, And apothecary founded by four ladies with
+              We’re Tiger Sugar Balm, An apothecary founded by four ladies with
               a passion for making people’s lives easier ... with a twist.
             </Typography>
             <Typography variant="body2" paragraph>
@@ -66,16 +69,22 @@ export default class AboutUs extends Component {
           </Typography>
         </Grid>
         <Grid item container direction="column" alignItems="center">
-          <Grid item container justify="center">
-            <Grid item>
+          <Grid item container justify="center" style={{marginTop: '5em'}}>
+            <Grid
+              itemitem
+              component="a"
+              href="https://www.linkedin.com/in/kay-hardeman/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               <img
                 src={kay}
                 alt="girl"
                 style={{
                   width: '10em',
                   height: '10em',
-                  marginLeft: '1em',
-                  marginRight: '1em'
+                  marginLeft: '5em',
+                  marginRight: '5em'
                 }}
               />
               <Typography align="center" variant="body1">
@@ -85,11 +94,22 @@ export default class AboutUs extends Component {
                 Project Manager
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid
+              itemitemitem
+              component="a"
+              href="https://www.linkedin.com/in/jackie-levine-feit/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               <img
                 src={jackie}
                 alt="girl"
-                style={{width: '10em', height: '10em'}}
+                style={{
+                  width: '10em',
+                  height: '10em',
+                  marginLeft: '5em',
+                  marginRight: '5em'
+                }}
               />
               <Typography align="center" variant="body1">
                 Jackie Levine
@@ -99,7 +119,110 @@ export default class AboutUs extends Component {
               </Typography>
             </Grid>
           </Grid>
+          <Grid item container justify="center" style={{marginTop: '5em'}}>
+            <Grid
+              item
+              itemitemitem
+              component="a"
+              href="https://www.linkedin.com/in/julia-kravets/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                src={julia}
+                alt="girl"
+                style={{
+                  width: '10em',
+                  height: '10em',
+                  marginLeft: '5em',
+                  marginRight: '5em'
+                }}
+              />
+              <Typography align="center" variant="body1">
+                Julia Kravets
+              </Typography>
+              <Typography align="center" variant="body2">
+                Fullstack SWE
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              itemitemitem
+              component="a"
+              href="https://www.linkedin.com/in/lindsey-pak-babaaa12b/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                src={lindsey}
+                alt="girl"
+                style={{
+                  width: '10em',
+                  height: '10em',
+                  marginLeft: '5em',
+                  marginRight: '5em'
+                }}
+              />
+              <Typography align="center" variant="body1">
+                Lindsey Pak
+              </Typography>
+              <Typography align="center" variant="body2">
+                Creative Developer
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              itemitemitem
+              component="a"
+              href="https://www.linkedin.com/in/samantha-shapland-7a94891b6/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                src={sam}
+                alt="girl"
+                style={{
+                  width: '10em',
+                  height: '10em',
+                  marginLeft: '5em',
+                  marginRight: '5em'
+                }}
+              />
+              <Typography align="center" variant="body1">
+                Samantha Shapland
+              </Typography>
+              <Typography align="center" variant="body2">
+                Fullstack SWE
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              itemitemitem
+              component="a"
+              href="https://www.linkedin.com/in/priscila-pintado-112416142"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                src={pris}
+                alt="girl"
+                style={{
+                  width: '10em',
+                  height: '10em',
+                  marginLeft: '5em',
+                  marginRight: '5em'
+                }}
+              />
+              <Typography align="center" variant="body1">
+                Priscila Pintado
+              </Typography>
+              <Typography align="center" variant="body2">
+                Fullstack SWE
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
+        <Footer />
       </Grid>
     )
   }

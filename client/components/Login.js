@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import {auth} from '../store'
+import history from '../history'
+import {withRouter} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
 
 import Footer from './Footer'
@@ -52,6 +54,8 @@ class Login extends React.Component {
       const email = this.state.email
       const password = this.state.password
       await this.props.auth(email, password, formName)
+      history.push('/home')
+      location.reload()
     } catch (error) {
       console.log(error)
     }

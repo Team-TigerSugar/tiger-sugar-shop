@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-// import PropTypes from 'prop-types'
+import history from '../history'
+import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logout, me} from '../store'
 import {compose} from 'redux'
@@ -68,11 +69,24 @@ class Navbar extends React.Component {
     this.state = {
       value: 0,
       anchorEl: null,
-      menuOpen: false
+      menuOpen: false,
+      hello: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleClose = this.handleClose.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  async handleLogout(e) {
+    e.preventDefault()
+    try {
+      await this.props.logout()
+      history.push('/login')
+      location.reload()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   handleChange = (event, value) => {
@@ -149,8 +163,7 @@ class Navbar extends React.Component {
                 />
                 <Button
                   component="a"
-                  to="/"
-                  onClick={this.props.logout}
+                  onClick={this.handleLogout}
                   style={{marginLeft: '55em'}}
                   classes={{root: classes.signOutButt}}
                 >

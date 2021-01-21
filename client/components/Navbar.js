@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-// import PropTypes from 'prop-types'
+import history from '../history'
+import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logout, me} from '../store'
 import {compose} from 'redux'
@@ -65,11 +66,24 @@ class Navbar extends React.Component {
     this.state = {
       value: 0,
       anchorEl: null,
-      menuOpen: false
+      menuOpen: false,
+      hello: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleClose = this.handleClose.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  async handleLogout(e) {
+    e.preventDefault()
+    try {
+      await this.props.logout()
+      history.push('/login')
+      location.reload()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   handleChange = (event, value) => {
@@ -110,14 +124,6 @@ class Navbar extends React.Component {
     }
   }
 
-  //   async componentDidMount() {
-  //     try {
-  //       await this.props.me()
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-
   render() {
     const isLoggedIn = this.props.user
     const {classes} = this.props
@@ -154,8 +160,7 @@ class Navbar extends React.Component {
                 />
                 <Button
                   component="a"
-                  to="/"
-                  onClick={this.props.logout}
+                  onClick={this.handleLogout}
                   style={{marginLeft: '55em'}}
                 >
                   SIGN OUT
@@ -332,57 +337,3 @@ export default compose(
   connect(mapState, mapDispatch),
   withStyles(styles, {withTheme: true})
 )(Navbar)
-
-// export default withStyles(styles, {withTheme: true})(Navbar)
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// const Navbar = ({handleClick, isLoggedIn}) => (
-//   <div>
-//     <h1>BOILERMAKER</h1>
-//     <nav>
-//       {isLoggedIn ? (
-//         <div>
-//           {/* The navbar will show these links after you log in */}
-//           <Link to="/home">Home</Link>
-//           <a href="#" onClick={handleClick}>
-//             Logout
-//           </a>
-//         </div>
-//       ) : (
-//         <div>
-//           {/* The navbar will show these links before you log in */}
-//           <Link to="/login">Login</Link>
-//           <Link to="/signup">Sign Up</Link>
-//         </div>
-//       )}
-//     </nav>
-//     <hr />
-//   </div>
-// )
-
-// /**
-//  * CONTAINER
-//  */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     handleClick() {
-//       dispatch(logout())
-//     }
-//   }
-// }
-
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// /**
-//  * PROP TYPES
-//  */
-// Navbar.propTypes = {
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }

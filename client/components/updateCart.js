@@ -69,7 +69,7 @@ class UpdateCart extends Component {
     this.setState({
       qty: this.props.qty
     })
-    location.reload()
+    //     location.reload()
   }
   async handleDecrementSubmit(event) {
     event.preventDefault()
@@ -82,7 +82,7 @@ class UpdateCart extends Component {
     this.setState({
       qty: this.props.qty
     })
-    location.reload()
+    //     location.reload()
   }
 
   render() {

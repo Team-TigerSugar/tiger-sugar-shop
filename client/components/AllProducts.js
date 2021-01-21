@@ -7,7 +7,7 @@ import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import {addToCartThunk, deleteFromCartThunk} from '../store/cart'
+import {addToCartThunk} from '../store/cart'
 import Box from '@material-ui/core/Box'
 import Footer from './Footer'
 

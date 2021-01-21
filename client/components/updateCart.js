@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-
-// import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {me} from '../store'
 import {compose} from 'redux'
@@ -17,8 +15,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
-//import tornPaperVert from '../../public/images/tornPaperVert.png'
-
 const styles = theme => ({
   button: {
     backgroundColor: theme.palette.common.colorTwo,
@@ -34,7 +30,6 @@ class UpdateCart extends Component {
     this.state = {
       qty: 0
     }
-    //this.handleChange = this.handleChange.bind(this)
     this.handleIncrementSubmit = this.handleIncrementSubmit.bind(this)
     this.handleDecrementSubmit = this.handleDecrementSubmit.bind(this)
   }
@@ -42,19 +37,15 @@ class UpdateCart extends Component {
   async componentDidMount() {
     try {
       const userId = this.props.userId
-      console.log('Update UserId:', userId)
       const itemId = this.props.item.id
-      console.log('Udpate ItemId:', itemId)
       await this.props.getCartItem(userId, itemId)
 
-      //console.log('CART ITEM IN COMPONENT:', cartItem)
       this.setState({
         qty: this.props.qty
       })
     } catch (err) {
       console.log(err)
     }
-    console.log('QTY: ', this.props.qty)
     const userId = this.props.user.id
     await this.props.getCart(userId)
   }
@@ -63,30 +54,26 @@ class UpdateCart extends Component {
     event.preventDefault()
     const userId = this.props.user.id
     const itemId = this.props.item.id
-    console.log('this.state.qty: ', this.state.qty)
     await this.props.incrementCartItem(userId, itemId)
     await this.props.getCartItem(userId, itemId)
     this.setState({
       qty: this.props.qty
     })
-    //     location.reload()
+    location.reload()
   }
   async handleDecrementSubmit(event) {
     event.preventDefault()
     const userId = this.props.user.id
     const itemId = this.props.item.id
-
     await this.props.decrementCartItem(userId, itemId)
     await this.props.getCartItem(userId, itemId)
-    console.log('DECREMENTthis.state.qty: ', this.state.qty)
     this.setState({
       qty: this.props.qty
     })
-    //     location.reload()
+    location.reload()
   }
 
   render() {
-    //   const cartItems = this.state.cartItems
     const {classes} = this.props
     return (
       <React.Fragment>

@@ -21,7 +21,6 @@ CartItem.afterSave(async cartItemInstance => {
   const product = await Product.findByPk(cartItemInstance.productId)
   console.log('cart item hook product', product)
   const price = product.price
-  // cartItemInstance.price = product.price
   cartItemInstance.price = price
   await cartItemInstance.save()
 })

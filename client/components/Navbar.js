@@ -40,11 +40,6 @@ const styles = theme => ({
   },
   tabs2: {
     ...theme.typography.tab
-    //     marginLeft: 'auto',
-    //     [theme.breakpoints.down('md')]: {
-    //       marginLeft: '20em',
-    //       color: 'fff',
-    //     },
   },
   cartButtonImg: {
     width: '4em'
@@ -117,14 +112,6 @@ class Navbar extends React.Component {
       this.setState({value: 2})
     }
   }
-
-  //   async componentDidMount() {
-  //     try {
-  //       await this.props.me()
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
 
   render() {
     const isLoggedIn = this.props.user
@@ -341,57 +328,3 @@ export default compose(
   connect(mapState, mapDispatch),
   withStyles(styles, {withTheme: true})
 )(Navbar)
-
-// export default withStyles(styles, {withTheme: true})(Navbar)
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// const Navbar = ({handleClick, isLoggedIn}) => (
-//   <div>
-//     <h1>BOILERMAKER</h1>
-//     <nav>
-//       {isLoggedIn ? (
-//         <div>
-//           {/* The navbar will show these links after you log in */}
-//           <Link to="/home">Home</Link>
-//           <a href="#" onClick={handleClick}>
-//             Logout
-//           </a>
-//         </div>
-//       ) : (
-//         <div>
-//           {/* The navbar will show these links before you log in */}
-//           <Link to="/login">Login</Link>
-//           <Link to="/signup">Sign Up</Link>
-//         </div>
-//       )}
-//     </nav>
-//     <hr />
-//   </div>
-// )
-
-// /**
-//  * CONTAINER
-//  */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     handleClick() {
-//       dispatch(logout())
-//     }
-//   }
-// }
-
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// /**
-//  * PROP TYPES
-//  */
-// Navbar.propTypes = {
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }

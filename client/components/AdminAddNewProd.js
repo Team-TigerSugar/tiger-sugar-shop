@@ -45,7 +45,6 @@ class AdminAddNewProd extends React.Component {
 
   changeHander(event) {
     this.setState({[event.currentTarget.name]: event.currentTarget.value})
-    console.log('@@@@@@@@@@', this.state.name)
   }
 
   render() {
@@ -62,7 +61,6 @@ class AdminAddNewProd extends React.Component {
           <Grid
             item
             container
-            // direction="column"
             style={{width: '50%', marginTop: '4em'}}
             justify="center"
           >
@@ -115,14 +113,3 @@ export default compose(
   connect(null, mapDispatch),
   withStyles(styles, {withTheme: true})
 )(AdminAddNewProd)
-
-{
-  /* <TextField
-                label="Email"
-                name="email"
-                variant="filled"
-                className={classes.inputField}
-                onChange={this.changeHander}
-                style={{marginBottom: '2em'}}
-              /> */
-}

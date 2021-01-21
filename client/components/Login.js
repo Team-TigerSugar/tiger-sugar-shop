@@ -43,7 +43,6 @@ class Login extends React.Component {
 
   changeHander(event) {
     this.setState({[event.currentTarget.name]: event.target.value})
-    console.log('@@@@@@@@@@', this.state.email)
   }
 
   async handleSubmit(evt) {

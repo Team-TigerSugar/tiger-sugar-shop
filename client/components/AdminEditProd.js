@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import {updateProductThunk} from '../store/products'
@@ -39,14 +38,11 @@ class AdminEditProd extends React.Component {
       price: this.state.price,
       description: this.state.description
     }
-    console.log('props', this.props)
-    console.log('asljfoieure', this.props.products.id)
     await this.props.updateProduct(this.props.products.id, editedProd)
   }
 
   changeHandler(event) {
     this.setState({[event.currentTarget.name]: event.currentTarget.value})
-    console.log('@@@@@@@@@@', this.state.name)
   }
   render() {
     const {classes} = this.props
@@ -60,13 +56,7 @@ class AdminEditProd extends React.Component {
                 Edit
               </Typography>
             </Grid>
-            <Grid
-              item
-              container
-              // direction="column"
-              style={{marginTop: '1em'}}
-              justify="center"
-            >
+            <Grid item container style={{marginTop: '1em'}} justify="center">
               <TextField
                 name="img"
                 label="Image Url"
@@ -118,14 +108,3 @@ export default compose(
   connect(null, mapDispatch),
   withStyles(styles, {withTheme: true})
 )(AdminEditProd)
-
-{
-  /* <TextField
-                label="Email"
-                name="email"
-                variant="filled"
-                className={classes.inputField}
-                onChange={this.changeHandler}
-                style={{marginBottom: '2em'}}
-              /> */
-}

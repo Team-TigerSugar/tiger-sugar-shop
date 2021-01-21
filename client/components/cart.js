@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-// import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {me} from '../store'
 import {compose} from 'redux'
@@ -18,7 +17,6 @@ import UpdateCart from './updateCart'
 import CardContent from '@material-ui/core/CardContent'
 
 import cartSummary from './../../public/images/cartSummary.png'
-import {noExtendLeft} from 'sequelize/types/lib/operators'
 
 const styles = theme => ({
   removeButt: {
@@ -45,9 +43,6 @@ const styles = theme => ({
 class Cart extends Component {
   constructor() {
     super()
-    this.state = {
-      cart: {}
-    }
   }
 
   async componentDidMount() {
@@ -57,35 +52,29 @@ class Cart extends Component {
       console.log(err)
     }
     const userId = this.props.user.id
-    console.log('!!!!', userId)
-    if (!userId) {
-      if (!localStorage.getItem('localCart')) {
-        await localStorage.setItem('localCart', JSON.stringify({products: []}))
-      }
-      this.setState({cart: JSON.parse(localStorage.getItem('localCart'))})
-    } else {
-      await this.props.getCart(userId)
-      await this.setState({
-        cart: this.props.cart
-        //    cartItems: this.props.cartItems,
-      })
-    }
+    await this.props.getCart(userId)
+
     try {
       await this.props.getCartItems(userId)
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
+
+    await this.setState({
+      cartItems: this.props.cartItems
+    })
   }
 
   render() {
     const isLoggedIn = this.props.user && Object.keys(this.props.user).length
-    const items = this.state.cart.products
-    const cartHasItems = items && items.length
-    const {classes, cartItems} = this.props
+    const cartHasItems = this.props.cartItems && this.props.cartItems.length
+    const {classes, items, cartItems} = this.props
 
-    const cartItemsPrices = items && items.map(item => item.price)
-
-    const cartItemsQtys = items && cartItems.map(item => item.qty)
+    const cartItemsPrices =
+      this.props.cart.products &&
+      this.props.cart.products.map(item => item.price)
+    const cartItemsQtys =
+      this.props.cart.products && cartItems.map(item => item.qty)
     const reducer = (accumulator, currentValue) => accumulator + currentValue
 
     let cartTotal
@@ -99,10 +88,11 @@ class Cart extends Component {
 
     const tax = cartTotal * 0.01 * 0.089
 
-    const totalNumItems = items && cartItemsQtys.reduce(reducer, 0)
+    const totalNumItems =
+      this.props.cart.products && cartItemsQtys.reduce(reducer, 0)
 
-    if (this.state.cart) {
-      console.log('cart in render', this.state.cart)
+    if (this.props.cart) {
+      console.log('cart', this.props.cart)
       return (
         <React.Fragment>
           <Grid container>
@@ -182,21 +172,24 @@ class Cart extends Component {
                         style={{marginTop: '3em', marginBottom: '1em'}}
                       >
                         Items
-                        {items && '.............' + totalNumItems}
+                        {this.props.cart.products &&
+                          '.............' + totalNumItems}
                       </Typography>
                       <Typography
                         variant="body2"
                         style={{marginTop: '1em', marginBottom: '1em'}}
                       >
                         Subtotal
-                        {items && '........$' + (cartTotal * 0.01).toFixed(2)}
+                        {this.props.cart.products &&
+                          '........$' + (cartTotal * 0.01).toFixed(2)}
                       </Typography>
                       <Typography
                         variant="body2"
                         style={{marginTop: '1em', marginBottom: '1em'}}
                       >
                         Taxes
-                        {items && '.............$' + tax.toFixed(2)}
+                        {this.props.cart.products &&
+                          '.............$' + tax.toFixed(2)}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -209,7 +202,7 @@ class Cart extends Component {
                         style={{marginTop: '3em', marginBottom: '1em'}}
                       >
                         Total
-                        {items &&
+                        {this.props.cart.products &&
                           '..............$' +
                             (cartTotal * 0.01 + tax + 5).toFixed(2)}
                       </Typography>
@@ -279,6 +272,14 @@ const mapState = state => {
     user: state.user,
     cart: state.cart,
     cartItems: state.allCartItems,
+    items: state.cart.products,
+    firstName: state.user.firstName,
+    lastName: state.user.lastName,
+    email: state.user.email,
+    addressLine1: state.user.addressLine1,
+    addressLine2: state.user.addressLine2,
+    city: state.user.city,
+    state: state.user.state,
     qty: state.cartItem.qty,
     cartItem: state.cartItem
   }

@@ -118,14 +118,3 @@ export default compose(
   connect(null, mapDispatch),
   withStyles(styles, {withTheme: true})
 )(AdminEditProd)
-
-{
-  /* <TextField
-                label="Email"
-                name="email"
-                variant="filled"
-                className={classes.inputField}
-                onChange={this.changeHandler}
-                style={{marginBottom: '2em'}}
-              /> */
-}

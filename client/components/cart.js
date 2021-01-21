@@ -162,7 +162,7 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = (dispatch, ownProps) => {
+const mapDispatch = dispatch => {
   return {
     getCart: userId => dispatch(getCartThunk(userId)),
     addToCart: (userId, itemId, qty) =>

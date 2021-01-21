@@ -13,7 +13,7 @@ import twitterIcon from '../../public/images/twitterIcon'
 const styles = theme => ({
   footerCont: {
     backgroundColor: '#D1C9B3',
-    marginTop: '20em'
+    marginTop: '10em'
   },
   footerImgCont: {
     width: '25em'

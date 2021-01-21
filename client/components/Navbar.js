@@ -56,6 +56,14 @@ const styles = theme => ({
 
   menuItem: {
     fontSize: '0.7em'
+  },
+  signOutButt: {
+    textTransform: 'none',
+    fontFamily: 'Lato',
+    backgroundColor: theme.palette.common.colorTwo,
+    height: '2em',
+    alignSelf: 'center',
+    marginRight: '1em'
   }
 })
 
@@ -157,6 +165,7 @@ class Navbar extends React.Component {
                   to="/"
                   onClick={this.props.logout}
                   style={{marginLeft: '55em'}}
+                  classes={{root: classes.signOutButt}}
                 >
                   SIGN OUT
                 </Button>

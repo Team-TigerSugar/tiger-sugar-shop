@@ -34,7 +34,8 @@ const User = db.define('user', {
     }
   },
   addressLine1: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    defaultValue: '1234 No Address Way'
   },
   addressLine2: {
     type: Sequelize.STRING

@@ -48,7 +48,7 @@ export const UserHome = props => {
           justify="center"
           className={classes.headerText}
         >
-          Welcome, {firstName}
+          Welcome, {firstName ? firstName : 'New User'}
         </Typography>
       </Grid>
       <Grid container direction="row" style={{marginTop: '5em'}}>
@@ -66,7 +66,7 @@ export const UserHome = props => {
               NAME:
             </Typography>
             <Typography variant="body2" style={{marginBottom: '2em'}}>
-              {firstName} {lastName}
+              {firstName ? firstName : 'New User'}
             </Typography>
             <Typography variant="body1" style={{marginBottom: '0.7em'}}>
               EMAIL:
@@ -81,9 +81,9 @@ export const UserHome = props => {
             <Typography variant="body2">{addressLine2}</Typography>
             <Typography variant="body2">{city}</Typography>
             <Typography variant="body2">{state}</Typography>
-            <Button variant="filled" className={classes.button}>
+            {/* <Button variant="filled" className={classes.button}>
               Edit
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
       </Grid>
